@@ -68,6 +68,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     _formKey.currentState.save();
   }
 
+
+
   // List<PincodeApi> pincodeapi;
   // var isLoaded = false;
 
@@ -109,7 +111,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
        print("city:"+city);
        print("state:"+state);
        print("country:"+country);
-
+        print("prasad milk ");
 
       
     } else {
