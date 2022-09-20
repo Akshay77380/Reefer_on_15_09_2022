@@ -68,7 +68,7 @@ class _VerifyMeState extends State<VerifyMe> {
                             child: Image.asset('assets/images/logo.png',
                                 height: 180, width: 150)),
                         Text(
-                          "Confirm OTP Code",
+                          "Confirm OTP ",
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,
@@ -160,165 +160,169 @@ class _VerifyMeState extends State<VerifyMe> {
                               ),
                               child: ElevatedButton(
                                 child: Text('Confirm'),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(20),
-                                      )),
-                                      builder: (context) => Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                "Which lanuguage do you Prefer ?",
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                              Divider(
-                                                color: Colors.black,
-                                              ),
-                                              RadioListTile(
-                                                value: 'English',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('English'),
-                                              ),
-                                              RadioListTile(
-                                                value: 'Hindi',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('Hindi'),
-                                              ),
-                                              RadioListTile(
-                                                value: 'Marathi',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('Marathi'),
-                                              ),
-                                              RadioListTile(
-                                                value: 'Telugu',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('Telugu'),
-                                              ),
-                                              RadioListTile(
-                                                value: 'Malayalam',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('Malayalam'),
-                                              ),
-                                              RadioListTile(
-                                                value: 'Gujarthi',
-                                                groupValue: Language,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    Language = value.toString();
-                                                  });
-                                                },
-                                                title: Text('Gujarthi'),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(20.0),
-                                                    child: ButtonTheme(
-                                                      child:
-                                                          ElevatedButtonTheme(
-                                                        data:
-                                                            ElevatedButtonThemeData(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  minimumSize: Size(100, 45), 
-                                                            primary: Color.fromRGBO(
-                                                                17,
-                                                                24,
-                                                                66,
-                                                                40), // Sets color for all the descendent ElevatedButtons
-                                                            // shape: RoundedRectangleBorder(
-                                                            //     borderRadius:
-                                                            //         BorderRadius.all(
-                                                            //             Radius.circular(
-                                                            //                 20.0))),
-                                                          ),
-                                                        ),
-                                                        child: ElevatedButton(
-                                                          child:
-                                                              Text(' Close '),
+                                onPressed: () 
+                                {
+                                            _sumbit();
+                                  // // showModalBottomSheet
+                                  // // (
+                                  // //     context: context,
+                                  // //     shape: RoundedRectangleBorder(
+                                  // //         borderRadius: BorderRadius.vertical(
+                                  // //       top: Radius.circular(20),
+                                  // //     )),
+                                  // //     builder: (context) => Column(
+                                  // //           children: [
+                                  // //             SizedBox(
+                                  // //               height: 20,
+                                  // //             ),
+                                  // //             Text(
+                                  // //               "Which lanuguage do you Prefer ?",
+                                  // //               style: TextStyle(fontSize: 22),
+                                  // //             ),
+                                  // //             Divider(
+                                  // //               color: Colors.black,
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'English',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('English'),
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'Hindi',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('Hindi'),
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'Marathi',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('Marathi'),
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'Telugu',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('Telugu'),
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'Malayalam',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('Malayalam'),
+                                  // //             ),
+                                  // //             RadioListTile(
+                                  // //               value: 'Gujarthi',
+                                  // //               groupValue: Language,
+                                  // //               onChanged: (value) {
+                                  // //                 setState(() {
+                                  // //                   Language = value.toString();
+                                  // //                 });
+                                  // //               },
+                                  // //               title: Text('Gujarthi'),
+                                  // //             ),
+                                  // //             Row(
+                                  // //               mainAxisAlignment:
+                                  // //                   MainAxisAlignment
+                                  // //                       .spaceBetween,
+                                  // //               crossAxisAlignment:
+                                  // //                   CrossAxisAlignment.start,
+                                  // //               children: [
+                                  // //                 Padding(
+                                  // //                   padding:
+                                  // //                       EdgeInsets.all(20.0),
+                                  // //                   child: ButtonTheme(
+                                  // //                     child:
+                                  // //                         ElevatedButtonTheme(
+                                  // //                       data:
+                                  // //                           ElevatedButtonThemeData(
+                                  // //                         style: ElevatedButton
+                                  // //                             .styleFrom(
+                                  // //                                 minimumSize: Size(100, 45), 
+                                  // //                           primary: Color.fromRGBO(
+                                  // //                               17,
+                                  // //                               24,
+                                  // //                               66,
+                                  // //                               40), // Sets color for all the descendent ElevatedButtons
+                                  // //                           // shape: RoundedRectangleBorder(
+                                  // //                           //     borderRadius:
+                                  // //                           //         BorderRadius.all(
+                                  // //                           //             Radius.circular(
+                                  // //                           //                 20.0))),
+                                  // //                         ),
+                                  // //                       ),
+                                  // //                       child: ElevatedButton(
+                                  // //                         child:
+                                  // //                             Text(' Close '),
 
-                                                          // shape: RoundedRectangleBorder(
-                                                          //     borderRadius: BorderRadius.all(
-                                                          //         Radius.circular(20.0))),
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(20.0),
-                                                    child: ButtonTheme(
-                                                      child:
-                                                          ElevatedButtonTheme(
-                                                        data:
-                                                            ElevatedButtonThemeData(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  minimumSize: Size(100, 45), 
-                                                            primary: Color.fromRGBO(
-                                                                17,
-                                                                24,
-                                                                66,
-                                                                40), // Sets color for all the descendent ElevatedButtons
-                                                            // shape: RoundedRectangleBorder(
-                                                            //     borderRadius:
-                                                            //         BorderRadius.all(
-                                                            //             Radius.circular(
-                                                            //                 20.0))),
-                                                          ),
-                                                        ),
-                                                        child: ElevatedButton(
-                                                          child: Text(' Next '),
-                                                          onPressed: () => {
-                                                            _sumbit(),
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ));
+                                  // //                         // shape: RoundedRectangleBorder(
+                                  // //                         //     borderRadius: BorderRadius.all(
+                                  // //                         //         Radius.circular(20.0))),
+                                  // //                         onPressed: () =>
+                                  // //                             Navigator.pop(
+                                  // //                                 context),
+                                  // //                       ),
+                                  // //                     ),
+                                  // //                   ),
+                                  // //                 ),
+                                  // //                 Padding(
+                                  // //                   padding:
+                                  // //                       EdgeInsets.all(20.0),
+                                  // //                   child: ButtonTheme(
+                                  // //                     child:
+                                  // //                         ElevatedButtonTheme(
+                                  // //                       data:
+                                  // //                           ElevatedButtonThemeData(
+                                  // //                         style: ElevatedButton
+                                  // //                             .styleFrom(
+                                  // //                                 minimumSize: Size(100, 45), 
+                                  // //                           primary: Color.fromRGBO(
+                                  // //                               17,
+                                  // //                               24,
+                                  // //                               66,
+                                  // //                               40), // Sets color for all the descendent ElevatedButtons
+                                  // //                           // shape: RoundedRectangleBorder(
+                                  // //                           //     borderRadius:
+                                  // //                           //         BorderRadius.all(
+                                  // //                           //             Radius.circular(
+                                  // //                           //                 20.0))),
+                                  // //                         ),
+                                  // //                       ),
+                                  // //                       child: ElevatedButton(
+                                  // //                         child: Text(' Next '),
+                                  // //                         onPressed: () => {
+                                  // //                           _sumbit(),
+                                  // //                         },
+                                  // //                       ),
+                                  // //                     ),
+                                  // //                   ),
+                                  // //                 ),
+                                  // //               ],
+                                  // //             ),
+                                  // //           ],
+                                  // //         )
+                                  //         );
                                 },
                               ),
                             ),

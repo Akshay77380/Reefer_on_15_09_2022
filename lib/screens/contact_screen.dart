@@ -49,6 +49,7 @@ class _ContactFormState extends State<ContactForm> {
   final _Edt_businesscardno = TextEditingController();
   final _Edt_otherscard = TextEditingController();
   String _errorMessage = '';
+  
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
@@ -152,7 +153,7 @@ class _ContactFormState extends State<ContactForm> {
                           // height: 55,
                           child: TextFormField(
                             autovalidateMode: AutovalidateMode.onUserInteraction,
-                            autofocus: true,
+                            autofocus: false,
                             focusNode: FocusNode(),
                             keyboardType: TextInputType.name,
                             textAlign: TextAlign.center,
@@ -212,7 +213,7 @@ class _ContactFormState extends State<ContactForm> {
                           width: 400,
                           // height: 55,
                           child: TextFormField(
-                            autofocus: true,
+                            autofocus: false,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             focusNode: FocusNode(),
                             keyboardType: TextInputType.name,
@@ -348,9 +349,10 @@ class _ContactFormState extends State<ContactForm> {
                             validator: (value) {
                               String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
                               RegExp regExp = new RegExp(patttern);
-                              if (value.length == 0) {
-                                return 'Please enter Alternate number';
-                              } else if (!regExp.hasMatch(value)) {
+                              // if (value.length == 0) {
+                              //   return 'Please enter Alternate number';
+                              // } 
+                               if (!regExp.hasMatch(value)) {
                                 return 'Please enter valid  Alternate mobile number';
                               }
                               // return value!.length == 10 ? 'Not a Valid Number' : null;
@@ -581,7 +583,7 @@ class _ContactFormState extends State<ContactForm> {
                                               ),
                                               iconColor: Color.fromRGBO(
                                                   17, 24, 66, 0.612),
-                                              labelText: 'PanCard No :',
+                                              labelText: 'Pan Card No :',
                                               labelStyle:
                                                   TextStyle(color: Colors.black),
                                               enabledBorder: OutlineInputBorder(
@@ -937,11 +939,11 @@ class _ContactFormState extends State<ContactForm> {
                                           textCapitalization:
                                               TextCapitalization.characters,
                                           onFieldSubmitted: (value) {},
-                                          validator: (val) {
-                                            if (val == null || val.isEmpty) {
-                                              return "Cannot be Empty ";
-                                            }
-                                          },
+                                          // validator: (val) {
+                                          //   if (val == null || val.isEmpty) {
+                                          //     return "Cannot be Empty ";
+                                          //   }
+                                          // },
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               prefix: Icon(
@@ -973,7 +975,7 @@ class _ContactFormState extends State<ContactForm> {
                                               ),
                                               iconColor: Color.fromRGBO(
                                                   17, 24, 66, 0.612),
-                                              labelText: 'Fssai License No :',
+                                              labelText: 'FSSAI License No :',
                                               labelStyle:
                                                   TextStyle(color: Colors.black),
                                               enabledBorder: OutlineInputBorder(
@@ -1065,11 +1067,11 @@ class _ContactFormState extends State<ContactForm> {
                                           textCapitalization:
                                               TextCapitalization.characters,
                                           onFieldSubmitted: (value) {},
-                                          validator: (val) {
-                                            if (val == null || val.isEmpty) {
-                                              return "Cannot be Empty ";
-                                            }
-                                          },
+                                          // validator: (val) {
+                                          //   if (val == null || val.isEmpty) {
+                                          //     return "Cannot be Empty ";
+                                          //   }
+                                          // },
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               prefix: Icon(
@@ -1101,7 +1103,7 @@ class _ContactFormState extends State<ContactForm> {
                                               ),
                                               iconColor: Color.fromRGBO(
                                                   17, 24, 66, 0.612),
-                                              labelText: 'Business Card No :',
+                                              labelText: 'Business Card  :',
                                               labelStyle:
                                                   TextStyle(color: Colors.black),
                                               enabledBorder: OutlineInputBorder(

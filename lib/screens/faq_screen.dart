@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:referon/screens/dashBoard_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:searchfield/searchfield.dart';
@@ -33,6 +34,9 @@ class FaqDetails extends StatefulWidget {
 
 class _FaqDetailsState extends State<FaqDetails> {
   _FaqDetailsState() {
+
+
+  
     _selectedval = _list[0];
     _selectedval2 = _list2[0];
     _selectedval3 = _list3[0];
@@ -200,7 +204,8 @@ class _FaqDetailsState extends State<FaqDetails> {
     "Uttarakhand Gramin Bank",
     "Uttarbanga Kshetriya Gramin Bank",
     "Vidarbha Konkan Gramin Bank",
-    "Yes Bank"
+    "Yes Bank",
+    "Others"
   ];
 
   final _list7 = [
@@ -257,7 +262,13 @@ class _FaqDetailsState extends State<FaqDetails> {
     "SBI Commercial Vehicle Insurance",
     "Navi Commercial Insurance"
   ];
-
+bool viewVisible = false;
+  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  FocusNode _focusNode = FocusNode();
+   final selectedCompanyName = TextEditingController();
+  String selectcompanyname = "";
+   final _Edt_CompanyName = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -275,332 +286,410 @@ class _FaqDetailsState extends State<FaqDetails> {
             elevation: 0,
           ),
           backgroundColor: Colors.white,
-          body: Container(
-            decoration: BoxDecoration(
-    
-                // image: DecorationImage(image: AssetImage("assets/images/logo.png"),fit: BoxFit.contain,opacity: 500),
-                ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircularPercentIndicator(
-                            animation: true,
-                            animationDuration: 5000,
-                            radius: 30,
-                            lineWidth: 10,
-                            percent: 1.0,
-                            progressColor: Color.fromRGBO(180, 211, 67, 30),
-                            backgroundColor: Color.fromRGBO(17, 24, 66, 50),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            center: const Text('100%',
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.black)),
-                          ),
-                          Spacer(),
-                          Text(
-                            "FAQ  Details",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 11, 11, 22),
-                              fontStyle: FontStyle.normal,
+          body: Form(
+            key: _formKey,
+            child: Container(
+              decoration: BoxDecoration(
+              
+                  // image: DecorationImage(image: AssetImage("assets/images/logo.png"),fit: BoxFit.contain,opacity: 500),
+                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            CircularPercentIndicator(
+                              animation: true,
+                              animationDuration: 5000,
+                              radius: 30,
+                              lineWidth: 10,
+                              percent: 1.0,
+                              progressColor: Color.fromRGBO(180, 211, 67, 30),
+                              backgroundColor: Color.fromRGBO(17, 24, 66, 50),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              center: const Text('100%',
+                                  style:
+                                      TextStyle(fontSize: 15, color: Colors.black)),
                             ),
-                          ),
-                          Spacer(),
-                          Image.asset(
-                            'assets/images/logocircle.png',
-                            width: 70,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 50.0,
-                        child: Center(), //Center
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Banking Partner : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredBankingPartner,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list6,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  selectpreferredbankingpartner = value;
-                                  print(selectpreferredbankingpartner);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20.0,
-                        child: Center(), //Center
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred FastTag Partner : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredFastTagPartner,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list7,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  selectpreferredfasttag = value;
-                                  print(selectpreferredfasttag);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20.0,
-                        child: Center(), //Center
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Insurance Partner: ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredInsurancePartner,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list8,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  selectpreferinsurance = value;
-                                  print(selectpreferinsurance);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20.0,
-                        child: Center(), //Center
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Fuel Partner : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredFuelPartner,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  String selectprefferedfuelpartner = value;
-                                  print(selectprefferedfuelpartner);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Container OEM : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredContainerOEM,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list2,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  String selectprefferedcontaineroem = value;
-                                  print(selectprefferedcontaineroem);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Vehicle OEM : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredVehicleOEM,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list3,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  String selectedprefferedvehicleoem = value;
-                                  print(selectedprefferedvehicleoem);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Tyre OEM : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredTyreOEM,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list4,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  String selectedprefferedTyreoem = value;
-                                  print(selectedprefferedTyreoem);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 0, right: 0),
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                                filled: true,
-                                labelText: 'Preferred Reefer OEM : ',
-                                labelStyle: TextStyle(
-                                  color: Color.fromRGBO(17, 24, 66, 100),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ))),
-                            child: DropDownField(
-                              controller: selectedPreferredVehicleOEM,
-                              hintText: "Select",
-                              enabled: true,
-                              items: _list5,
-                              onValueChanged: (value) {
-                                setState(() {
-                                  String selectedpreferredrefferoem = value;
-                                  print(selectedpreferredrefferoem);
-                                });
-                              },
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ButtonTheme(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          child: ElevatedButtonTheme(
-                            data: ElevatedButtonThemeData(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: Size(180.0, 50),
-    
-                                primary: Color.fromRGBO(17, 24, 66,
-                                    40), // Sets color for all the descendent ElevatedButtons
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6.0))),
+                            Spacer(),
+                            Text(
+                              "FAQ  Details",
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 11, 11, 22),
+                                fontStyle: FontStyle.normal,
                               ),
                             ),
-                            child: ElevatedButton(
-                              child: Text(' Submit '),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) => DashBoard())));
+                            Spacer(),
+                            Image.asset(
+                              'assets/images/logocircle.png',
+                              width: 70,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 50.0,
+                          child: Center(), //Center
+                        ),
+                        Padding
+                        (
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Banking Partner : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredBankingPartner,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list6,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    selectpreferredbankingpartner = value;
+                                    if(selectedPreferredBankingPartner == "Select")
+                                    {
+                                            viewVisible = false;
+                                    }
+                                    if(selectedPreferredBankingPartner == "others")
+                                    {
+                                        setState(() {
+                                          viewVisible = true;
+                                        });
+                                    }
+                                    // print("Selected Partner"+selectpreferredbankingpartner);
+                                  });
+                                },
+                              ),
+                            )),
+          
+                          Visibility(
+                          visible: viewVisible,
+                          child: SizedBox(
+                            width: 400,
+                            child: TextFormField(
+                              autofocus: false,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              focusNode: FocusNode(),
+                              keyboardType: TextInputType.name,
+                              textAlign: TextAlign.center,
+                              controller: _Edt_CompanyName,
+                              onFieldSubmitted: (value) {},
+                              validator: (text) {
+                                if (text.isEmpty) {
+                                  return 'Company Name Cannot be Empty ';
+                                } else {
+                                  return null;
+                                }
                               },
+
+                              decoration: InputDecoration(
+                                  prefix: Icon(
+                                    Icons.business,
+                                    size: 20,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      width: 0,
+                                      color: Colors.red,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  errorStyle: _focusNode.hasFocus
+                                      ? TextStyle(
+                                          fontSize: 0,
+                                          height: 0,
+                                          color: Colors.white)
+                                      : null,
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0,
+                                        color: Color.fromARGB(255, 5, 10, 22)),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                  labelText: 'Company Name :',
+                                  labelStyle: TextStyle(color: Colors.black),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.black),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0,
+                                        color: Color.fromARGB(255, 5, 10, 22)),
+                                    borderRadius: BorderRadius.circular(15),
+                                  )),
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 20.0,
+                          child: Center(), //Center
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred FastTag Partner : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredFastTagPartner,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list7,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    selectpreferredfasttag = value;
+                                    print(selectpreferredfasttag);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20.0,
+                          child: Center(), //Center
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Insurance Partner: ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredInsurancePartner,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list8,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    selectpreferinsurance = value;
+                                    print(selectpreferinsurance);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20.0,
+                          child: Center(), //Center
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Fuel Partner : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredFuelPartner,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    String selectprefferedfuelpartner = value;
+                                    print(selectprefferedfuelpartner);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Container OEM : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredContainerOEM,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list2,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    String selectprefferedcontaineroem = value;
+                                    print(selectprefferedcontaineroem);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Vehicle OEM : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredVehicleOEM,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list3,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    String selectedprefferedvehicleoem = value;
+                                    print(selectedprefferedvehicleoem);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Tyre OEM : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredTyreOEM,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list4,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    String selectedprefferedTyreoem = value;
+                                    print(selectedprefferedTyreoem);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 0, right: 0),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  labelText: 'Preferred Reefer OEM : ',
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ))),
+                              child: DropDownField(
+                                controller: selectedPreferredVehicleOEM,
+                                hintText: "Select",
+                                enabled: true,
+                                items: _list5,
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    String selectedpreferredrefferoem = value;
+                                    print(selectedpreferredrefferoem);
+                                  });
+                                },
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ButtonTheme(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            child: ElevatedButtonTheme(
+                              data: ElevatedButtonThemeData(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(180.0, 50),
+              
+                                  primary: Color.fromRGBO(17, 24, 66,
+                                      40), // Sets color for all the descendent ElevatedButtons
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6.0))),
+                                ),
+                              ),
+                              child: ElevatedButton(
+                                child: Text(' Submit '),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => DashBoard())));
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

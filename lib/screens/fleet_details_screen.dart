@@ -845,7 +845,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                   height: 5,
                                 ),
                                 Text(
-                                  "Vehicle Size :",
+                                  "Container Inner Dimensions in Feet :",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18),
                                 ),
