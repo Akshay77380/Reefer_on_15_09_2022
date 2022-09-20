@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             SizedBox(
-                              height: 30.0,
+                              height: 40.0,
                               child: Center(), //Center
                             ),
                             SizedBox(
@@ -195,28 +195,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20.0,
                               child: Center(), //Center
                             ),
-                            Text(
-                              "TERMS & CONDITIONS",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(180, 211, 67, 100),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                              child: Center(), //Center
-                            ),
-                            Text(
-                              "PRIVACY POLICY",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(180, 211, 67, 100),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
+                            // Text(
+                            //   "TERMS & CONDITIONS",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromRGBO(180, 211, 67, 100),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20.0,
+                            //   child: Center(), //Center
+                            // ),
+                            // Text(
+                            //   "PRIVACY POLICY",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromRGBO(180, 211, 67, 100),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 30.0,
                               child: Center(), //Center

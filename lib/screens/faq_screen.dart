@@ -343,7 +343,7 @@ bool viewVisible = false;
                                   filled: true,
                                   labelText: 'Preferred Banking Partner : ',
                                   labelStyle: TextStyle(
-                                    color: Color.fromRGBO(17, 24, 66, 100),
+                                    color: Color.fromRGBO(17, 24, 66, 100),  
                                   ),
                                   border: OutlineInputBorder(
                                       borderSide: const BorderSide(

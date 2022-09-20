@@ -1,6 +1,8 @@
+import 'package:referon/utils/Common.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/src/widgets/form.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/src/widgets/form.dart';
+import 'package:referon/utils/Common.dart';
 
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key key}) : super(key: key);
@@ -52,14 +55,19 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
 
+  List data = [];
+  List CompanyType =[];
+  List BusinessType =[];
+
   final _companylist = ["Select", "New"];
   bool viewVisible = false;
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
-  
+
   void _sumbit() {
+
     final isValid = _formKey.currentState.validate();
 
     if (_selectedval == null || _selectedval == "Select") {
@@ -78,27 +86,16 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   // List<PincodeApi> pincodeapi;
   // var isLoaded = false;
 
-// @override
-// void initState()
-// {
-//   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-//   // fetch pincode here
-//   getPincodeApi();
-// }
-// getPincodeApi() async
-// {
-//     pincodeapi = await ApiService().getPincode();
-//     if(pincodeapi != null)
-//     {
-//       setState(() {
-
-//         isLoaded = true;
-//         print(pincodeapi);
-//       });
-//     }
-
-// }
+    // fetch pincode here
+    FetchCompanyNameList();
+    FetchCompanyTypeList();
+    FetchBusinessTypeList();
+    
+  }
 
   Future<List<PostOffice>> getPincode(String pincode) async {
     var response = await http
@@ -108,7 +105,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       final parsed = jsonDecode(response.body);
       final jsonList = (parsed as List).first['PostOffice'];
 
-      
       city = (' ${jsonList[0]['District']}');
       state = (' ${jsonList[0]['State']}');
       country = (' ${jsonList[0]['Country']}');
@@ -121,6 +117,44 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     }
   }
 
+  Future<String> FetchCompanyNameList() async {
+    var response = await http
+        .get(Uri.parse('${baseUrl}companyName'));
+
+     setState(() {
+      Map<String, dynamic> map = json.decode(response.body);
+      data = map["Data"];
+  
+      print(data);
+    });
+    return "Success";
+  }
+
+  Future<String> FetchBusinessTypeList() async {
+    var response = await http
+        .get(Uri.parse('${baseUrl}bussinesstype'));
+
+     setState(() {
+      Map<String, dynamic> map = json.decode(response.body);
+      BusinessType = map["Data"];
+  
+      print(BusinessType);
+    });
+    return "Success";
+  }
+
+Future<String> FetchCompanyTypeList() async {
+    var response = await http
+        .get(Uri.parse('${baseUrl}companytype'));
+
+     setState(() {
+      Map<String, dynamic> map = json.decode(response.body);
+      data = map["Data"];
+      
+      print(data);
+    });
+    return "Success";
+  }
   _CompanyDataFormState() {
     _selectedval = _list[0];
     _selectedval2 = _list[0];
@@ -212,7 +246,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: Center(), //Center
                       ),
 
-
                       Visibility(
                         visible: true,
                         child: SizedBox(
@@ -261,7 +294,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                     setState(() {
                                       selectcompanyname = value;
                                       if (selectcompanyname == "Select") {
-                                        
                                         viewVisible = false;
                                       }
                                       if (selectcompanyname == "New") {
@@ -671,7 +703,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           controller: _Edt_pincode,
                           onChanged: (data) async {
                             String pincodedata = _Edt_pincode.text;
-                            
+
                             List<PostOffice> api =
                                 await getPincode(pincodedata);
 
