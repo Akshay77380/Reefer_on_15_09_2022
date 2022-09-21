@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
+import 'package:referon/models/getVehicleModel.dart';
+import 'package:referon/utils/Common.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -35,6 +38,11 @@ class FleetDetailsForm extends StatefulWidget {
 }
 
 class _FleetDetailsFormState extends State<FleetDetailsForm> {
+
+  List<String> data = ["Select"];
+  List<String> reeferunitsp = ["Select"];
+  List<String> reeferUnitModelsp = ["Select"];
+
   _FleetDetailsFormState() {
     _selectedval = _list[0];
     _selectedval2 = _list[0];
@@ -51,6 +59,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   String _selectedval6 = "Select";
   String vehicleMakeyeardate = "Select Date";
   String refervehicleyeardate = "Select Date";
+  getVehicleModel_List _vehicleModel_List;
 
   final selectedVehicleManufacturer = TextEditingController();
   final selectedVehicleModel = TextEditingController();
@@ -88,200 +97,200 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   String selectedVehicleReferMakeyear = "";
   String selectedVehicleContainerMake = "";
 
-  final _list = [
-    "Select",
-    "TATA Motors",
-    "Ashok Leyland",
-    "Mahindra & Mahindra",
-    "Eicher",
-    "Bharat Benz"
+  List<String> _list = [
+    "Select"
+    // "TATA Motors",
+    // "Ashok Leyland",
+    // "Mahindra & Mahindra",
+    // "Eicher",
+    // "Bharat Benz"
   ];
-  final _list2 = [
-    "Select",
-    " Tata Ace gold",
-    "Tata Intra V30",
-    "Tata Intra V10",
-    "Tata Ace EV",
-    "Tata 407 Gold SFC",
-    "Tata Yodha Pickup",
-    "Tata 709g LPT",
-    "Tata 1512 LPT",
-    "Tata 912 LPK",
-    "Tata Signa 4018.S",
-    "Tata Signa 5525.S",
-    "Tata 1412 LPT",
-    "Tata 1212 LPT",
-    "Tata Signa 1923.K",
-    "Tata Ultra 1918.T",
-    "Tata 1109g LPT",
-    "Tata T.7 Ultra"
-        "Tata 1212 LPK",
-    "Tata 712 LPT",
-    "Tata LPT 1918 Cowl",
-    "Tata 610 SK",
-    "Tata T.16 Ultra",
-    "Tata T.18 Ultra SL",
-    "Tata 710 SFC",
-    "Tata 1512g LPT",
-    "Tata Ultra Sleek T.6",
-    "Tata 1112 LPT",
-    "Tata 1012 LPT",
-    "Tata Ultra T.16 AMT",
-    "Tata 510 SFC TT",
-    "Tata 1009g LPT",
-    "Tata T.11 Ultra",
-    "Tata T.9 Ultra",
-    "Tata 610 SFC TT",
-    "Tata T.16 Ultra SL",
-    "Tata T.12 Ultra",
-    "Tata 912 LPT",
-    "Tata 709g LPT TT",
-    "Tata LPT 1918 5L",
-    "Tata Signa 4625.S",
-    "Tata 1412g LPT",
-    "Tata 1212 LP",
-    "Tata Ultra Sleek T.7",
-    "Tata T.14 Ultra",
-    "Tata Ultra Sleek T.9",
-    "Tata LPS 4018 Cowl",
-    "Tata Signa 5530.S",
-    "Tata Signa 2823.K",
-    "Tata Prima 2825.K",
-    "Tata Signa 2825.K",
-    "Tata LPT 3118 Cowl",
-    "Tata Signa 3118.T",
-    "Tata LPT 2818 Cowl",
-    "Tata Signa 2818.T",
-    "Tata Signa 2821.T 5L",
-    "Tata LPT 2821 Cowl",
-    "Tata LPT 3518 Cowl",
-    "Tata Signa 3518.T",
-    "Tata LPT 3521 Cowl",
-    "Tata Signa 3521.T 5L",
-    "Tata LPT 4225 Cowl",
-    "Tata Signa 4225.T",
-    "Tata Ultra 3021.S",
-    "Tata Signa 4021.S",
-    "Tata Signa 4221.T",
-    "Tata LPT 4825",
-    "Tata Signa 5530.S 4x2",
-    "Tata Signa 4825.T",
-    "Tata LPT 4925",
-    "Tata Signa 4925.T",
-    "Tata Prima 4625.S",
-    "Tata Signa 4623.S",
-    "Tata Signa 4625.S ESC",
-    "Tata Prima FL 5530.S",
-    "Tata Prima 5530.S",
-    "Ashok Leyland BADA DOST",
-    "Ashok Leyland Dost+",
-    "Ashok Leyland Dost Strong",
-    "Ashok Leyland Ecomet 1615 HE",
-    "Ashok Leyland Partner 6 Tyre",
-    "Ashok Leyland 1920 4x2",
-    "Ashok Leyland Boss 1920",
-    "Ashok Leyland Ecomet 1015 HE",
-    "Ashok Leyland Ecomet 1415 HE",
-    "Ashok Leyland Ecomet 1215 HE",
-    "Ashok Leyland BOSS 1115 HB",
-    "Ashok Leyland BOSS 1215 HB",
-    "Ashok Leyland 1916 HH 4X2",
-    "Ashok Leyland 5525 4x2",
-    "Ashok Leyland 1920 HH 4X2",
-    "Ashok Leyland Ecomet 1615 HE",
-    "Ashok Leyland 4620",
-    "Ashok Leyland BOSS 1415 HB",
-    "Ashok Leyland Ecomet 1115 HE",
-    "Ashok Leyland 5425 4x2",
-    "Ashok Leyland Ecomet 1415 H",
-    "Ashok Leyland 4020",
-    "Ashok Leyland 5225",
-    "Ashok Leyland BOSS 1315 HB",
-    "Ashok Leyland 5525",
-    "Ashok Leyland 2820 6x2 MAV",
-    "Ashok Leyland 3120 6x2 DTLA",
-    "Ashok Leyland 2820 6x4 MAV",
-    "Ashok Leyland 3520 8x2 Twin S",
-    "Ashok Leyland 3520 8x2 LA M",
-    "Ashok Leyland 4220 10x2 MAV",
-    "Ashok Leyland 4225 10x2 MAV",
-    "Ashok Leyland 4120 8x2 DTLA",
-    "Ashok Leyland 4125 8x2 DTLA MAV",
-    "Ashok Leyland 4825 10x2 DTL",
-    "Mahindra Jeeto",
-    "Mahindra Bolero Maxitruck Plus",
-    "Mahindra Bolero Pikup 4x4",
-    "Mahindra Bolero City Pikup",
-    "Mahindra Supro Profit Truck Mini",
-    "Mahindra Furio 16",
-    "Mahindra Furio 14",
-    "Mahindra Furio 11",
-    "Mahindra Furio 7 HD Cargo",
-    "Mahindra Furio 7 Tipper",
-    "Mahindra Loadking Optimo Tip",
-    "Mahindra Furio 17",
-    "Mahindra Furio 12",
-    "Mahindra Loadking Optimo",
-    "Mahindra Furio 14 HD",
-    "Mahindra Blazo X 28",
-    "Mahindra Blazo X 35",
-    "Mahindra Blazo X 35 LIFT AXLE",
-    "Mahindra Blazo X 42",
-    "Mahindra Blazo X 40",
-    "Mahindra Blazo X 42 PUSHER A",
-    "Mahindra Blazo X 49",
-    "Mahindra Blazo X 46",
-    "Mahindra Blazo X 55",
-    "Eicher Pro 3015",
-    "Eicher Pro 2095XP CNG",
-    "Eicher Pro 3019",
-    "Eicher Pro 2110",
-    "Eicher Pro 2095XP",
-    "Eicher Pro 2114XP",
-    "Eicher Pro 2055",
-    "Eicher Pro 2075",
-    "Eicher Pro 2095",
-    "Eicher Pro 3015XP",
-    "Eicher Pro 6019",
-    "Eicher Pro 3014",
-    "Eicher Pro 2114XP CNG",
-    "Eicher Pro 2080XP",
-    "Eicher Pro 3012",
-    "Eicher Pro 2110XP",
-    "Eicher Pro 2110XP Plus",
-    "Eicher Pro 2090",
-    "Eicher Pro 2075 CNG",
-    "Eicher Pro 2055K",
-    "Eicher Pro 2110XP Plus CNG",
-    "Eicher Pro 2055DSD",
-    "Eicher Pro 6055 4x2",
-    "Eicher Pro 6028",
-    "Eicher Pro 8055",
-    "Eicher Pro 6035",
-    "Eicher Pro 6042",
-    "Eicher Pro 6041",
-    "Eicher Pro 6040",
-    "Eicher Pro 6048",
-    "Eicher Pro 6046",
-    "Eicher Pro 6055",
-    "BharatBenz 1917R",
-    "BharatBenz 1617R",
-    "BharatBenz 1015R",
-    "BharatBenz 1415R",
-    "BharatBenz 1215R",
-    "BharatBenz 1415RE",
-    "BharatBenz 1215RE",
-    "BharatBenz 1015R Plus",
-    "BharatBenz 2823R",
-    "BharatBenz 3523R",
-    "BharatBenz 4228R",
-    "BharatBenz 4023TT",
-    "BharatBenz 4028T",
-    "BharatBenz 4828R",
-    "BharatBenz 5428T",
-    "BharatBenz 5228T",
-    "BharatBenz 5028T",
-    "BharatBenz 5528TT"
+  List<String> _list2 = [
+    "Select"
+    // " Tata Ace gold",
+    // "Tata Intra V30",
+    // "Tata Intra V10",
+    // "Tata Ace EV",
+    // "Tata 407 Gold SFC",
+    // "Tata Yodha Pickup",
+    // "Tata 709g LPT",
+    // "Tata 1512 LPT",
+    // "Tata 912 LPK",
+    // "Tata Signa 4018.S",
+    // "Tata Signa 5525.S",
+    // "Tata 1412 LPT",
+    // "Tata 1212 LPT",
+    // "Tata Signa 1923.K",
+    // "Tata Ultra 1918.T",
+    // "Tata 1109g LPT",
+    // "Tata T.7 Ultra"
+    //     "Tata 1212 LPK",
+    // "Tata 712 LPT",
+    // "Tata LPT 1918 Cowl",
+    // "Tata 610 SK",
+    // "Tata T.16 Ultra",
+    // "Tata T.18 Ultra SL",
+    // "Tata 710 SFC",
+    // "Tata 1512g LPT",
+    // "Tata Ultra Sleek T.6",
+    // "Tata 1112 LPT",
+    // "Tata 1012 LPT",
+    // "Tata Ultra T.16 AMT",
+    // "Tata 510 SFC TT",
+    // "Tata 1009g LPT",
+    // "Tata T.11 Ultra",
+    // "Tata T.9 Ultra",
+    // "Tata 610 SFC TT",
+    // "Tata T.16 Ultra SL",
+    // "Tata T.12 Ultra",
+    // "Tata 912 LPT",
+    // "Tata 709g LPT TT",
+    // "Tata LPT 1918 5L",
+    // "Tata Signa 4625.S",
+    // "Tata 1412g LPT",
+    // "Tata 1212 LP",
+    // "Tata Ultra Sleek T.7",
+    // "Tata T.14 Ultra",
+    // "Tata Ultra Sleek T.9",
+    // "Tata LPS 4018 Cowl",
+    // "Tata Signa 5530.S",
+    // "Tata Signa 2823.K",
+    // "Tata Prima 2825.K",
+    // "Tata Signa 2825.K",
+    // "Tata LPT 3118 Cowl",
+    // "Tata Signa 3118.T",
+    // "Tata LPT 2818 Cowl",
+    // "Tata Signa 2818.T",
+    // "Tata Signa 2821.T 5L",
+    // "Tata LPT 2821 Cowl",
+    // "Tata LPT 3518 Cowl",
+    // "Tata Signa 3518.T",
+    // "Tata LPT 3521 Cowl",
+    // "Tata Signa 3521.T 5L",
+    // "Tata LPT 4225 Cowl",
+    // "Tata Signa 4225.T",
+    // "Tata Ultra 3021.S",
+    // "Tata Signa 4021.S",
+    // "Tata Signa 4221.T",
+    // "Tata LPT 4825",
+    // "Tata Signa 5530.S 4x2",
+    // "Tata Signa 4825.T",
+    // "Tata LPT 4925",
+    // "Tata Signa 4925.T",
+    // "Tata Prima 4625.S",
+    // "Tata Signa 4623.S",
+    // "Tata Signa 4625.S ESC",
+    // "Tata Prima FL 5530.S",
+    // "Tata Prima 5530.S",
+    // "Ashok Leyland BADA DOST",
+    // "Ashok Leyland Dost+",
+    // "Ashok Leyland Dost Strong",
+    // "Ashok Leyland Ecomet 1615 HE",
+    // "Ashok Leyland Partner 6 Tyre",
+    // "Ashok Leyland 1920 4x2",
+    // "Ashok Leyland Boss 1920",
+    // "Ashok Leyland Ecomet 1015 HE",
+    // "Ashok Leyland Ecomet 1415 HE",
+    // "Ashok Leyland Ecomet 1215 HE",
+    // "Ashok Leyland BOSS 1115 HB",
+    // "Ashok Leyland BOSS 1215 HB",
+    // "Ashok Leyland 1916 HH 4X2",
+    // "Ashok Leyland 5525 4x2",
+    // "Ashok Leyland 1920 HH 4X2",
+    // "Ashok Leyland Ecomet 1615 HE",
+    // "Ashok Leyland 4620",
+    // "Ashok Leyland BOSS 1415 HB",
+    // "Ashok Leyland Ecomet 1115 HE",
+    // "Ashok Leyland 5425 4x2",
+    // "Ashok Leyland Ecomet 1415 H",
+    // "Ashok Leyland 4020",
+    // "Ashok Leyland 5225",
+    // "Ashok Leyland BOSS 1315 HB",
+    // "Ashok Leyland 5525",
+    // "Ashok Leyland 2820 6x2 MAV",
+    // "Ashok Leyland 3120 6x2 DTLA",
+    // "Ashok Leyland 2820 6x4 MAV",
+    // "Ashok Leyland 3520 8x2 Twin S",
+    // "Ashok Leyland 3520 8x2 LA M",
+    // "Ashok Leyland 4220 10x2 MAV",
+    // "Ashok Leyland 4225 10x2 MAV",
+    // "Ashok Leyland 4120 8x2 DTLA",
+    // "Ashok Leyland 4125 8x2 DTLA MAV",
+    // "Ashok Leyland 4825 10x2 DTL",
+    // "Mahindra Jeeto",
+    // "Mahindra Bolero Maxitruck Plus",
+    // "Mahindra Bolero Pikup 4x4",
+    // "Mahindra Bolero City Pikup",
+    // "Mahindra Supro Profit Truck Mini",
+    // "Mahindra Furio 16",
+    // "Mahindra Furio 14",
+    // "Mahindra Furio 11",
+    // "Mahindra Furio 7 HD Cargo",
+    // "Mahindra Furio 7 Tipper",
+    // "Mahindra Loadking Optimo Tip",
+    // "Mahindra Furio 17",
+    // "Mahindra Furio 12",
+    // "Mahindra Loadking Optimo",
+    // "Mahindra Furio 14 HD",
+    // "Mahindra Blazo X 28",
+    // "Mahindra Blazo X 35",
+    // "Mahindra Blazo X 35 LIFT AXLE",
+    // "Mahindra Blazo X 42",
+    // "Mahindra Blazo X 40",
+    // "Mahindra Blazo X 42 PUSHER A",
+    // "Mahindra Blazo X 49",
+    // "Mahindra Blazo X 46",
+    // "Mahindra Blazo X 55",
+    // "Eicher Pro 3015",
+    // "Eicher Pro 2095XP CNG",
+    // "Eicher Pro 3019",
+    // "Eicher Pro 2110",
+    // "Eicher Pro 2095XP",
+    // "Eicher Pro 2114XP",
+    // "Eicher Pro 2055",
+    // "Eicher Pro 2075",
+    // "Eicher Pro 2095",
+    // "Eicher Pro 3015XP",
+    // "Eicher Pro 6019",
+    // "Eicher Pro 3014",
+    // "Eicher Pro 2114XP CNG",
+    // "Eicher Pro 2080XP",
+    // "Eicher Pro 3012",
+    // "Eicher Pro 2110XP",
+    // "Eicher Pro 2110XP Plus",
+    // "Eicher Pro 2090",
+    // "Eicher Pro 2075 CNG",
+    // "Eicher Pro 2055K",
+    // "Eicher Pro 2110XP Plus CNG",
+    // "Eicher Pro 2055DSD",
+    // "Eicher Pro 6055 4x2",
+    // "Eicher Pro 6028",
+    // "Eicher Pro 8055",
+    // "Eicher Pro 6035",
+    // "Eicher Pro 6042",
+    // "Eicher Pro 6041",
+    // "Eicher Pro 6040",
+    // "Eicher Pro 6048",
+    // "Eicher Pro 6046",
+    // "Eicher Pro 6055",
+    // "BharatBenz 1917R",
+    // "BharatBenz 1617R",
+    // "BharatBenz 1015R",
+    // "BharatBenz 1415R",
+    // "BharatBenz 1215R",
+    // "BharatBenz 1415RE",
+    // "BharatBenz 1215RE",
+    // "BharatBenz 1015R Plus",
+    // "BharatBenz 2823R",
+    // "BharatBenz 3523R",
+    // "BharatBenz 4228R",
+    // "BharatBenz 4023TT",
+    // "BharatBenz 4028T",
+    // "BharatBenz 4828R",
+    // "BharatBenz 5428T",
+    // "BharatBenz 5228T",
+    // "BharatBenz 5028T",
+    // "BharatBenz 5528TT"
   ];
   final _list3 = [
     "Select",
@@ -295,7 +304,11 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
     "2002"
   ];
   final _list4 = ["Select"];
-  final _list5 = ["Select", "Carrier", "Thermoking", "Hwasung"];
+
+  final _list5 = ["Select"
+  // , "Carrier", "Thermoking", "Hwasung"
+  ];
+
   final _list6 = [
     "Select",
     "Citifresh 280",
@@ -364,14 +377,15 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
     "2002"
   ];
   final _list8 = [
-    "Select",
-    "Suraksha",
-    "HLM",
-    "Reefer India",
-    "IcemakeIndia",
-    "Subzero",
-    "Kalyani cleantech",
-    "TransACNR"
+    "Select"
+    // ,
+    // "Suraksha",
+    // "HLM",
+    // "Reefer India",
+    // "IcemakeIndia",
+    // "Subzero",
+    // "Kalyani cleantech",
+    // "TransACNR"
   ];
   String country_id;
   List<String> country = [
@@ -385,6 +399,95 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
     "Russia",
     "Germany"
   ];
+
+  Future FetchVehicleManfList() async {
+    var response = await http.get(Uri.parse('${baseUrl}vehiclemanufacturer'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['vehiclename']}');
+      for (int i = 0; i < dataList.length; i++) {
+        data.add(dataList[i]['vehiclename']);
+      }
+      print('Data Fleet Details: $data');
+    }
+  }
+
+
+  Future FetchVehicleModel(selectVehicle) async {
+    var response = await http.get(Uri.parse(
+        "http://neotech.v-cloud.in/referonapi/Vehicle_Models?Vehicle_Manufacturer=" +
+            selectVehicle));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['vehiclemodel']}');
+      for (int i = 0; i < dataList.length; i++) {
+        _list2.add(dataList[i]['vehiclemodel']);
+      }
+      print('Data Vehicle Model : $_list2');
+    }
+  }
+
+Future FetchReeferUnitfList() async {
+    var response = await http.get(Uri.parse('${baseUrl}reeferUnitManufacture'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Referunit_Manufacturer']}');
+      for (int i = 0; i < dataList.length; i++) {
+        reeferunitsp.add(dataList[i]['Referunit_Manufacturer']);
+      }
+      print('Data Fleet Details: $data');
+    }
+  }
+
+  Future FetchReeferUnitModel(selectedVehicleReferUnit) async {
+    var response = await http.get(Uri.parse(
+        "http://neotech.v-cloud.in/referonapi/reeferUnitModel?unitManufacturer=" +
+            selectedVehicleReferUnit));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Referunit_model']}');
+
+      for (int i = 0; i < dataList.length; i++) {
+        reeferUnitModelsp.add(dataList[i]['Referunit_model']);
+      }
+
+      print('Data Vehicle Model : $reeferUnitModelsp');
+
+    }
+  }
+
+Future FetchContainerMake() async {
+    var response = await http.get(Uri.parse('${baseUrl}ContainerMake'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Container_Make']}');
+      for (int i = 0; i < dataList.length; i++) {
+        _list8.add(dataList[i]['Container_Make']);
+      }
+      print('Data Container Make Details: $data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Vehicle Manufacturer
+
+    FetchVehicleManfList();
+    FetchReeferUnitfList();
+    FetchContainerMake();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -486,10 +589,17 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                   controller: selectedVehicleManufacturer,
                                   hintText: "Select",
                                   enabled: true,
-                                  items: _list,
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      selectVehicle = value;
+                                  items: data,
+                                  onValueChanged: (value) async {
+                                    selectVehicle = value;
+                                    print("Data of Selected Vehicle Name: " +selectVehicle);
+                                    _list2.clear();
+                                    FetchVehicleModel(selectVehicle);
+                                    
+                                    
+                                    setState(() async {
+
+                                      
                                       print(selectVehicle);
                                     });
                                   },
@@ -654,8 +764,10 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                           SizedBox(
                             width: 400,
                             height: 75,
-                            child: TextFormField( 
-                              controller: selectedVehicleMake_year = TextEditingController(text: vehicleMakeyeardate),
+                            child: TextFormField(
+                              controller: selectedVehicleMake_year =
+                                  TextEditingController(
+                                      text: vehicleMakeyeardate),
                               readOnly: true,
                               onTap: () {
                                 return showDialog(
@@ -687,10 +799,10 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                                 onTap: () {
                                                   log("Selected Year ==> ${(2022 - index).toString()}");
 
-                                                      
-                                                      setState(() {
-                                                     vehicleMakeyeardate = " ${(2022 - index).toString()}";
-                                                  }); 
+                                                  setState(() {
+                                                    vehicleMakeyeardate =
+                                                        " ${(2022 - index).toString()}";
+                                                  });
                                                   Navigator.pop(context);
                                                 },
                                                 child: Padding(
@@ -975,10 +1087,14 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                   controller: selectedReeferUnitManufacturer,
                                   hintText: "Select",
                                   enabled: true,
-                                  items: _list5,
+                                  items: reeferunitsp,
                                   onValueChanged: (value) {
+                                    selectedVehicleReferUnit = value;
+                                    reeferUnitModelsp.clear();
+                                    FetchReeferUnitModel(selectedVehicleReferUnit);
+                                    
                                     setState(() {
-                                      selectedVehicleReferUnit = value;
+                                    
                                       print(selectedVehicleReferUnit);
                                     });
                                   },
@@ -1007,7 +1123,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                   controller: selectedReeferUnitModel,
                                   hintText: "Select",
                                   enabled: true,
-                                  items: _list6,
+                                  items: reeferUnitModelsp,
                                   onValueChanged: (value) {
                                     setState(() {
                                       selectedVehicleReferModel = value;
@@ -1022,8 +1138,10 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                           SizedBox(
                             width: 400,
                             height: 75,
-                            child: TextFormField( 
-                              controller: selectedReeferMakeYear = TextEditingController(text: refervehicleyeardate),
+                            child: TextFormField(
+                              controller: selectedReeferMakeYear =
+                                  TextEditingController(
+                                      text: refervehicleyeardate),
                               readOnly: true,
                               onTap: () {
                                 return showDialog(
@@ -1055,13 +1173,12 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                                 onTap: () {
                                                   log("Selected Year ==> ${(2022 - index).toString()}");
 
-                                                    
                                                   setState(() {
-                                                      refervehicleyeardate = " ${(2022 - index).toString()}";
-                                                  });     
+                                                    refervehicleyeardate =
+                                                        " ${(2022 - index).toString()}";
+                                                  });
                                                   Navigator.pop(context);
                                                 },
-
                                                 child: Padding(
                                                   padding: const EdgeInsets
                                                           .symmetric(
@@ -1160,6 +1277,37 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
                                   ),
                                   iconColor: Color.fromRGBO(17, 24, 66, 100),
                                   labelText: 'No.of Vehicles :',
+                                  labelStyle: TextStyle(color: Colors.black),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.black),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0,
+                                        color: Color.fromARGB(255, 5, 10, 22)),
+                                    borderRadius: BorderRadius.circular(15),
+                                  )),
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          SizedBox(
+                            width: 400,
+                            height: 65,
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  prefix: Icon(
+                                    Icons.numbers,
+                                    size: 20,
+                                  ),
+                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                  labelText: 'Vehicle Number :',
                                   labelStyle: TextStyle(color: Colors.black),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(

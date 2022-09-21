@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:referon/screens/dashBoard_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:referon/utils/Common.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:http/http.dart' as http;
 import 'package:dropdownfield/dropdownfield.dart';
 
 class FaQ extends StatefulWidget {
@@ -34,8 +38,6 @@ class FaqDetails extends StatefulWidget {
 
 class _FaqDetailsState extends State<FaqDetails> {
   _FaqDetailsState() {
-
-
   
     _selectedval = _list[0];
     _selectedval2 = _list2[0];
@@ -117,94 +119,96 @@ class _FaqDetailsState extends State<FaqDetails> {
 
   final _list6 = [
     "Select",
-    "Andhra Pradesh Grameena Vikas Bank",
-    "Andhra Pragathi Grameena Bank",
-    "Arunachal Pradesh Rural Bank",
-    "Aryavart Bank",
-    "Assam Gramin Vikash Bank",
-    "AU Small Finance Bank",
-    "Axis Bank",
-    "Bandhan Bank",
-    "Bangiya Gramin Vikash Bank",
-    "Bank of Baroda",
-    "Bank of India",
-    "Bank of Maharashtra",
-    "Baroda Gujarat Gramin Bank",
-    "Baroda Rajasthan Kshetriya Gramin Bank",
-    "Baroda UP Bank",
-    "Canara Bank",
-    "Capital Small Finance Bank",
-    "Central Bank of India",
-    "Chaitanya Godavari Gramin Bank",
-    "Chhattisgarh Rajya Gramin Bank",
-    "City Union Bank",
-    "CSB Bank",
-    "Dakshin Bihar Gramin Bank",
-    "DCB Bank",
-    "Dhanlaxmi Bank",
-    "Ellaquai Dehati Bank",
-    "Equitas Small Finance Bank",
-    "ESAF Small Finance Bank",
-    "Federal Bank",
-    "Fincare Small Finance Bank",
-    "HDFC Bank",
-    "Himachal Pradesh Gramin Bank",
-    "ICICI Bank",
-    "IDBI Bank",
-    "IDFC First Bank",
-    "Indian Bank",
-    "Indian Overseas Bank",
-    "IndusInd Bank",
-    "Jammu & Kashmir Bank",
-    "Jammu And Kashmir Grameen Bank",
-    "Jana Small Finance Bank",
-    "Jharkhand Rajya Gramin Bank",
-    "Karnataka Bank",
-    "Karnataka Gramin Bank",
-    "Karnataka Vikas Grameena Bank",
-    "Karur Vysya Bank",
-    "Kerala Gramin Bank",
-    "Kotak Mahindra Bank",
-    "Madhya Pradesh Gramin Bank",
-    "Madhyanchal Gramin Bank",
-    "Maharashtra Gramin Bank",
-    "Manipur Rural Bank",
-    "Meghalaya Rural Bank",
-    "Mizoram Rural Bank",
-    "Nagaland Rural Bank",
-    "Nainital Bank",
-    "North East Small Finance Bank",
-    "Odisha Gramya Bank",
-    "Paschim Banga Gramin Bank",
-    "Prathama UP Gramin Bank",
-    "Puduvai Bharathiar Grama Bank",
-    "Punjab and Sind Bank",
-    "Punjab Gramin Bank",
-    "Punjab National Bank",
-    "Rajasthan Marudhara Gramin Bank",
-    "RBL Bank"
-        "Saptagiri Gramin Bank",
-    "Sarva Haryana Gramin Bank",
-    "Saurashtra Gramin Bank",
-    "Shivalik Small Finance Bank",
-    "South Indian Bank",
-    "State Bank of India",
-    "Suryoday Small Finance Bank",
-    "Tamil Nadu Grama Bank",
-    "Tamilnad Mercantile Bank",
-    "Telangana Grameena Bank",
-    "Tripura Gramin Bank",
-    "UCO Bank",
-    "Ujjivan Small Finance Bank"
-        "Union Bank of India",
-    "Unity Small Finance Bank",
-    "Utkal Grameen Bank",
-    "Utkarsh Small Finance Bank",
-    "Uttar Bihar Gramin Bank",
-    "Uttarakhand Gramin Bank",
-    "Uttarbanga Kshetriya Gramin Bank",
-    "Vidarbha Konkan Gramin Bank",
-    "Yes Bank",
+
+    // "Andhra Pradesh Grameena Vikas Bank",
+    // "Andhra Pragathi Grameena Bank",
+    // "Arunachal Pradesh Rural Bank",
+    // "Aryavart Bank",
+    // "Assam Gramin Vikash Bank",
+    // "AU Small Finance Bank",
+    // "Axis Bank",
+    // "Bandhan Bank",
+    // "Bangiya Gramin Vikash Bank",
+    // "Bank of Baroda",
+    // "Bank of India",
+    // "Bank of Maharashtra",
+    // "Baroda Gujarat Gramin Bank",
+    // "Baroda Rajasthan Kshetriya Gramin Bank",
+    // "Baroda UP Bank",
+    // "Canara Bank",
+    // "Capital Small Finance Bank",
+    // "Central Bank of India",
+    // "Chaitanya Godavari Gramin Bank",
+    // "Chhattisgarh Rajya Gramin Bank",
+    // "City Union Bank",
+    // "CSB Bank",
+    // "Dakshin Bihar Gramin Bank",
+    // "DCB Bank",
+    // "Dhanlaxmi Bank",
+    // "Ellaquai Dehati Bank",
+    // "Equitas Small Finance Bank",
+    // "ESAF Small Finance Bank",
+    // "Federal Bank",
+    // "Fincare Small Finance Bank",
+    // "HDFC Bank",
+    // "Himachal Pradesh Gramin Bank",
+    // "ICICI Bank",
+    // "IDBI Bank",
+    // "IDFC First Bank",
+    // "Indian Bank",
+    // "Indian Overseas Bank",
+    // "IndusInd Bank",
+    // "Jammu & Kashmir Bank",
+    // "Jammu And Kashmir Grameen Bank",
+    // "Jana Small Finance Bank",
+    // "Jharkhand Rajya Gramin Bank",
+    // "Karnataka Bank",
+    // "Karnataka Gramin Bank",
+    // "Karnataka Vikas Grameena Bank",
+    // "Karur Vysya Bank",
+    // "Kerala Gramin Bank",
+    // "Kotak Mahindra Bank",
+    // "Madhya Pradesh Gramin Bank",
+    // "Madhyanchal Gramin Bank",
+    // "Maharashtra Gramin Bank",
+    // "Manipur Rural Bank",
+    // "Meghalaya Rural Bank",
+    // "Mizoram Rural Bank",
+    // "Nagaland Rural Bank",
+    // "Nainital Bank",
+    // "North East Small Finance Bank",
+    // "Odisha Gramya Bank",
+    // "Paschim Banga Gramin Bank",
+    // "Prathama UP Gramin Bank",
+    // "Puduvai Bharathiar Grama Bank",
+    // "Punjab and Sind Bank",
+    // "Punjab Gramin Bank",
+    // "Punjab National Bank",
+    // "Rajasthan Marudhara Gramin Bank",
+    // "RBL Bank"
+    //     "Saptagiri Gramin Bank",
+    // "Sarva Haryana Gramin Bank",
+    // "Saurashtra Gramin Bank",
+    // "Shivalik Small Finance Bank",
+    // "South Indian Bank",
+    // "State Bank of India",
+    // "Suryoday Small Finance Bank",
+    // "Tamil Nadu Grama Bank",
+    // "Tamilnad Mercantile Bank",
+    // "Telangana Grameena Bank",
+    // "Tripura Gramin Bank",
+    // "UCO Bank",
+    // "Ujjivan Small Finance Bank"
+    //     "Union Bank of India",
+    // "Unity Small Finance Bank",
+    // "Utkal Grameen Bank",
+    // "Utkarsh Small Finance Bank",
+    // "Uttar Bihar Gramin Bank",
+    // "Uttarakhand Gramin Bank",
+    // "Uttarbanga Kshetriya Gramin Bank",
+    // "Vidarbha Konkan Gramin Bank",
+    // "Yes Bank",
+
     "Others"
   ];
 
@@ -262,13 +266,148 @@ class _FaqDetailsState extends State<FaqDetails> {
     "SBI Commercial Vehicle Insurance",
     "Navi Commercial Insurance"
   ];
-bool viewVisible = false;
+  
+ List<String> preferedbankinglist = ["Select","Others"];
+ List<String> preferedFastaglist = ["Select","Others"];
+ List<String> preferedinsurancelist = ["Select","Others"];
+ List<String> preferedfuellist = ["Select","Others"];
+ List<String> preferedcontaineroemlist = ["Select","Others"];
+ List<String> preferedvehicleoemlist = ["Select","Others"];
+ List<String> preferedtyreoemlist = ["Select","Others"];
+ List<String> preferedreeferoemlist = ["Select","Others"];
+
+  Future FetchPreferedBankingList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdBankinPartner'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['bankPartner_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedbankinglist.add(dataList[i]['bankPartner_Name']);
+      }
+      print('Data Prefered  Details: $preferedbankinglist');
+    }
+  }
+  Future FetchFastTagList() async {
+    var response = await http.get(Uri.parse('${baseUrl}fastTagPartner'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['fastTag_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedFastaglist.add(dataList[i]['fastTag_Name']);
+      }
+      print('Data Fast Tag  Details: $preferedFastaglist');
+    }
+  }
+  Future FetchinsuranceList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdInsurrancePartner'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Insurrance_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedinsurancelist.add(dataList[i]['Insurrance_Name']);
+      }
+      print('Data insurnace Details: $preferedinsurancelist');
+    }
+  }
+   Future FetchfuelList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdFuelPartner'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['fuel_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedfuellist.add(dataList[i]['fuel_Name']);
+      }
+      print('Data Fuel Details: $preferedinsurancelist');
+    }
+  }
+  Future FetchvehicleContaineroemList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdContainerOEM'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['fuel_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedfuellist.add(dataList[i]['fuel_Name']);
+      }
+      print('Data Fuel Details: $preferedinsurancelist');
+    }
+  }
+  Future FetchvehicleoemList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdVehicleOEM'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Prevehicle_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedvehicleoemlist.add(dataList[i]['Prevehicle_Name']);
+      }
+      print('Data Vehicle Oem Details: $preferedvehicleoemlist');
+    }
+  }
+  Future FetchtyreoemList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdTyreOEM'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['PretyreOem_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedtyreoemlist.add(dataList[i]['PretyreOem_Name']);
+      }
+      print('Data Vehicle Oem Details: $preferedtyreoemlist');
+    }
+  }
+  Future FetchreeferoemList() async {
+    var response = await http.get(Uri.parse('${baseUrl}preeferdReeferOEM'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['PretyreOem_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        preferedreeferoemlist.add(dataList[i]['PretyreOem_Name']);
+      }
+      print('Data Vehicle Oem Details: $preferedreeferoemlist');
+    }
+  }
+  bool viewVisible = false;
+
+
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
    final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
    final _Edt_CompanyName = TextEditingController();
+
+
+   @override
+  void initState() {
+    super.initState();
+
+      FetchPreferedBankingList();
+      FetchFastTagList();
+      FetchinsuranceList();
+      FetchfuelList();
+      FetchvehicleContaineroemList();
+      FetchvehicleoemList();
+      FetchtyreoemList();
+      FetchreeferoemList();
+
+      
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -355,7 +494,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredBankingPartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list6,
+                                items: preferedbankinglist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferredbankingpartner = value;
@@ -461,7 +600,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredFastTagPartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list7,
+                                items:preferedFastaglist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferredfasttag = value;
@@ -493,7 +632,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredInsurancePartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list8,
+                                items: preferedinsurancelist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferinsurance = value;
@@ -525,7 +664,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredFuelPartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list,
+                                items: preferedinsurancelist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectprefferedfuelpartner = value;
@@ -556,7 +695,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredContainerOEM,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list2,
+                                items: preferedcontaineroemlist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectprefferedcontaineroem = value;
@@ -587,7 +726,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredVehicleOEM,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list3,
+                                items: preferedvehicleoemlist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectedprefferedvehicleoem = value;
@@ -618,7 +757,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredTyreOEM,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list4,
+                                items: preferedtyreoemlist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectedprefferedTyreoem = value;
@@ -649,7 +788,7 @@ bool viewVisible = false;
                                 controller: selectedPreferredVehicleOEM,
                                 hintText: "Select",
                                 enabled: true,
-                                items: _list5,
+                                items:preferedreeferoemlist ,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectedpreferredrefferoem = value;

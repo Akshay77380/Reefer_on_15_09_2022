@@ -55,7 +55,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
 
-  List data = [];
+  List<String> data = ["Select","New"];
+
   List CompanyType =[];
   List BusinessType =[];
 
@@ -97,7 +98,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     
   }
 
-  Future<List<PostOffice>> getPincode(String pincode) async {
+  Future getPincode(String pincode) async {
     var response = await http
         .get(Uri.parse("https://api.postalpincode.in/pincode/" + pincode));
 
@@ -112,35 +113,49 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       print("city:" + city);
       print("state:" + state);
       print("country:" + country);
-    } else {
+    }
+    else
+     {
+      
       throw Exception('Failed to  get Pincode ');
     }
   }
 
-  Future<String> FetchCompanyNameList() async {
+  Future FetchCompanyNameList() async {
     var response = await http
         .get(Uri.parse('${baseUrl}companyName'));
 
-     setState(() {
-      Map<String, dynamic> map = json.decode(response.body);
-      data = map["Data"];
-  
-      print(data);
-    });
-    return "Success";
+      if(response.statusCode == 200)
+      {
+        final jsonResponse = jsonDecode(response.body);
+        final dataList = jsonResponse['Data'] as List;
+        print('Data List :${dataList.first['Company_Name']}');
+        for(int i =0;i < dataList.length; i++)
+        {
+          data.add(dataList[i]['Company_Name']);
+
+        }
+        print('Data Company: $data');
+
+      }
+      else
+      {
+        print('Code: ${response.statusCode}');
+
+      }
   }
 
-  Future<String> FetchBusinessTypeList() async {
+  Future FetchBusinessTypeList() async {
     var response = await http
         .get(Uri.parse('${baseUrl}bussinesstype'));
 
-     setState(() {
-      Map<String, dynamic> map = json.decode(response.body);
-      BusinessType = map["Data"];
+    //  setState(() {
+    //   Map<String, dynamic> map = json.decode(response.body);
+    //   BusinessType = map["Data"];
   
-      print(BusinessType);
-    });
-    return "Success";
+    //   print(BusinessType);
+    // });
+    // return "Success";
   }
 
 Future<String> FetchCompanyTypeList() async {
@@ -289,11 +304,11 @@ Future<String> FetchCompanyTypeList() async {
                                   controller: selectedCompanyName,
                                   hintText: "Select",
                                   enabled: true,
-                                  items: _companylist,
+                                  items: data,
                                   onValueChanged: (value) {
                                     setState(() {
                                       selectcompanyname = value;
-                                      if (selectcompanyname == "Select") {
+                                      if (selectcompanyname == "Select" || selectcompanyname.isNotEmpty) {
                                         viewVisible = false;
                                       }
                                       if (selectcompanyname == "New") {
@@ -707,8 +722,9 @@ Future<String> FetchCompanyTypeList() async {
                             List<PostOffice> api =
                                 await getPincode(pincodedata);
 
+
                             setState(() {
-                              _pincodeApi = api as PostOffice;
+                                _pincodeApi = api as PostOffice;
                             });
                           },
                           onFieldSubmitted: (value) {},
