@@ -1,4 +1,8 @@
+import 'package:referon/utils/Common.dart';
+import 'package:searchfield/searchfield.dart';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,6 +15,8 @@ import 'package:flutter/src/widgets/form.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/src/widgets/form.dart';
+import 'package:referon/utils/Common.dart';
+
 class CompanyDetails extends StatefulWidget {
   const CompanyDetails({Key key}) : super(key: key);
 
@@ -19,7 +25,6 @@ class CompanyDetails extends StatefulWidget {
 }
 
 class _CompanyDetailsState extends State<CompanyDetails> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,21 +42,45 @@ class CompanyDataForm extends StatefulWidget {
 
 class _CompanyDataFormState extends State<CompanyDataForm>
     with SingleTickerProviderStateMixin {
-
   PostOffice _pincodeApi;
-  List <PostOffice>responseString = [];
+  List<PostOffice> responseString = [];
   var city, state, country;
+  var company_code,
+      company_name,
+      first_name,
+      last_name,
+      contact_num,
+      emailid,
+      address1,
+      address2,
+      pincode_data,
+      city_data,
+      region_data,
+      country_data;
+
+  final selectedCompanyName = TextEditingController();
+  String selectcompanyname = "";
 
   final _Edt_CompanyName = TextEditingController();
-  final _Edt_Address1 = TextEditingController();
-  final _Edt_pincode = TextEditingController();
+  var _Edt_Address1 = TextEditingController();
+  var _Edt_Address2 = TextEditingController();
+  var _Edt_pincode = TextEditingController();
   var _Edt_city = TextEditingController();
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
-  
+
+  List<String> data = ["New"];
+
+  List CompanyType = [];
+  List BusinessType = [];
+
+  final _companylist = ["New"];
+  bool viewVisible = false;
+
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
+
   void _sumbit() {
     final isValid = _formKey.currentState.validate();
 
@@ -68,54 +97,95 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     _formKey.currentState.save();
   }
 
-
-
   // List<PincodeApi> pincodeapi;
   // var isLoaded = false;
 
-// @override
-// void initState()
-// {
-//   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-//   // fetch pincode here
-//   getPincodeApi();
-// }
-// getPincodeApi() async
-// {
-//     pincodeapi = await ApiService().getPincode();
-//     if(pincodeapi != null)
-//     {
-//       setState(() {
+    // fetch pincode here
+    FetchCompanyNameList();
+    FetchCompanyTypeList();
+    FetchBusinessTypeList();
+  }
 
-//         isLoaded = true;
-//         print(pincodeapi);
-//       });
-//     }
-
-// }
-
-  Future<List<PostOffice>> getPincode(String pincode) async {
+  Future getPincode(String pincode) async {
     var response = await http
         .get(Uri.parse("https://api.postalpincode.in/pincode/" + pincode));
 
-     
     if (response.statusCode == 200) {
-       final parsed = jsonDecode(response.body);
-       final jsonList = (parsed as List).first['PostOffice'];
+      final parsed = jsonDecode(response.body);
+      final jsonList = (parsed as List).first['PostOffice'];
 
-       city = (' ${jsonList[0]['District']}');
-       state = (' ${jsonList[0]['State']}');
-       country =(' ${jsonList[0]['Country']}');
+      city = (' ${jsonList[0]['District']}');
+      state = (' ${jsonList[0]['State']}');
+      country = (' ${jsonList[0]['Country']}');
 
-       print("city:"+city);
-       print("state:"+state);
-       print("country:"+country);
-        print("prasad milk ");
+      print("pincode data :"+city+","+state+","+country);
 
-      
     } else {
       throw Exception('Failed to  get Pincode ');
+    }
+  }
+
+  Future FetchCompanyNameList() async {
+    var response = await http.get(Uri.parse('${baseUrl}companyName'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Company_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        data.add(dataList[i]['Company_Name']);
+      }
+      print('Data Company: $data');
+    } else {
+      print('Code: ${response.statusCode}');
+    }
+  }
+
+  Future FetchBusinessTypeList() async {
+    var response = await http.get(Uri.parse('${baseUrl}bussinesstype'));
+
+    //  setState(() {
+    //   Map<String, dynamic> map = json.decode(response.body);
+    //   BusinessType = map["Data"];
+
+    //   print(BusinessType);
+    // });
+    // return "Success";
+  }
+
+  Future<String> FetchCompanyTypeList() async {
+    var response = await http.get(Uri.parse('${baseUrl}companytype'));
+
+    setState(() {
+      Map<String, dynamic> map = json.decode(response.body);
+      data = map["Data"];
+
+      print(data);
+    });
+    return "Success";
+  }
+
+  Future FetchCompanyDetails(selectcompanyname) async {
+    var response = await http.get(Uri.parse(
+        "http://neotech.v-cloud.in/referonapi/companydetails?CompanyName=" +
+            selectcompanyname));
+
+    if (response.statusCode == 200) {
+      final jsonResponse2 = jsonDecode(response.body);
+      final dataList2 = jsonResponse2['Data'] as List;
+
+         address1 =  (' ${dataList2[0]['address1']}');
+         address2 =  (' ${dataList2[0]['address2']}');
+         pincode_data = (' ${dataList2[0]['pincode']}');
+         
+       
+    }
+    else {
+      throw Exception('Failed to  get Company Details ');
     }
   }
 
@@ -145,12 +215,13 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: (){
+      onWillPop: () {
         moveToLastScreen();
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Image.asset('assets/images/loginheader.png', fit: BoxFit.cover),
+          title:
+              Image.asset('assets/images/loginheader.png', fit: BoxFit.cover),
           backgroundColor: Colors.white,
           elevation: 0,
         ),
@@ -183,10 +254,12 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                             backgroundColor: Color.fromRGBO(17, 24, 66, 50),
                             circularStrokeCap: CircularStrokeCap.round,
                             center: const Text('0%',
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.black)),
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black)),
                           ),
+                          
                           Spacer(),
+
                           Text(
                             "Company  Details",
                             style: TextStyle(
@@ -203,71 +276,146 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           ),
                         ],
                       ),
-    
+
                       SizedBox(
                         height: 20.0,
                         child: Center(), //Center
                       ),
-                      SizedBox(
-                        width: 400,
-                        // height: 55,
-                        child: TextFormField(
-                          autofocus: true,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          focusNode: FocusNode(),
-                          keyboardType: TextInputType.name,
-                          textAlign: TextAlign.center,
-                          controller: _Edt_CompanyName,
-                          onFieldSubmitted: (value) {},
-                          validator: (text) {
-                            if (text.isEmpty) {
-                              return 'Company Name Cannot be Empty ';
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                              prefix: Icon(
-                                Icons.business,
-                                size: 20,
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  color: Colors.red,
+
+                      Visibility(
+                        visible: true,
+                        child: SizedBox(
+                          width: 400,
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 0, right: 0),
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                    filled: true,
+                                    labelText: 'Company Name : ',
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(17, 24, 66, 100),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        width: 0,
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    errorStyle: _focusNode.hasFocus
+                                        ? TextStyle(
+                                            fontSize: 0,
+                                            height: 0,
+                                            color: Colors.white)
+                                        : null,
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color:
+                                              Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ))),
+                                child: DropDownField(
+                                  controller: selectedCompanyName,
+                                  hintText: "Select",
+                                  enabled: true,
+                                  items: data,
+                                  onValueChanged: (value) {
+                                    setState(() {
+                                      selectcompanyname = value;
+                                      print("Data of Selected Company Name:"+selectcompanyname);
+                                      FetchCompanyDetails(selectcompanyname);
+                                      if (selectcompanyname == "Select" ||
+                                          selectcompanyname.isNotEmpty) {
+                                        viewVisible = false;
+                                      }
+                                      if (selectcompanyname == "New") {
+                                        setState(() {
+                                          viewVisible = true;
+
+                                        });
+                                      }
+                                    });
+                                  },
                                 ),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              errorStyle: _focusNode.hasFocus
-                                  ? TextStyle(
-                                      fontSize: 0, height: 0, color: Colors.white)
-                                  : null,
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 0,
-                                    color: Color.fromARGB(255, 5, 10, 22)),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              iconColor: Color.fromRGBO(17, 24, 66, 100),
-                              labelText: 'Company Name :',
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 0, color: Colors.black),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 0,
-                                    color: Color.fromARGB(255, 5, 10, 22)),
-                                borderRadius: BorderRadius.circular(15),
                               )),
-                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 20.0,
+                        child: Center(), //Center
+                      ),
+                      Visibility(
+                        visible: viewVisible,
+                        child: SizedBox(
+                          width: 400,
+                          child: TextFormField(
+                            autofocus: false,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            focusNode: FocusNode(),
+                            keyboardType: TextInputType.name,
+                            textAlign: TextAlign.center,
+                            controller: _Edt_CompanyName,
+                            onFieldSubmitted: (value) {},
+                            validator: (text) {
+                              if (text.isEmpty) {
+                                return 'Company Name Cannot be Empty ';
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                prefix: Icon(
+                                  Icons.business,
+                                  size: 20,
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    color: Colors.red,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                errorStyle: _focusNode.hasFocus
+                                    ? TextStyle(
+                                        fontSize: 0,
+                                        height: 0,
+                                        color: Colors.white)
+                                    : null,
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 0,
+                                      color: Color.fromARGB(255, 5, 10, 22)),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                labelText: 'Company Name :',
+                                labelStyle: TextStyle(color: Colors.black),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 0,
+                                      color: Color.fromARGB(255, 5, 10, 22)),
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
                       ),
                       SizedBox(
-                        height: 20.0,
-                        child: Center(), //Center
+                        height: 20,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 5, right: 5),
@@ -294,8 +442,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               setState(() => _selectedval = value),
                           validator: (value) =>
                               value == "Select" ? 'field required' : null,
-                          items:
-                              _list.map<DropdownMenuItem<String>>((String value) {
+                          items: _list
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -303,44 +451,44 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           }).toList(),
                         ),
                       ),
-    
+
                       // SizedBox(
                       //   height: 20.0,
                       //     child: Center
                       //     (
-    
+
                       //     ), //Center
-    
+
                       //   ),
-    
+
                       //  Container(
                       //   decoration:BoxDecoration(
                       //     color:Colors.white,
                       //     borderRadius: BorderRadius.circular(10)
                       //   ),
-    
+
                       //   child: Padding(
                       //       padding: EdgeInsets.only(left:5, right:5),
-    
+
                       //       child: DropdownSearch<String>(
                       //         items: [
                       //                     "ssj",
                       //                     "ssksks",
                       //              ],
-    
+
                       //                  //             decoration:   InputDecoration(
                       //                  //             filled: true,
                       //                  //             labelText: 'Company Type : ',
                       //                  //             labelStyle: TextStyle(
                       //                  //               color: Color.fromRGBO(17,24,66,100),
-    
+
                       //                  //             ),
                       //                  //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
                       //                  //             Radius.circular(10.0),
                       //                  //   ))
                       //                  // ),
                       //                  //             isExpanded: true,
-    
+
                       //                  //             value: _selectedval,
                       //                  //             items: _list.map((e) =>
                       //                  //             DropdownMenuItem(child: Text(e),value: e,)
@@ -349,13 +497,13 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                       //                  //             setState(() {
                       //                  //               _selectedval = value as String;
                       //                  //             });
-    
+
                       //       // }
                       //       // )
                       //       ),
                       //     ),
                       //  ),
-    
+
                       // Container(
                       //     child:Column(
                       //         children: [
@@ -373,18 +521,18 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                       //                       ),),
                       //                       ),
                       //                       Container(
-    
+
                       //                         margin: EdgeInsets.symmetric(horizontal: 20),
                       //                         decoration: BoxDecoration(
                       //                           color: Colors.white,
                       //                           borderRadius: BorderRadius.circular(10),
                       //                           boxShadow: [
                       //                             BoxShadow(
-    
+
                       //                                   color:Colors.grey.withOpacity(0.2),
                       //                                   blurRadius: 10,
                       //                                   offset:Offset(0,10),
-    
+
                       //                             ),
                       //                           ]
                       //                         ),
@@ -413,15 +561,15 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                       //                               borderRadius: BorderRadius.circular(10)
                       //                             ),
                       //                             suggestions: [
-    
+
                       //                             ],
-    
+
                       //                           ),
                       //                       ),
                       //                 ],
                       //               ),
                       //             )
-    
+
                       //         ],
                       //     ),
                       // ),
@@ -473,7 +621,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_Address1,
+                          controller: _Edt_Address1 = TextEditingController(text: address1) ,
                           onFieldSubmitted: (value) {},
                           validator: (text) {
                             if (text.isEmpty) {
@@ -495,7 +643,9 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               ),
                               errorStyle: _focusNode.hasFocus
                                   ? TextStyle(
-                                      fontSize: 0, height: 0, color: Colors.black)
+                                      fontSize: 0,
+                                      height: 0,
+                                      color: Colors.black)
                                   : null,
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -505,6 +655,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               ),
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'Address 1 :',
+                                hintText: '$address1',
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -529,6 +680,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
+                          controller: _Edt_Address2 = TextEditingController(text: address2) ,
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.home,
@@ -536,6 +688,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               ),
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'Address 2 :',
+                              hintText: '$address2',
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -590,12 +743,13 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
-                          controller: _Edt_pincode,
+                          controller: _Edt_pincode = TextEditingController(text: pincode_data),
                           onChanged: (data) async {
                             String pincodedata = _Edt_pincode.text;
-    
-                            List<PostOffice> api = await getPincode(pincodedata);
-    
+
+                            List<PostOffice> api =
+                                await getPincode(pincodedata);
+
                             setState(() {
                               _pincodeApi = api as PostOffice;
                             });
@@ -621,7 +775,9 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               ),
                               errorStyle: _focusNode.hasFocus
                                   ? TextStyle(
-                                      fontSize: 0, height: 0, color: Colors.black)
+                                      fontSize: 0,
+                                      height: 0,
+                                      color: Colors.black)
                                   : null,
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -637,7 +793,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                     width: 0, color: Colors.black),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     width: 0,
@@ -655,7 +810,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_city = TextEditingController(text: city),
+                          controller: _Edt_city =
+                              TextEditingController(text: city),
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.location_city,
@@ -664,7 +820,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'City :',
                               hintText: '$city',
-                              
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -688,7 +843,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_State = TextEditingController(text: state),
+                          controller: _Edt_State =
+                              TextEditingController(text: state),
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.location_city,
@@ -719,7 +875,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_Country = TextEditingController(text: country),
+                          controller: _Edt_Country =
+                              TextEditingController(text: country),
                           decoration: InputDecoration(
                               labelText: 'Country :',
                               labelStyle: TextStyle(color: Colors.black),
@@ -737,12 +894,12 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
-    
+
                       SizedBox(
                         height: 30.0,
                         child: Center(), //Center
                       ),
-    
+
                       ButtonTheme(
                         minWidth: 450.0,
                         height: 50,
@@ -781,16 +938,16 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         //       }
                         //       return null;
                         //     };
-    
+
                         //      Navigator.push(
                         //           context,
                         //           MaterialPageRoute(
                         //               builder: ((context) => ContactDetails())));
-    
+
                         //     _sumbit();
                         //   },
                         // ),
-    
+
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                           child: ElevatedButtonTheme(
@@ -834,7 +991,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                   }
                                   return null;
                                 };
-    
+
                                 _sumbit();
                               },
                               child: Text('Next ',
@@ -853,9 +1010,15 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       ),
     );
   }
-  
-  void moveToLastScreen() {
 
-     Navigator.pop(context);
+  void moveToLastScreen() {
+    Navigator.pop(context);
+  }
+
+  void hideWidget() {
+    setState(() {
+      viewVisible = !viewVisible;
+      print(viewVisible);
+    });
   }
 }

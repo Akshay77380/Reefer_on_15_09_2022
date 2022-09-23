@@ -1,0 +1,57 @@
+// To parse this JSON data, do
+//
+//     final getCompanyDetails = getCompanyDetailsFromJson(jsonString);
+
+import 'dart:convert';
+
+GetCompanyDetails getCompanyDetailsFromJson(String str) => GetCompanyDetails.fromJson(json.decode(str));
+
+String getCompanyDetailsToJson(GetCompanyDetails data) => json.encode(data.toJson());
+
+class GetCompanyDetails {
+    GetCompanyDetails({
+        this.data,
+        this.status,
+        this.message,
+        this.count,
+    });
+
+    List<Datum> data;
+    int status;
+    String message;
+    int count;
+
+    factory GetCompanyDetails.fromJson(Map<String, dynamic> json) => GetCompanyDetails(
+        data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
+        status: json["status"],
+        message: json["message"],
+        count: json["Count"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "Data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "status": status,
+        "message": message,
+        "Count": count,
+    };
+}
+
+class Datum {
+    Datum({
+        this.companyCode,
+        this.companyName,
+    });
+
+    String companyCode;
+    String companyName;
+
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        companyCode: json["Company_code"],
+        companyName: json["Company_Name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "Company_code": companyCode,
+        "Company_Name": companyName,
+    };
+}
