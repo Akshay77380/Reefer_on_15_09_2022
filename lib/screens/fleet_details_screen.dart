@@ -39,9 +39,9 @@ class FleetDetailsForm extends StatefulWidget {
 
 class _FleetDetailsFormState extends State<FleetDetailsForm> {
 
-  List<String> data = ["Select"];
-  List<String> reeferunitsp = ["Select"];
-  List<String> reeferUnitModelsp = ["Select","Others"];
+  List<String> data = [""];
+  List<String> reeferunitsp = [""];
+  List<String> reeferUnitModelsp = ["Others"];
 
   _FleetDetailsFormState() {
     _selectedval = _list[0];
@@ -595,11 +595,7 @@ Future FetchContainerMake() async {
                                     print("Data of Selected Vehicle Name: " +selectVehicle);
                                     _list2.clear();
                                     FetchVehicleModel(selectVehicle);
-                                    
-                                    
                                     setState(() async {
-
-                                      
                                       print(selectVehicle);
                                     });
                                   },
@@ -1255,8 +1251,8 @@ Future FetchContainerMake() async {
                                   items: _list8,
                                   onValueChanged: (value) {
                                     setState(() {
-                                      selectedVehicleReferMakeyear = value;
-                                      print(selectedVehicleReferMakeyear);
+                                      selectedVehicleContainerMake = value;
+                                      print(selectedVehicleContainerMake);
                                     });
                                   },
                                 ),

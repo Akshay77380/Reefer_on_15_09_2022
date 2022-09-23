@@ -53,7 +53,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       emailid,
       address1,
       address2,
-      pincode,
+      pincode_data,
       city_data,
       region_data,
       country_data;
@@ -64,7 +64,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   final _Edt_CompanyName = TextEditingController();
   var _Edt_Address1 = TextEditingController();
   var _Edt_Address2 = TextEditingController();
-  final _Edt_pincode = TextEditingController();
+  var _Edt_pincode = TextEditingController();
   var _Edt_city = TextEditingController();
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
@@ -121,6 +121,9 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       city = (' ${jsonList[0]['District']}');
       state = (' ${jsonList[0]['State']}');
       country = (' ${jsonList[0]['Country']}');
+
+      print("pincode data :"+city+","+state+","+country);
+
     } else {
       throw Exception('Failed to  get Pincode ');
     }
@@ -177,7 +180,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
 
          address1 =  (' ${dataList2[0]['address1']}');
          address2 =  (' ${dataList2[0]['address2']}');
-
+         pincode_data = (' ${dataList2[0]['pincode']}');
          
        
     }
@@ -254,7 +257,9 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                 style: TextStyle(
                                     fontSize: 15, color: Colors.black)),
                           ),
+                          
                           Spacer(),
+
                           Text(
                             "Company  Details",
                             style: TextStyle(
@@ -333,6 +338,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                       if (selectcompanyname == "New") {
                                         setState(() {
                                           viewVisible = true;
+
                                         });
                                       }
                                     });
@@ -737,7 +743,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
-                          controller: _Edt_pincode,
+                          controller: _Edt_pincode = TextEditingController(text: pincode_data),
                           onChanged: (data) async {
                             String pincodedata = _Edt_pincode.text;
 
@@ -745,7 +751,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                                 await getPincode(pincodedata);
 
                             setState(() {
-                              // _pincodeApi = api as PostOffice;
+                              _pincodeApi = api as PostOffice;
                             });
                           },
                           onFieldSubmitted: (value) {},

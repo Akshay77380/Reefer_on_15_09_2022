@@ -10,7 +10,11 @@ import 'package:referon/screens/personel_details.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class VerifyMe extends StatefulWidget {
-  const VerifyMe({Key key}) : super(key: key);
+  
+  // data Coming from LoginScreenPage 
+ 
+VerifyMe({Key key, String mobilenumber}) : super(key: key);
+  
 
   @override
   State<VerifyMe> createState() => _VerifyMeState();
@@ -19,11 +23,14 @@ class VerifyMe extends StatefulWidget {
 enum BestTutorSite { javatpoint, w3schools, tutorialandexample }
 
 class _VerifyMeState extends State<VerifyMe> {
+   String mobilenumber;
+
   OtpFieldController otpController = OtpFieldController();
   String text = "";
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
   String Language = 'English';
+  
   void _sumbit() {
     final isValid = _formKey.currentState.validate();
     if (isValid) {
@@ -68,7 +75,7 @@ class _VerifyMeState extends State<VerifyMe> {
                             child: Image.asset('assets/images/logo.png',
                                 height: 180, width: 150)),
                         Text(
-                          "Confirm OTP ",
+                          "Confirm OTP $mobilenumber",
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,

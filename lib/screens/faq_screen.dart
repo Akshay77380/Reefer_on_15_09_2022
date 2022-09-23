@@ -266,14 +266,14 @@ class _FaqDetailsState extends State<FaqDetails> {
     "Navi Commercial Insurance"
   ];
 
-  List<String> preferedbankinglist = ["Select", "Others"];
-  List<String> preferedFastaglist = ["Select", "Others"];
-  List<String> preferedinsurancelist = ["Select", "Others"];
-  List<String> preferedfuellist = ["Select", "Others"];
-  List<String> preferedcontaineroemlist = ["Select", "Others"];
-  List<String> preferedvehicleoemlist = ["Select", "Others"];
-  List<String> preferedtyreoemlist = ["Select", "Others"];
-  List<String> preferedreeferoemlist = ["Select", "Others"];
+  List<String> preferedbankinglist = ["Others"];
+  List<String> preferedFastaglist = ["Others"];
+  List<String> preferedinsurancelist = ["Others"];
+  List<String> preferedfuellist = ["Others"];
+  List<String> preferedcontaineroemlist = ["Others"];
+  List<String> preferedvehicleoemlist = ["Others"];
+  List<String> preferedtyreoemlist = ["Others"];
+  List<String> preferedreeferoemlist = ["Others"];
 
   Future FetchPreferedBankingList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdBankinPartner'));
@@ -497,17 +497,15 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferredbankingpartner = value;
+                                    print("Selected Partner" +
+                                        selectpreferredbankingpartner);
+
                                     if (selectedPreferredBankingPartner ==
-                                        "Select") {
-                                      viewVisible = false;
-                                    }
-                                    if (selectedPreferredBankingPartner ==
-                                        "others") {
+                                        "Others") {
                                       setState(() {
                                         viewVisible = true;
                                       });
                                     }
-                                    // print("Selected Partner"+selectpreferredbankingpartner);
                                   });
                                 },
                               ),
@@ -521,7 +519,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               focusNode: FocusNode(),
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.name,  
                               textAlign: TextAlign.center,
                               controller: _Edt_CompanyName,
                               onFieldSubmitted: (value) {},

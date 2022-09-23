@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final isValid = _formKey.currentState.validate();
     if (isValid) {
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => VerifyMe())));
+          context, MaterialPageRoute(builder: ((context) => VerifyMe(mobilenumber: phoneController.text))));
     }
     _formKey.currentState.save();
   }
