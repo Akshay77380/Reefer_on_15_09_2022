@@ -182,15 +182,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20.0,
                               child: Center(), //Center
                             ),
-                            Text(
-                              "By Continuing,You Agree To Below ",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 11, 11, 22),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
+                            // Text(
+                            //   "By Continuing,You Agree To Below ",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromARGB(255, 11, 11, 22),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 20.0,
                               child: Center(), //Center

@@ -41,7 +41,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
 
   List<String> data = ["Select"];
   List<String> reeferunitsp = ["Select"];
-  List<String> reeferUnitModelsp = ["Select"];
+  List<String> reeferUnitModelsp = ["Select","Others"];
 
   _FleetDetailsFormState() {
     _selectedval = _list[0];
@@ -1308,6 +1308,7 @@ Future FetchContainerMake() async {
                                   ),
                                   iconColor: Color.fromRGBO(17, 24, 66, 100),
                                   labelText: 'Vehicle Number :',
+                                  hintText: 'Example: MH 01 CS 7859, MH 01 TL 1234',
                                   labelStyle: TextStyle(color: Colors.black),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(

@@ -38,7 +38,6 @@ class FaqDetails extends StatefulWidget {
 
 class _FaqDetailsState extends State<FaqDetails> {
   _FaqDetailsState() {
-  
     _selectedval = _list[0];
     _selectedval2 = _list2[0];
     _selectedval3 = _list3[0];
@@ -266,15 +265,15 @@ class _FaqDetailsState extends State<FaqDetails> {
     "SBI Commercial Vehicle Insurance",
     "Navi Commercial Insurance"
   ];
-  
- List<String> preferedbankinglist = ["Select","Others"];
- List<String> preferedFastaglist = ["Select","Others"];
- List<String> preferedinsurancelist = ["Select","Others"];
- List<String> preferedfuellist = ["Select","Others"];
- List<String> preferedcontaineroemlist = ["Select","Others"];
- List<String> preferedvehicleoemlist = ["Select","Others"];
- List<String> preferedtyreoemlist = ["Select","Others"];
- List<String> preferedreeferoemlist = ["Select","Others"];
+
+  List<String> preferedbankinglist = ["Select", "Others"];
+  List<String> preferedFastaglist = ["Select", "Others"];
+  List<String> preferedinsurancelist = ["Select", "Others"];
+  List<String> preferedfuellist = ["Select", "Others"];
+  List<String> preferedcontaineroemlist = ["Select", "Others"];
+  List<String> preferedvehicleoemlist = ["Select", "Others"];
+  List<String> preferedtyreoemlist = ["Select", "Others"];
+  List<String> preferedreeferoemlist = ["Select", "Others"];
 
   Future FetchPreferedBankingList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdBankinPartner'));
@@ -289,6 +288,7 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data Prefered  Details: $preferedbankinglist');
     }
   }
+
   Future FetchFastTagList() async {
     var response = await http.get(Uri.parse('${baseUrl}fastTagPartner'));
 
@@ -302,8 +302,10 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data Fast Tag  Details: $preferedFastaglist');
     }
   }
+
   Future FetchinsuranceList() async {
-    var response = await http.get(Uri.parse('${baseUrl}preeferdInsurrancePartner'));
+    var response =
+        await http.get(Uri.parse('${baseUrl}preeferdInsurrancePartner'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
@@ -315,7 +317,8 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data insurnace Details: $preferedinsurancelist');
     }
   }
-   Future FetchfuelList() async {
+
+  Future FetchfuelList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdFuelPartner'));
 
     if (response.statusCode == 200) {
@@ -328,19 +331,21 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data Fuel Details: $preferedinsurancelist');
     }
   }
+
   Future FetchvehicleContaineroemList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdContainerOEM'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final dataList = jsonResponse['Data'] as List;
-      print('Data List :${dataList.first['fuel_Name']}');
+      print('Data List :${dataList.first['PrecontainerOEM_Name']}');
       for (int i = 0; i < dataList.length; i++) {
-        preferedfuellist.add(dataList[i]['fuel_Name']);
+        preferedcontaineroemlist.add(dataList[i]['PrecontainerOEM_Name']);
       }
       print('Data Fuel Details: $preferedinsurancelist');
     }
   }
+
   Future FetchvehicleoemList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdVehicleOEM'));
 
@@ -354,6 +359,7 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data Vehicle Oem Details: $preferedvehicleoemlist');
     }
   }
+
   Future FetchtyreoemList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdTyreOEM'));
 
@@ -367,55 +373,49 @@ class _FaqDetailsState extends State<FaqDetails> {
       print('Data Vehicle Oem Details: $preferedtyreoemlist');
     }
   }
+
   Future FetchreeferoemList() async {
     var response = await http.get(Uri.parse('${baseUrl}preeferdReeferOEM'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final dataList = jsonResponse['Data'] as List;
-      print('Data List :${dataList.first['PretyreOem_Name']}');
+      print('Data List :${dataList.first['PreReferOem_Name']}');
       for (int i = 0; i < dataList.length; i++) {
-        preferedreeferoemlist.add(dataList[i]['PretyreOem_Name']);
+        preferedreeferoemlist.add(dataList[i]['PreReferOem_Name']);
       }
       print('Data Vehicle Oem Details: $preferedreeferoemlist');
     }
   }
-  bool viewVisible = false;
 
+  bool viewVisible = false;
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
-   final selectedCompanyName = TextEditingController();
+  final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
-   final _Edt_CompanyName = TextEditingController();
+  final _Edt_CompanyName = TextEditingController();
 
-
-   @override
+  @override
   void initState() {
     super.initState();
 
-      FetchPreferedBankingList();
-      FetchFastTagList();
-      FetchinsuranceList();
-      FetchfuelList();
-      FetchvehicleContaineroemList();
-      FetchvehicleoemList();
-      FetchtyreoemList();
-      FetchreeferoemList();
-
-      
-
+    FetchPreferedBankingList();
+    FetchFastTagList();
+    FetchinsuranceList();
+    FetchfuelList();
+    FetchvehicleContaineroemList();
+    FetchvehicleoemList();
+    FetchtyreoemList();
+    FetchreeferoemList();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-
-      onWillPop: (){
-
-          moveToLastScreen();
-
+      onWillPop: () {
+        moveToLastScreen();
       },
       child: Scaffold(
           appBar: AppBar(
@@ -429,7 +429,7 @@ class _FaqDetailsState extends State<FaqDetails> {
             key: _formKey,
             child: Container(
               decoration: BoxDecoration(
-              
+
                   // image: DecorationImage(image: AssetImage("assets/images/logo.png"),fit: BoxFit.contain,opacity: 500),
                   ),
               child: Padding(
@@ -450,8 +450,8 @@ class _FaqDetailsState extends State<FaqDetails> {
                               backgroundColor: Color.fromRGBO(17, 24, 66, 50),
                               circularStrokeCap: CircularStrokeCap.round,
                               center: const Text('100%',
-                                  style:
-                                      TextStyle(fontSize: 15, color: Colors.black)),
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black)),
                             ),
                             Spacer(),
                             Text(
@@ -474,15 +474,14 @@ class _FaqDetailsState extends State<FaqDetails> {
                           height: 50.0,
                           child: Center(), //Center
                         ),
-                        Padding
-                        (
+                        Padding(
                             padding: EdgeInsets.only(left: 0, right: 0),
                             child: InputDecorator(
                               decoration: InputDecoration(
                                   filled: true,
                                   labelText: 'Preferred Banking Partner : ',
                                   labelStyle: TextStyle(
-                                    color: Color.fromRGBO(17, 24, 66, 100),  
+                                    color: Color.fromRGBO(17, 24, 66, 100),
                                   ),
                                   border: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -498,23 +497,22 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferredbankingpartner = value;
-                                    if(selectedPreferredBankingPartner == "Select")
-                                    {
-                                            viewVisible = false;
+                                    if (selectedPreferredBankingPartner ==
+                                        "Select") {
+                                      viewVisible = false;
                                     }
-                                    if(selectedPreferredBankingPartner == "others")
-                                    {
-                                        setState(() {
-                                          viewVisible = true;
-                                        });
+                                    if (selectedPreferredBankingPartner ==
+                                        "others") {
+                                      setState(() {
+                                        viewVisible = true;
+                                      });
                                     }
                                     // print("Selected Partner"+selectpreferredbankingpartner);
                                   });
                                 },
                               ),
                             )),
-          
-                          Visibility(
+                        Visibility(
                           visible: viewVisible,
                           child: SizedBox(
                             width: 400,
@@ -534,7 +532,6 @@ class _FaqDetailsState extends State<FaqDetails> {
                                   return null;
                                 }
                               },
-
                               decoration: InputDecoration(
                                   prefix: Icon(
                                     Icons.business,
@@ -600,7 +597,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 controller: selectedPreferredFastTagPartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items:preferedFastaglist,
+                                items: preferedFastaglist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     selectpreferredfasttag = value;
@@ -664,7 +661,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 controller: selectedPreferredFuelPartner,
                                 hintText: "Select",
                                 enabled: true,
-                                items: preferedinsurancelist,
+                                items: preferedfuellist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectprefferedfuelpartner = value;
@@ -785,10 +782,10 @@ class _FaqDetailsState extends State<FaqDetails> {
                                         Radius.circular(10.0),
                                       ))),
                               child: DropDownField(
-                                controller: selectedPreferredVehicleOEM,
+                                controller: selectedPreferredReeferOEM,
                                 hintText: "Select",
                                 enabled: true,
-                                items:preferedreeferoemlist ,
+                                items: preferedreeferoemlist,
                                 onValueChanged: (value) {
                                   setState(() {
                                     String selectedpreferredrefferoem = value;
@@ -807,12 +804,12 @@ class _FaqDetailsState extends State<FaqDetails> {
                               data: ElevatedButtonThemeData(
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(180.0, 50),
-              
+
                                   primary: Color.fromRGBO(17, 24, 66,
                                       40), // Sets color for all the descendent ElevatedButtons
                                   shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(6.0))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6.0))),
                                 ),
                               ),
                               child: ElevatedButton(
@@ -836,7 +833,7 @@ class _FaqDetailsState extends State<FaqDetails> {
           )),
     );
   }
-  
+
   void moveToLastScreen() {
     Navigator.pop(context);
   }

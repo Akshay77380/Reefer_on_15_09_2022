@@ -45,22 +45,36 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   PostOffice _pincodeApi;
   List<PostOffice> responseString = [];
   var city, state, country;
+  var company_code,
+      company_name,
+      first_name,
+      last_name,
+      contact_num,
+      emailid,
+      address1,
+      address2,
+      pincode,
+      city_data,
+      region_data,
+      country_data;
+
   final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
 
   final _Edt_CompanyName = TextEditingController();
-  final _Edt_Address1 = TextEditingController();
+  var _Edt_Address1 = TextEditingController();
+  var _Edt_Address2 = TextEditingController();
   final _Edt_pincode = TextEditingController();
   var _Edt_city = TextEditingController();
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
 
-  List<String> data = ["Select","New"];
+  List<String> data = ["New"];
 
-  List CompanyType =[];
-  List BusinessType =[];
+  List CompanyType = [];
+  List BusinessType = [];
 
-  final _companylist = ["Select", "New"];
+  final _companylist = ["New"];
   bool viewVisible = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -68,7 +82,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   FocusNode _focusNode = FocusNode();
 
   void _sumbit() {
-
     final isValid = _formKey.currentState.validate();
 
     if (_selectedval == null || _selectedval == "Select") {
@@ -95,7 +108,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     FetchCompanyNameList();
     FetchCompanyTypeList();
     FetchBusinessTypeList();
-    
   }
 
   Future getPincode(String pincode) async {
@@ -109,67 +121,71 @@ class _CompanyDataFormState extends State<CompanyDataForm>
       city = (' ${jsonList[0]['District']}');
       state = (' ${jsonList[0]['State']}');
       country = (' ${jsonList[0]['Country']}');
-
-      print("city:" + city);
-      print("state:" + state);
-      print("country:" + country);
-    }
-    else
-     {
-      
+    } else {
       throw Exception('Failed to  get Pincode ');
     }
   }
 
   Future FetchCompanyNameList() async {
-    var response = await http
-        .get(Uri.parse('${baseUrl}companyName'));
+    var response = await http.get(Uri.parse('${baseUrl}companyName'));
 
-      if(response.statusCode == 200)
-      {
-        final jsonResponse = jsonDecode(response.body);
-        final dataList = jsonResponse['Data'] as List;
-        print('Data List :${dataList.first['Company_Name']}');
-        for(int i =0;i < dataList.length; i++)
-        {
-          data.add(dataList[i]['Company_Name']);
-
-        }
-        print('Data Company: $data');
-
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+      print('Data List :${dataList.first['Company_Name']}');
+      for (int i = 0; i < dataList.length; i++) {
+        data.add(dataList[i]['Company_Name']);
       }
-      else
-      {
-        print('Code: ${response.statusCode}');
-
-      }
+      print('Data Company: $data');
+    } else {
+      print('Code: ${response.statusCode}');
+    }
   }
 
   Future FetchBusinessTypeList() async {
-    var response = await http
-        .get(Uri.parse('${baseUrl}bussinesstype'));
+    var response = await http.get(Uri.parse('${baseUrl}bussinesstype'));
 
     //  setState(() {
     //   Map<String, dynamic> map = json.decode(response.body);
     //   BusinessType = map["Data"];
-  
+
     //   print(BusinessType);
     // });
     // return "Success";
   }
 
-Future<String> FetchCompanyTypeList() async {
-    var response = await http
-        .get(Uri.parse('${baseUrl}companytype'));
+  Future<String> FetchCompanyTypeList() async {
+    var response = await http.get(Uri.parse('${baseUrl}companytype'));
 
-     setState(() {
+    setState(() {
       Map<String, dynamic> map = json.decode(response.body);
       data = map["Data"];
-      
+
       print(data);
     });
     return "Success";
   }
+
+  Future FetchCompanyDetails(selectcompanyname) async {
+    var response = await http.get(Uri.parse(
+        "http://neotech.v-cloud.in/referonapi/companydetails?CompanyName=" +
+            selectcompanyname));
+
+    if (response.statusCode == 200) {
+      final jsonResponse2 = jsonDecode(response.body);
+      final dataList2 = jsonResponse2['Data'] as List;
+
+         address1 =  (' ${dataList2[0]['address1']}');
+         address2 =  (' ${dataList2[0]['address2']}');
+
+         
+       
+    }
+    else {
+      throw Exception('Failed to  get Company Details ');
+    }
+  }
+
   _CompanyDataFormState() {
     _selectedval = _list[0];
     _selectedval2 = _list[0];
@@ -308,7 +324,10 @@ Future<String> FetchCompanyTypeList() async {
                                   onValueChanged: (value) {
                                     setState(() {
                                       selectcompanyname = value;
-                                      if (selectcompanyname == "Select" || selectcompanyname.isNotEmpty) {
+                                      print("Data of Selected Company Name:"+selectcompanyname);
+                                      FetchCompanyDetails(selectcompanyname);
+                                      if (selectcompanyname == "Select" ||
+                                          selectcompanyname.isNotEmpty) {
                                         viewVisible = false;
                                       }
                                       if (selectcompanyname == "New") {
@@ -596,7 +615,7 @@ Future<String> FetchCompanyTypeList() async {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_Address1,
+                          controller: _Edt_Address1 = TextEditingController(text: address1) ,
                           onFieldSubmitted: (value) {},
                           validator: (text) {
                             if (text.isEmpty) {
@@ -630,6 +649,7 @@ Future<String> FetchCompanyTypeList() async {
                               ),
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'Address 1 :',
+                                hintText: '$address1',
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -654,6 +674,7 @@ Future<String> FetchCompanyTypeList() async {
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
+                          controller: _Edt_Address2 = TextEditingController(text: address2) ,
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.home,
@@ -661,6 +682,7 @@ Future<String> FetchCompanyTypeList() async {
                               ),
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'Address 2 :',
+                              hintText: '$address2',
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -722,9 +744,8 @@ Future<String> FetchCompanyTypeList() async {
                             List<PostOffice> api =
                                 await getPincode(pincodedata);
 
-
                             setState(() {
-                                _pincodeApi = api as PostOffice;
+                              // _pincodeApi = api as PostOffice;
                             });
                           },
                           onFieldSubmitted: (value) {},
