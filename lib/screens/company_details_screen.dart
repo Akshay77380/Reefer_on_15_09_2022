@@ -1,3 +1,4 @@
+import 'package:referon/models/login_model.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -17,13 +18,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/src/widgets/form.dart';
 import 'package:referon/utils/Common.dart';
 
+import 'login_screen.dart';
+
 class CompanyDetails extends StatefulWidget {
-
-  var phonenumber;
-
-  CompanyDetails({Key key, String phonenumber}) : super(key: key);
-  
-
+  // var phonenumber;
+   var loginScreenMode;
+  CompanyDetails({Key key, this.loginScreenMode}) : super(key: key);
   @override
   State<CompanyDetails> createState() => _CompanyDetailsState();
 }
@@ -41,6 +41,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 }
 
 class CompanyDataForm extends StatefulWidget {
+   LoginScreenModel loginScreenModel;
+   CompanyDataForm({Key key, this.loginScreenModel}) : super(key: key);
 
   
   @override
@@ -72,6 +74,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
 
+
+
   final _Edt_CompanyName = TextEditingController();
   var _Edt_Address1 = TextEditingController();
   var _Edt_Address2 = TextEditingController();
@@ -80,7 +84,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   var _Edt_city = TextEditingController();
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
-  
+  LoginScreenModel loginData = LoginScreenModel();
   List<String> data = ["New"];
 
   List CompanyType = [];
@@ -95,7 +99,18 @@ class _CompanyDataFormState extends State<CompanyDataForm>
 
   void _sumbit() {
        
-
+loginData = LoginScreenModel(mobilenum: widget.loginScreenModel.mobilenum, companyname: selectedCompanyName.text,
+companytype: _selectedval,
+businesstype: _selectedval2,
+address1: _Edt_Address1.text,
+address2: _Edt_Address2.text,
+landmark:  _Edt_Landmark.text,
+pincode: _Edt_pincode.text,
+city: _Edt_city.text,
+state: _Edt_State.text,
+country: _Edt_Country.text
+);
+print("Company Details:"+loginData.mobilenum);
     final isValid = _formKey.currentState.validate();
     
     if (_selectedval == null || _selectedval == "Select") 
@@ -110,7 +125,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
     }
     if (isValid) 
     {
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactDetails(str_mobilenum:mobilenum,str_companyname: selectcompanyname, str_companytype: _selectedval, str_businesstype: _selectedval2, str_address1: _Edt_Address1.text,str_address2: _Edt_Address2.text, str_landmark: _Edt_Landmark.text, str_city: _Edt_pincode.text, str_state: _Edt_State.text,str_country: _Edt_Country.text))));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactForm(loginScreenModel: loginData))));
     }
     _formKey.currentState.save();
   }
@@ -121,7 +136,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   @override
   void initState() {
     super.initState();
-
+    loginData = widget.loginScreenModel;
+    print("Contanct num ${widget.loginScreenModel}");
     // fetch pincode here
     FetchCompanyNameList();
     FetchCompanyTypeList();

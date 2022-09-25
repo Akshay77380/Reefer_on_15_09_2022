@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:referon/models/getVehicleModel.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
@@ -9,72 +10,15 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:referon/screens/faq_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:flutter_year_picker/flutter_year_picker.dart';
 
 class FleetDetails extends StatefulWidget {
-  var str_mobilenum,
-   str_companyname,
-  str_companytype,
-  str_businesstype,
-  str_address1,
-  str_address2,
-  str_landmark,
-  str_pincode,
-  str_city,
-  str_state,
-  str_country,
-  str_firstname,
-  str_lastname,
-  str_registeredmobilenum,
-  str_alternativemobilenum,
-  str_emailaddress,
-  str_designation,
-  str_pancardno,
-  str_pancardimg,
-  str_cancelchequeno,
-  str_cancelchequeimg,
-  str_gstno,
-  str_gstimg,
-  str_fssailicense,
-  str_fssailicenseimg,
-  str_businescard,
-  str_bussinesscardimg,
-  str_others,
-  str_otherscardimg;
 
+  
+  
 
-
-  FleetDetails({Key key,
-  String str_mobilenum,
-  String str_companyname,
-   String str_companytype,
-   String str_businesstype,
-   String str_address1,
-   String str_address2,
-   String  str_landmark,
-   String str_pincode,
-   String str_city,
-   String str_state,
-   String str_country,
-   String str_firstname,
-   String str_lastname,
-   String str_registeredmobilenum,
-   String str_alternativemobilenum,
-   String str_emailaddress,
-   String str_designation,
-   String str_pancardno,
-   String str_pancardimg,
-   String str_cancelchequeno,
-   String str_cancelchequeimg,
-   String str_gstno,
-   String str_gstimg,
-   String str_fssailicense,
-   String str_fssailicenseimg,
-   String str_businescard,
-   String str_bussinesscardimg,
-   String str_others,
-   String str_otherscardimg});
 
   @override
   State<FleetDetails> createState() => _FleetDetailsState();
@@ -92,7 +36,9 @@ class _FleetDetailsState extends State<FleetDetails> {
 }
 
 class FleetDetailsForm extends StatefulWidget {
-  const FleetDetailsForm({Key key}) : super(key: key);
+
+ LoginScreenModel loginScreenModel;
+   FleetDetailsForm({Key key, this.loginScreenModel}) : super(key: key);
 
   @override
   State<FleetDetailsForm> createState() => _FleetDetailsFormState();
@@ -103,6 +49,10 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   List<String> data = [""];
   List<String> reeferunitsp = [""];
   List<String> reeferUnitModelsp = ["Others"];
+  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  FocusNode _focusNode = FocusNode();
+
 
   _FleetDetailsFormState() {
     _selectedval = _list[0];
@@ -127,10 +77,16 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   var selectedVehicleMake_year = TextEditingController();
   final selectedVehicleCapacity = TextEditingController();
   final selectedVehicleSize = TextEditingController();
+  final length = TextEditingController();
+  final width = TextEditingController();
+  final height = TextEditingController();
   final selectedReeferUnitManufacturer = TextEditingController();
   final selectedReeferUnitModel = TextEditingController();
   var selectedReeferMakeYear = TextEditingController();
   final selectedContainerMake = TextEditingController();
+  final _Edt_No_of_Vehicles = TextEditingController();
+  final _Edt_VehicleNumber = TextEditingController();
+
 
   DateTime _date = DateTime.now();
 
@@ -460,7 +416,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
     "Russia",
     "Germany"
   ];
-
+   
   Future FetchVehicleManfList() async {
     var response = await http.get(Uri.parse('${baseUrl}vehiclemanufacturer'));
 
@@ -542,9 +498,9 @@ Future FetchContainerMake() async {
   @override
   void initState() {
     super.initState();
-
+    print("InSide Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
     // Vehicle Manufacturer
-
+  
     FetchVehicleManfList();
     FetchReeferUnitfList();
     FetchContainerMake();
@@ -559,514 +515,486 @@ Future FetchContainerMake() async {
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/logo.png"),
-              fit: BoxFit.contain,
-              opacity: 500),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularPercentIndicator(
-                          animation: true,
-                          animationDuration: 5000,
-                          radius: 25,
-                          lineWidth: 8,
-                          percent: 0.5,
-                          progressColor: Color.fromRGBO(180, 211, 67, 30),
-                          backgroundColor: Color.fromRGBO(17, 24, 66, 50),
-                          circularStrokeCap: CircularStrokeCap.round,
-                          center: const Text('50%',
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.black)),
-                        ),
-                        Spacer(),
-                        Text(
-                          "Fleet  Details",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 11, 11, 22),
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/logocircle.png',
-                          width: 70,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                      child: Center(), //Center
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                      ),
-                      child: Column(
+      
+      body: Form(
+        key: _formKey,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/logo.png"),
+                fit: BoxFit.contain,
+                opacity: 500),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          CircularPercentIndicator(
+                            animation: true,
+                            animationDuration: 5000,
+                            radius: 25,
+                            lineWidth: 8,
+                            percent: 0.5,
+                            progressColor: Color.fromRGBO(180, 211, 67, 30),
+                            backgroundColor: Color.fromRGBO(17, 24, 66, 50),
+                            circularStrokeCap: CircularStrokeCap.round,
+                            center: const Text('50%',
+                                style:
+                                    TextStyle(fontSize: 15, color: Colors.black)),
+                          ),
+                          Spacer(),
                           Text(
-                            " Enter Details",
+                            "Fleet  Details",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Color.fromARGB(255, 11, 11, 22),
                               fontStyle: FontStyle.normal,
                             ),
                           ),
-                          SizedBox(
-                            height: 20.0,
-                            child: Center(), //Center
+                          Spacer(),
+                          Image.asset(
+                            'assets/images/logocircle.png',
+                            width: 70,
                           ),
-
-                          Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                    filled: true,
-                                    labelText: ' Vehicle Manufacturer : ',
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(17, 24, 66, 100),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 0, color: Colors.black),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ))),
-                                child: DropDownField(
-                                  controller: selectedVehicleManufacturer,
-                                  hintText: "Select",
-                                  enabled: true,
-                                  items: data,
-                                  onValueChanged: (value) async {
-                                    selectVehicle = value;
-                                    print("Data of Selected Vehicle Name: " +selectVehicle);
-                                    _list2.clear();
-                                    FetchVehicleModel(selectVehicle);
-                                    setState(() async {
-                                      print(selectVehicle);
-                                    });
-                                  },
-                                ),
-                              )),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                    filled: true,
-                                    labelText: 'Vehicle Model : ',
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(17, 24, 66, 100),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 0, color: Colors.black),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ))),
-                                child: DropDownField(
-                                  controller: selectedVehicleModel,
-                                  hintText: "Select",
-                                  enabled: true,
-                                  items: _list2,
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      selectVehicleModel = value;
-                                      print(selectVehicleModel);
-                                    });
-                                  },
-                                ),
-                              )),
-
-                          // SizedBox(
-                          //             width: 400,
-                          //             height: 55,
-                          //              child: TextField(
-
-                          //               keyboardType: TextInputType.name,
-                          //               textAlign: TextAlign.center,
-
-                          //                 decoration: InputDecoration(
-                          //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
-                          //                   iconColor:  Color.fromRGBO(17,24,66,100),
-                          //                 labelText: 'Vehicle Manufacturer :',
-                          //                 labelStyle: TextStyle(
-                          //                   color: Colors.black
-                          //                 ),
-
-                          //                 enabledBorder: OutlineInputBorder(
-                          //                 borderSide: const BorderSide(width: 0, color: Colors.black),
-                          //                 borderRadius: BorderRadius.circular(15),
-
-                          //                                ),
-                          //               focusedBorder: OutlineInputBorder(
-                          //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
-                          //               borderRadius: BorderRadius.circular(15),
-                          //                                )),
-                          //                                style: TextStyle(fontSize: 15),
-                          //                            ),
-                          //            ),
-                          // SizedBox(height: 10,),
-                          // SizedBox(
-                          //             width: 400,
-                          //             height: 55,
-                          //              child: TextField(
-
-                          //               keyboardType: TextInputType.name,
-                          //               textAlign: TextAlign.center,
-
-                          //                 decoration: InputDecoration(
-                          //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
-                          //                   iconColor:  Color.fromRGBO(17,24,66,100),
-                          //                 labelText: 'Ac Mainetance :',
-                          //                 labelStyle: TextStyle(
-                          //                   color: Colors.black
-                          //                 ),
-
-                          //                 enabledBorder: OutlineInputBorder(
-                          //                 borderSide: const BorderSide(width: 0, color: Colors.black),
-                          //                 borderRadius: BorderRadius.circular(15),
-
-                          //                                ),
-                          //               focusedBorder: OutlineInputBorder(
-                          //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
-                          //               borderRadius: BorderRadius.circular(15),
-                          //                                )),
-                          //                                style: TextStyle(fontSize: 15),
-                          //                            ),
-                          //            ),
-                          //             SizedBox(height: 10,),
-                          //          Padding(
-                          //           padding: EdgeInsets.only(left:5, right:5),
-
-                          //           child: DropdownButtonFormField(
-
-                          //             decoration:   InputDecoration(
-
-                          //             filled: true,
-                          //              labelText: 'Reefer OEM : ',
-                          //              labelStyle: TextStyle(
-                          //               color: Color.fromRGBO(17,24,66,100),
-
-                          //              ),
-                          //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
-                          //             Radius.circular(10.0),
-                          //   ))
-                          // ),
-                          //             isExpanded: true,
-
-                          //             value: _selectedval4,
-                          //             items: _list4.map((e) =>
-                          //             DropdownMenuItem(child: Text(e),value: e,)
-                          //            ).toList()
-                          //           , onChanged: ((value) {
-                          //             setState(() {
-                          //               _selectedval4 = value as String;
-                          //             });
-
-                          //           })),
-                          //         ),
-                          //         SizedBox(height: 10,),
-                          //          Padding(
-                          //           padding: EdgeInsets.only(left:5, right:5),
-
-                          //           child: DropdownButtonFormField(
-
-                          //             decoration:   InputDecoration(
-
-                          //             filled: true,
-                          //              labelText: 'Reefer Make : ',
-                          //              labelStyle: TextStyle(
-                          //               color: Color.fromRGBO(17,24,66,100),
-
-                          //              ),
-                          //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
-                          //             Radius.circular(10.0),
-                          //   ))
-                          // ),
-                          //             isExpanded: true,
-
-                          //             value: _selectedval,
-                          //             items: _list.map((e) =>
-                          //             DropdownMenuItem(child: Text(e),value: e,)
-                          //            ).toList()
-                          //           , onChanged: ((value) {
-                          //             setState(() {
-                          //               _selectedval = value as String;
-                          //             });
-
-                          //           })),
-                          //         ),
-
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 400,
-                            height: 75,
-                            child: TextFormField(
-                              controller: selectedVehicleMake_year =
-                                  TextEditingController(
-                                      text: vehicleMakeyeardate),
-                              readOnly: true,
-                              onTap: () {
-                                return showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    final Size size =
-                                        MediaQuery.of(context).size;
-                                    return AlertDialog(
-                                      title: Column(
-                                        children: const [
-                                          Text('Select a Year'),
-                                          Divider(
-                                            thickness: 1,
-                                          )
-                                        ],
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                        child: Center(), //Center
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              " Enter Details",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 11, 11, 22),
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                              child: Center(), //Center
+                            ),
+      
+                            Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: ' Vehicle Manufacturer : ',
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(17, 24, 66, 100),
                                       ),
-                                      contentPadding: const EdgeInsets.all(10),
-                                      content: SizedBox(
-                                        height: size.height / 3,
-                                        width: size.width,
-                                        child: GridView.count(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          crossAxisCount: 3,
-                                          children: [
-                                            ...List.generate(
-                                              123,
-                                              (index) => InkWell(
-                                                onTap: () {
-                                                  log("Selected Year ==> ${(2022 - index).toString()}");
-
-                                                  setState(() {
-                                                    vehicleMakeyeardate =
-                                                        " ${(2022 - index).toString()}";
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 0),
-                                                  child: Chip(
-                                                    label: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: Text(
-                                                        (2022 - index)
-                                                            .toString(),
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              width: 0, color: Colors.black),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ))),
+                                  child: DropDownField(
+                                    controller: selectedVehicleManufacturer,
+                                    hintText: "Select",
+                                    enabled: true,
+                                    items: data,
+                                    onValueChanged: (value) async {
+                                      selectVehicle = value;
+                                      print("Data of Selected Vehicle Name: " +selectVehicle);
+                                      _list2.clear();
+                                      FetchVehicleModel(selectVehicle);
+                                      setState(() async {
+                                        print(selectVehicle);
+                                      });
+                                    },
+                                  ),
+                                )),
+      
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: 'Vehicle Model : ',
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(17, 24, 66, 100),
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              width: 0, color: Colors.black),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ))),
+                                  child: DropDownField(
+                                    controller: selectedVehicleModel,
+                                    hintText: "Select",
+                                    enabled: true,
+                                    items: _list2,
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        selectVehicleModel = value;
+                                        print(selectVehicleModel);
+                                      });
+                                    },
+                                  ),
+                                )),
+      
+                            // SizedBox(
+                            //             width: 400,
+                            //             height: 55,
+                            //              child: TextField(
+      
+                            //               keyboardType: TextInputType.name,
+                            //               textAlign: TextAlign.center,
+      
+                            //                 decoration: InputDecoration(
+                            //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
+                            //                   iconColor:  Color.fromRGBO(17,24,66,100),
+                            //                 labelText: 'Vehicle Manufacturer :',
+                            //                 labelStyle: TextStyle(
+                            //                   color: Colors.black
+                            //                 ),
+      
+                            //                 enabledBorder: OutlineInputBorder(
+                            //                 borderSide: const BorderSide(width: 0, color: Colors.black),
+                            //                 borderRadius: BorderRadius.circular(15),
+      
+                            //                                ),
+                            //               focusedBorder: OutlineInputBorder(
+                            //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
+                            //               borderRadius: BorderRadius.circular(15),
+                            //                                )),
+                            //                                style: TextStyle(fontSize: 15),
+                            //                            ),
+                            //            ),
+                            // SizedBox(height: 10,),
+                            // SizedBox(
+                            //             width: 400,
+                            //             height: 55,
+                            //              child: TextField(
+      
+                            //               keyboardType: TextInputType.name,
+                            //               textAlign: TextAlign.center,
+      
+                            //                 decoration: InputDecoration(
+                            //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
+                            //                   iconColor:  Color.fromRGBO(17,24,66,100),
+                            //                 labelText: 'Ac Mainetance :',
+                            //                 labelStyle: TextStyle(
+                            //                   color: Colors.black
+                            //                 ),
+      
+                            //                 enabledBorder: OutlineInputBorder(
+                            //                 borderSide: const BorderSide(width: 0, color: Colors.black),
+                            //                 borderRadius: BorderRadius.circular(15),
+      
+                            //                                ),
+                            //               focusedBorder: OutlineInputBorder(
+                            //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
+                            //               borderRadius: BorderRadius.circular(15),
+                            //                                )),
+                            //                                style: TextStyle(fontSize: 15),
+                            //                            ),
+                            //            ),
+                            //             SizedBox(height: 10,),
+                            //          Padding(
+                            //           padding: EdgeInsets.only(left:5, right:5),
+      
+                            //           child: DropdownButtonFormField(
+      
+                            //             decoration:   InputDecoration(
+      
+                            //             filled: true,
+                            //              labelText: 'Reefer OEM : ',
+                            //              labelStyle: TextStyle(
+                            //               color: Color.fromRGBO(17,24,66,100),
+      
+                            //              ),
+                            //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
+                            //             Radius.circular(10.0),
+                            //   ))
+                            // ),
+                            //             isExpanded: true,
+      
+                            //             value: _selectedval4,
+                            //             items: _list4.map((e) =>
+                            //             DropdownMenuItem(child: Text(e),value: e,)
+                            //            ).toList()
+                            //           , onChanged: ((value) {
+                            //             setState(() {
+                            //               _selectedval4 = value as String;
+                            //             });
+      
+                            //           })),
+                            //         ),
+                            //         SizedBox(height: 10,),
+                            //          Padding(
+                            //           padding: EdgeInsets.only(left:5, right:5),
+      
+                            //           child: DropdownButtonFormField(
+      
+                            //             decoration:   InputDecoration(
+      
+                            //             filled: true,
+                            //              labelText: 'Reefer Make : ',
+                            //              labelStyle: TextStyle(
+                            //               color: Color.fromRGBO(17,24,66,100),
+      
+                            //              ),
+                            //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
+                            //             Radius.circular(10.0),
+                            //   ))
+                            // ),
+                            //             isExpanded: true,
+      
+                            //             value: _selectedval,
+                            //             items: _list.map((e) =>
+                            //             DropdownMenuItem(child: Text(e),value: e,)
+                            //            ).toList()
+                            //           , onChanged: ((value) {
+                            //             setState(() {
+                            //               _selectedval = value as String;
+                            //             });
+      
+                            //           })),
+                            //         ),
+      
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 400,
+                              height: 75,
+                              child: TextFormField(
+                                controller: selectedVehicleMake_year =
+                                    TextEditingController(
+                                        text: vehicleMakeyeardate),
+                                readOnly: true,
+                                onTap: () {
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      final Size size =
+                                          MediaQuery.of(context).size;
+                                      return AlertDialog(
+                                        title: Column(
+                                          children: const [
+                                            Text('Select a Year'),
+                                            Divider(
+                                              thickness: 1,
+                                            )
+                                          ],
+                                        ),
+                                        contentPadding: const EdgeInsets.all(10),
+                                        content: SizedBox(
+                                          height: size.height / 3,
+                                          width: size.width,
+                                          child: GridView.count(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            crossAxisCount: 3,
+                                            children: [
+                                              ...List.generate(
+                                                123,
+                                                (index) => InkWell(
+                                                  onTap: () {
+                                                    log("Selected Year ==> ${(2022 - index).toString()}");
+      
+                                                    setState(() {
+                                                      vehicleMakeyeardate =
+                                                          " ${(2022 - index).toString()}";
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 0),
+                                                    child: Chip(
+                                                      label: Container(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                5),
+                                                        child: Text(
+                                                          (2022 - index)
+                                                              .toString(),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.calendar_month,
-                                    size: 20,
-                                  ),
-                                  hintText: (_date.toString()),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'Vehicle Make Year :',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-                          // Padding(
-                          //     padding: EdgeInsets.only(left: 0, right: 0),
-                          //     child: InputDecorator(
-                          //       decoration: InputDecoration(
-                          //           filled: true,
-                          //           labelText: 'Vehicle Capacity : ',
-                          //           labelStyle: TextStyle(
-                          //             color: Color.fromRGBO(17, 24, 66, 100),
-                          //           ),
-                          //           border: OutlineInputBorder(
-                          //               borderSide: const BorderSide(
-                          //                   width: 0, color: Colors.black),
-                          //               borderRadius: BorderRadius.all(
-                          //                 Radius.circular(10.0),
-                          //               ))),
-                          //       child: DropDownField(
-                          //         controller: selectedVehicleCapacity,
-                          //         hintText: "Select",
-                          //         enabled: true,
-                          //         items: _list4,
-                          //         onValueChanged: (value) {
-                          //           setState(() {
-                          //             selectVehicleCapacity = value;
-                          //             print(selectVehicleCapacity);
-                          //           });
-                          //         },
-                          //       ),
-                          //     )),
-                          SizedBox(
-                            width: 400,
-                            height: 75,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.line_weight,
-                                    size: 20,
-                                  ),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'Vehicles Capacity in MT :',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          // Padding(
-                          //     padding: EdgeInsets.only(left: 0, right: 0),
-                          //     child: InputDecorator(
-                          //       decoration: InputDecoration(
-                          //           filled: true,
-                          //           labelText: 'Vehicle Size : ',
-                          //           labelStyle: TextStyle(
-                          //             color: Color.fromRGBO(17, 24, 66, 100),
-                          //           ),
-                          //           border: OutlineInputBorder(
-                          //               borderSide: const BorderSide(
-                          //                   width: 0, color: Colors.black),
-                          //               borderRadius: BorderRadius.all(
-                          //                 Radius.circular(10.0),
-                          //               ))),
-                          //       child: DropDownField(
-                          //         controller: selectedVehicleSize,
-                          //         hintText: "Select",
-                          //         enabled: true,
-                          //         items: _list4,
-                          //         onValueChanged: (value) {
-                          //           setState(() {
-                          //             selectVehicleSize = value;
-                          //             print(selectVehicleSize);
-                          //           });
-                          //         },
-                          //       ),
-                          //     )),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Container Inner Dimensions in Feet :",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      width: 100,
-                                      height: 75,
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                            labelText: 'Length :',
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  color: Colors.black),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  color: Color.fromARGB(
-                                                      255, 5, 10, 22)),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            )),
-                                        style: TextStyle(fontSize: 15),
-                                      ),
+                                      );
+                                    },
+                                  );
+                                },
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    prefix: Icon(
+                                      Icons.calendar_month,
+                                      size: 20,
                                     ),
-                                    SizedBox(
-                                      width: 10,
+                                    hintText: (_date.toString()),
+                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                    labelText: 'Vehicle Make Year :',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: SizedBox(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color: Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+      
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // Padding(
+                            //     padding: EdgeInsets.only(left: 0, right: 0),
+                            //     child: InputDecorator(
+                            //       decoration: InputDecoration(
+                            //           filled: true,
+                            //           labelText: 'Vehicle Capacity : ',
+                            //           labelStyle: TextStyle(
+                            //             color: Color.fromRGBO(17, 24, 66, 100),
+                            //           ),
+                            //           border: OutlineInputBorder(
+                            //               borderSide: const BorderSide(
+                            //                   width: 0, color: Colors.black),
+                            //               borderRadius: BorderRadius.all(
+                            //                 Radius.circular(10.0),
+                            //               ))),
+                            //       child: DropDownField(
+                            //         controller: selectedVehicleCapacity,
+                            //         hintText: "Select",
+                            //         enabled: true,
+                            //         items: _list4,
+                            //         onValueChanged: (value) {
+                            //           setState(() {
+                            //             selectVehicleCapacity = value;
+                            //             print(selectVehicleCapacity);
+                            //           });
+                            //         },
+                            //       ),
+                            //     )),
+                            SizedBox(
+                              width: 400,
+                              height: 75,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller:selectedVehicleCapacity,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    prefix: Icon(
+                                      Icons.line_weight,
+                                      size: 20,
+                                    ),
+                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                    labelText: 'Vehicles Capacity in MT :',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color: Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            // Padding(
+                            //     padding: EdgeInsets.only(left: 0, right: 0),
+                            //     child: InputDecorator(
+                            //       decoration: InputDecoration(
+                            //           filled: true,
+                            //           labelText: 'Vehicle Size : ',
+                            //           labelStyle: TextStyle(
+                            //             color: Color.fromRGBO(17, 24, 66, 100),
+                            //           ),
+                            //           border: OutlineInputBorder(
+                            //               borderSide: const BorderSide(
+                            //                   width: 0, color: Colors.black),
+                            //               borderRadius: BorderRadius.all(
+                            //                 Radius.circular(10.0),
+                            //               ))),
+                            //       child: DropDownField(
+                            //         controller: selectedVehicleSize,
+                            //         hintText: "Select",
+                            //         enabled: true,
+                            //         items: _list4,
+                            //         onValueChanged: (value) {
+                            //           setState(() {
+                            //             selectVehicleSize = value;
+                            //             print(selectVehicleSize);
+                            //           });
+                            //         },
+                            //       ),
+                            //     )),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black, width: 1),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Container Inner Dimensions in Feet :",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(
                                         width: 100,
                                         height: 75,
                                         child: TextField(
                                           keyboardType: TextInputType.number,
+                                          controller: length,
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
-                                              labelText: 'Width :',
-                                              labelStyle: TextStyle(
-                                                  color: Colors.black),
+                                              labelText: 'Length :',
+                                              labelStyle:
+                                                  TextStyle(color: Colors.black),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     width: 0,
@@ -1085,368 +1013,349 @@ Future FetchContainerMake() async {
                                           style: TextStyle(fontSize: 15),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    SizedBox(
-                                      width: 100,
-                                      height: 75,
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                            labelText: 'Height :',
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  color: Colors.black),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  color: Color.fromARGB(
-                                                      255, 5, 10, 22)),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            )),
-                                        style: TextStyle(fontSize: 15),
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Padding(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: SizedBox(
+                                          width: 100,
+                                          height: 75,
+                                          child: TextField(
+                                            keyboardType: TextInputType.number,
+                                            controller: width,
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                                labelText: 'Width :',
+                                                labelStyle: TextStyle(
+                                                    color: Colors.black),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      width: 0,
+                                                      color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      width: 0,
+                                                      color: Color.fromARGB(
+                                                          255, 5, 10, 22)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                )),
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      SizedBox(
+                                        width: 100,
+                                        height: 75,
+                                        child: TextField(
+                                          keyboardType: TextInputType.number,
+                                          controller:height,
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                              labelText: 'Height :',
+                                              labelStyle:
+                                                  TextStyle(color: Colors.black),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    width: 0,
+                                                    color: Colors.black),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    width: 0,
+                                                    color: Color.fromARGB(
+                                                        255, 5, 10, 22)),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              )),
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                    filled: true,
-                                    labelText: 'Reefer Unit Manufacturer :',
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(17, 24, 66, 100),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 0, color: Colors.black),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ))),
-                                child: DropDownField(
-                                  controller: selectedReeferUnitManufacturer,
-                                  hintText: "Select",
-                                  enabled: true,
-                                  items: reeferunitsp,
-                                  onValueChanged: (value) {
-                                    selectedVehicleReferUnit = value;
-                                    reeferUnitModelsp.clear();
-                                    FetchReeferUnitModel(selectedVehicleReferUnit);
-                                    
-                                    setState(() {
-                                    
-                                      print(selectedVehicleReferUnit);
-                                    });
-                                  },
-                                ),
-                              )),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                    filled: true,
-                                    labelText: 'Reefer Unit Model :',
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(17, 24, 66, 100),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 0, color: Colors.black),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ))),
-                                child: DropDownField(
-                                  controller: selectedReeferUnitModel,
-                                  hintText: "Select",
-                                  enabled: true,
-                                  items: reeferUnitModelsp,
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      selectedVehicleReferModel = value;
-                                      print(selectedVehicleReferModel);
-                                    });
-                                  },
-                                ),
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: 400,
-                            height: 75,
-                            child: TextFormField(
-                              controller: selectedReeferMakeYear =
-                                  TextEditingController(
-                                      text: refervehicleyeardate),
-                              readOnly: true,
-                              onTap: () {
-                                return showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    final Size size =
-                                        MediaQuery.of(context).size;
-                                    return AlertDialog(
-                                      title: Column(
-                                        children: const [
-                                          Text('Select a Year'),
-                                          Divider(
-                                            thickness: 1,
-                                          )
-                                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: 'Reefer Unit Manufacturer :',
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(17, 24, 66, 100),
                                       ),
-                                      contentPadding: const EdgeInsets.all(10),
-                                      content: SizedBox(
-                                        height: size.height / 3,
-                                        width: size.width,
-                                        child: GridView.count(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          crossAxisCount: 3,
-                                          children: [
-                                            ...List.generate(
-                                              123,
-                                              (index) => InkWell(
-                                                onTap: () {
-                                                  log("Selected Year ==> ${(2022 - index).toString()}");
-
-                                                  setState(() {
-                                                    refervehicleyeardate =
-                                                        " ${(2022 - index).toString()}";
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 0),
-                                                  child: Chip(
-                                                    label: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: Text(
-                                                        (2022 - index)
-                                                            .toString(),
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              width: 0, color: Colors.black),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ))),
+                                  child: DropDownField(
+                                    controller: selectedReeferUnitManufacturer,
+                                    hintText: "Select",
+                                    enabled: true,
+                                    items: reeferunitsp,
+                                    onValueChanged: (value) {
+                                      selectedVehicleReferUnit = value;
+                                      reeferUnitModelsp.clear();
+                                      FetchReeferUnitModel(selectedVehicleReferUnit);
+                                      
+                                      setState(() {
+                                      
+                                        print(selectedVehicleReferUnit);
+                                      });
+                                    },
+                                  ),
+                                )),
+      
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: 'Reefer Unit Model :',
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(17, 24, 66, 100),
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              width: 0, color: Colors.black),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ))),
+                                  child: DropDownField(
+                                    controller: selectedReeferUnitModel,
+                                    hintText: "Select",
+                                    enabled: true,
+                                    items: reeferUnitModelsp,
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        selectedVehicleReferModel = value;
+                                        print(selectedVehicleReferModel);
+                                      });
+                                    },
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: 400,
+                              height: 75,
+                              child: TextFormField(
+                                controller: selectedReeferMakeYear =
+                                    TextEditingController(
+                                        text: refervehicleyeardate),
+                                readOnly: true,
+                                onTap: () {
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      final Size size =
+                                          MediaQuery.of(context).size;
+                                      return AlertDialog(
+                                        title: Column(
+                                          children: const [
+                                            Text('Select a Year'),
+                                            Divider(
+                                              thickness: 1,
+                                            )
+                                          ],
+                                        ),
+                                        contentPadding: const EdgeInsets.all(10),
+                                        content: SizedBox(
+                                          height: size.height / 3,
+                                          width: size.width,
+                                          child: GridView.count(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            crossAxisCount: 3,
+                                            children: [
+                                              ...List.generate(
+                                                123,
+                                                (index) => InkWell(
+                                                  onTap: () {
+                                                    log("Selected Year ==> ${(2022 - index).toString()}");
+      
+                                                    setState(() {
+                                                      refervehicleyeardate =
+                                                          " ${(2022 - index).toString()}";
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 0),
+                                                    child: Chip(
+                                                      label: Container(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                5),
+                                                        child: Text(
+                                                          (2022 - index)
+                                                              .toString(),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.calendar_month,
-                                    size: 20,
-                                  ),
-                                  hintText: (_date.toString()),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'Reefer Make Year :',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
-                              child: InputDecorator(
+                                      );
+                                    },
+                                  );
+                                },
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
                                 decoration: InputDecoration(
-                                    filled: true,
-                                    labelText: 'Container Make :',
-                                    labelStyle: TextStyle(
-                                      color: Color.fromRGBO(17, 24, 66, 100),
+                                    prefix: Icon(
+                                      Icons.calendar_month,
+                                      size: 20,
                                     ),
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            width: 0, color: Colors.black),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ))),
-                                child: DropDownField(
-                                  controller: selectedContainerMake,
-                                  hintText: "Select",
-                                  enabled: true,
-                                  items: _list8,
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      selectedVehicleContainerMake = value;
-                                      print(selectedVehicleContainerMake);
-                                    });
-                                  },
-                                ),
-                              )),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 400,
-                            height: 65,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.numbers,
-                                    size: 20,
-                                  ),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'No.of Vehicles :',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          SizedBox(
-                            width: 400,
-                            height: 65,
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.numbers,
-                                    size: 20,
-                                  ),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'Vehicle Number :',
-                                  hintText: 'Example: MH 01 CS 7859, MH 01 TL 1234',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          ButtonTheme(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              child: ElevatedButtonTheme(
-                                data: ElevatedButtonThemeData(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize: Size(120.0, 50),
-                                    primary: Color.fromRGBO(17, 24, 66,
-                                        40), // Sets color for all the descendent ElevatedButtons
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6.0))),
-                                  ),
-                                ),
-                                child: ElevatedButton(
-                                  child: Text(' +  AddMore '),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: ((context) =>
-                                                FleetDetails())));
-                                  },
-                                ),
+                                    hintText: (_date.toString()),
+                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                    labelText: 'Reefer Make Year :',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color: Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    Text(
-                      "--------------------OR--------------------",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 11, 11, 22),
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
-                          child: Expanded(
-                            // optional flex property if flex is 1 because the default flex is 1
-                            flex: 1,
-                            child: SizedBox(
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: 'Container Make :',
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(17, 24, 66, 100),
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              width: 0, color: Colors.black),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ))),
+                                  child: DropDownField(
+                                    controller: selectedContainerMake,
+                                    hintText: "Select",
+                                    enabled: true,
+                                    items: _list8,
+                                    onValueChanged: (value) {
+                                      setState(() {
+                                        selectedVehicleContainerMake = value;
+                                        print(selectedVehicleContainerMake);
+                                      });
+                                    },
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 400,
+                              height: 65,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller:_Edt_No_of_Vehicles,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    prefix: Icon(
+                                      Icons.numbers,
+                                      size: 20,
+                                    ),
+                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                    labelText: 'No.of Vehicles :',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color: Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            SizedBox(
+                              width: 400,
+                              height: 65,
+                              child: TextField(
+                                keyboardType: TextInputType.text,
+                                controller:_Edt_VehicleNumber,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    prefix: Icon(
+                                      Icons.numbers,
+                                      size: 20,
+                                    ),
+                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
+                                    labelText: 'Vehicle Number :',
+                                    hintText: 'Example: MH 01 CS 7859, MH 01 TL 1234',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0,
+                                          color: Color.fromARGB(255, 5, 10, 22)),
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            ButtonTheme(
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                                 child: ElevatedButtonTheme(
                                   data: ElevatedButtonThemeData(
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(120.0, 60),
+                                      minimumSize: Size(120.0, 50),
                                       primary: Color.fromRGBO(17, 24, 66,
                                           40), // Sets color for all the descendent ElevatedButtons
                                       shape: RoundedRectangleBorder(
@@ -1455,7 +1364,7 @@ Future FetchContainerMake() async {
                                     ),
                                   ),
                                   child: ElevatedButton(
-                                    child: Text(' Upload With Excel '),
+                                    child: Text(' +  AddMore '),
                                     onPressed: () {
                                       Navigator.push(
                                           context,
@@ -1467,15 +1376,36 @@ Future FetchContainerMake() async {
                                 ),
                               ),
                             ),
-                          ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
-                          child: SizedBox(
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      Text(
+                        "--------------------OR--------------------",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 11, 11, 22),
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
                             child: Expanded(
                               // optional flex property if flex is 1 because the default flex is 1
                               flex: 1,
-                              child: ButtonTheme(
+                              child: SizedBox(
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                                   child: ElevatedButtonTheme(
@@ -1490,12 +1420,13 @@ Future FetchContainerMake() async {
                                       ),
                                     ),
                                     child: ElevatedButton(
-                                      child: Text(' Next '),
+                                      child: Text(' Upload With Excel '),
                                       onPressed: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: ((context) => FaQ())));
+                                                builder: ((context) =>
+                                                    FleetDetails())));
                                       },
                                     ),
                                   ),
@@ -1503,10 +1434,46 @@ Future FetchContainerMake() async {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: SizedBox(
+                              child: Expanded(
+                                // optional flex property if flex is 1 because the default flex is 1
+                                flex: 1,
+                                child: ButtonTheme(
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                    child: ElevatedButtonTheme(
+                                      data: ElevatedButtonThemeData(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(120.0, 60),
+                                          primary: Color.fromRGBO(17, 24, 66,
+                                              40), // Sets color for all the descendent ElevatedButtons
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.0))),
+                                        ),
+                                      ),
+                                      child: ElevatedButton(
+                                        child: Text(' Next '),
+                                        onPressed: () {
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: ((context) => _submit())));
+                                          _submit();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1514,6 +1481,70 @@ Future FetchContainerMake() async {
         ),
       ),
     );
+  }
+  
+  _submit() {
+
+
+      final isValid = _formKey.currentState.validate();
+       LoginScreenModel logindata = widget.loginScreenModel;
+       logindata = LoginScreenModel(
+
+    mobilenum: widget.loginScreenModel.mobilenum,
+
+
+    companyname: widget.loginScreenModel.companyname,
+    companytype: widget.loginScreenModel.companytype,
+    businesstype: widget.loginScreenModel.businesstype,
+    address1: widget.loginScreenModel.address1,
+    address2: widget.loginScreenModel.address2,
+    pincode: widget.loginScreenModel.pincode,
+    city: widget.loginScreenModel.city,
+    state: widget.loginScreenModel.state,
+    country: widget.loginScreenModel.country,
+
+
+    firstname: widget.loginScreenModel.firstname,
+    lastname:  widget.loginScreenModel.lastname,
+    registeredmobilenum:  widget.loginScreenModel.registeredmobilenum,
+    alternativemobilenum :  widget.loginScreenModel.alternativemobilenum,
+    emailaddress:  widget.loginScreenModel.emailaddress,
+    designation:  widget.loginScreenModel.designation,
+    pancardno:  widget.loginScreenModel.pancardno,
+    pancardimg:  widget.loginScreenModel.pancardimg,
+    cancelchequeno: widget.loginScreenModel.cancelchequeno,
+    cancelchequeimg: widget.loginScreenModel.cancelchequeimg,
+    gstno : widget.loginScreenModel.gstno,
+    gstnoimg : widget.loginScreenModel.gstnoimg,
+    fssailicenseno:  widget.loginScreenModel.fssailicenseno,
+    fssaillicenseimg: widget.loginScreenModel.fssaillicenseimg,
+    businesscardno: widget.loginScreenModel.businesscardno,
+    businesscardnoimg: widget.loginScreenModel.businesscardnoimg,
+    otherscardno:  widget.loginScreenModel.otherscardno,
+    otherscardnoimg: widget.loginScreenModel.otherscardnoimg,
+
+    vehiclemanufacturer:selectedVehicleManufacturer.text,
+    vehiclemodel: selectedVehicleModel.text,
+    vehiclemakeyear: vehicleMakeyeardate,
+    vehiclecapactity:selectedVehicleCapacity.text,
+    length:length.text,
+    width:width.text,
+    height:height.text,
+    reeferunitmanufacture: selectedReeferUnitManufacturer.text,
+    reeferunitmodel: selectedReeferUnitModel.text,
+    reefermakeyear: selectedReeferMakeYear.text,
+    containermake: selectedContainerMake.text,
+    no_of_vehicles:_Edt_No_of_Vehicles.text,
+    vehiclenum:_Edt_VehicleNumber.text
+
+    );
+    
+    if(isValid)
+    {
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
+    }
+
   }
 }
 

@@ -5,35 +5,29 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
+import 'package:referon/screens/login_screen.dart';
 import 'package:referon/screens/personel_details.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class LoginScreenModel
-{
-  String mobilenum;
-  
-
-  LoginScreenModel(
-      {
-      this.mobilenum});
-}
-
 
 class VerifyMe extends StatefulWidget {
 
   //fetching from LoginScreen
-  // var phonenumber;
-  // VerifyMe({Key mykey,this.phonenumber}) : super(key: mykey);
+  LoginScreenModel loginScreenModel;
 
-  String str_mobilenumber = '';
-  
+   VerifyMe(
+      {Key key, this.loginScreenModel})
+      : super(key: key);
+
+
 
   @override
   State<VerifyMe> createState() => _VerifyMeState();
 } 
+
+
 
 
 
@@ -42,28 +36,26 @@ class _VerifyMeState extends State<VerifyMe> {
   String text = "";
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
+  LoginScreenModel loginData;
   String Language = 'English';
   void _sumbit() {
-     
+     print(widget.loginScreenModel.mobilenum);
+     loginData = widget.loginScreenModel;
+     print("Login data ${loginData.mobilenum}");
       // String mobilenum = "${widget.phonenumber}";
       // print("Mobile Number "+mobilenum);
 
     final isValid = _formKey.currentState.validate();
    
     if (isValid) {
-     
+
+
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => CompanyDetails())));
+          context, MaterialPageRoute(builder: ((context) => CompanyDataForm(loginScreenModel:loginData))));
     }
     _formKey.currentState.save();
   }
 
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
