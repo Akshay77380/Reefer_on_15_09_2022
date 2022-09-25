@@ -4,42 +4,66 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
 import 'package:referon/screens/personel_details.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LoginScreenModel
+{
+  String mobilenum;
+  
+
+  LoginScreenModel(
+      {
+      this.mobilenum});
+}
+
 
 class VerifyMe extends StatefulWidget {
-  
-  // data Coming from LoginScreenPage 
- 
-VerifyMe({Key key, String mobilenumber}) : super(key: key);
+
+  //fetching from LoginScreen
+  // var phonenumber;
+  // VerifyMe({Key mykey,this.phonenumber}) : super(key: mykey);
+
+  String str_mobilenumber = '';
   
 
   @override
   State<VerifyMe> createState() => _VerifyMeState();
-}
+} 
 
-enum BestTutorSite { javatpoint, w3schools, tutorialandexample }
+
 
 class _VerifyMeState extends State<VerifyMe> {
-   String mobilenumber;
-
   OtpFieldController otpController = OtpFieldController();
   String text = "";
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
   String Language = 'English';
-  
   void _sumbit() {
+     
+      // String mobilenum = "${widget.phonenumber}";
+      // print("Mobile Number "+mobilenum);
+
     final isValid = _formKey.currentState.validate();
+   
     if (isValid) {
+     
       Navigator.push(
           context, MaterialPageRoute(builder: ((context) => CompanyDetails())));
     }
     _formKey.currentState.save();
   }
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,7 +99,7 @@ class _VerifyMeState extends State<VerifyMe> {
                             child: Image.asset('assets/images/logo.png',
                                 height: 180, width: 150)),
                         Text(
-                          "Confirm OTP $mobilenumber",
+                          "Confirm OTP ",
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,
@@ -164,7 +188,7 @@ class _VerifyMeState extends State<VerifyMe> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(8.0))),
                                 ),
-                              ),
+                              ), 
                               child: ElevatedButton(
                                 child: Text('Confirm'),
                                 onPressed: () 
