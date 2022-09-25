@@ -14,16 +14,19 @@ import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ContactDetails extends StatefulWidget {
-  const ContactDetails({Key key}) : super(key: key);
+
+  var str_mobilenum,str_companyname,str_companytype,str_businesstype,str_address1,str_address2,str_landmark,str_pincode,str_city,str_state,str_country;
+  
+  ContactDetails({Key key, String str_mobilenum,String str_companyname,String str_companytype,String str_businesstype,String str_address1,String str_address2,String str_landmark,String str_pincode,String str_city,String str_state,String str_country}): super(key: key); 
 
   @override
   State<ContactDetails> createState() => _ContactDetailsState();
 }
-
 class _ContactDetailsState extends State<ContactDetails> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: ContactForm(),
@@ -39,6 +42,8 @@ class ContactForm extends StatefulWidget {
 }
 
 class _ContactFormState extends State<ContactForm> {
+
+  
   final _Edt_firstname = TextEditingController();
   final _Edt_lastname = TextEditingController();
   final _Edt_contactnumber = TextEditingController();
@@ -52,6 +57,23 @@ class _ContactFormState extends State<ContactForm> {
   final _Edt_otherscard = TextEditingController();
   String _errorMessage = '';
 
+  var
+      mobilenum,
+      company_code,
+      company_name,
+      first_name,
+      last_name,
+      contact_num,
+      emailid,
+      address1,
+      address2,
+      pincode_data,
+      city_data,
+      region_data,
+      country_data,
+      firstname,
+      lastname,
+      registeredmobilenum;
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
@@ -179,7 +201,10 @@ class _ContactFormState extends State<ContactForm> {
   // }
 
   void _sumbit() {
+ 
+
     final isValid = _formKey.currentState.validate();
+
     if (isValid) {
       Navigator.push(
           context, MaterialPageRoute(builder: ((context) => FleetDetails())));
