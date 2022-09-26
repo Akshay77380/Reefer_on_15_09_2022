@@ -845,6 +845,8 @@ class _FaqDetailsState extends State<FaqDetails> {
 
   void onSubmit()async{
 
+
+// updated data 
      LoginScreenModel logindata = widget.loginScreenModel;
        logindata = LoginScreenModel(
 
@@ -903,10 +905,9 @@ class _FaqDetailsState extends State<FaqDetails> {
     preferedvehicleoem:selectedPreferredVehicleOEM.text,
     preferedtyreoem:selectedPreferredTyreOEM.text,
     preferedreeferoem:selectedPreferredReeferOEM.text
-
-      
     );
-    http.Response response =  await http.post(Uri.parse("http://neotech.v-cloud.in/referonapi/submitApi"), body: jsonEncode({
+
+    print(jsonEncode({
     "CompanyName":logindata.companyname,
     "firstName":logindata.firstname,
     "lastName":logindata.lastname,
@@ -924,7 +925,7 @@ class _FaqDetailsState extends State<FaqDetails> {
     "year":logindata.vehiclemakeyear,
     "CompanyType":logindata.companytype,
     "BusinessType":logindata.businesstype,
-    "VendorType":'ReeferOn',
+    "VendorType":"",
     "PreferredInsurance":logindata.preferedinsurancepartner,
     "PreferredFuel":logindata.preferedfuelpartner,
     "PreferredContainer":logindata.preferedcontaineroem,
@@ -944,6 +945,64 @@ class _FaqDetailsState extends State<FaqDetails> {
     "Region":logindata.city,
     "StateName":logindata.state,
     "CountryName":logindata.country,
+
+    "vehicleManufacturer":logindata.vehiclemanufacturer,
+    "vehicleModel":logindata.vehiclemodel,
+    "vehicleMAkeYear":logindata.vehiclemakeyear,
+    "VehicleCapMT":logindata.vehiclecapactity,
+    "reeferUnitModel":logindata.reeferunitmodel,
+    "reeferMakeYear":logindata.reefermakeyear,
+    "containerMake":logindata.containermake,
+    "vehicleCount":logindata.no_of_vehicles
+ 
+}));
+
+    
+
+    http.Response response =  await http.post(Uri.parse("http://neotech.v-cloud.in/referonapi/submitApi"),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     body: jsonEncode({
+    "CompanyName":logindata.companyname,
+    "firstName":logindata.firstname,
+    "lastName":logindata.lastname,
+    "contact":logindata.mobilenum,
+    "altcontact":logindata.alternativemobilenum,
+    "emailid":logindata.emailaddress,
+    "landmark":logindata.landmark,
+    "Address1":logindata.address1,
+    "Address2":logindata.address2,
+    "Designation":logindata.designation,
+    "pincode":logindata.pincode,
+    "city":logindata.city,
+    "panNo":logindata.pancardno,
+    "PanImg":logindata.pancardimg,
+    "year":logindata.vehiclemakeyear,
+    "CompanyType":logindata.companytype,
+    "BusinessType":logindata.businesstype,
+    "VendorType":"",
+    "PreferredInsurance":logindata.preferedinsurancepartner,
+    "PreferredFuel":logindata.preferedfuelpartner,
+    "PreferredContainer":logindata.preferedcontaineroem,
+    "PreferredVehicle":logindata.preferedvehicleoem,
+    "PreferredTyreOEM":logindata.preferedtyreoem,
+    "PreferredReeferOEM":logindata.preferedreeferoem,
+    "CancelChequeNo":logindata.cancelchequeno,
+    "CancelChequeIMG":logindata.cancelchequeimg,
+    "GstNo":logindata.gstno,
+    "GSTImg":logindata.gstnoimg,
+    "FSSAILicNo":logindata.fssailicenseno,
+    "FSSAIImg":logindata.fssaillicenseimg,
+    "BusinessCard":logindata.businesscardno,
+    "BusinessImg":logindata.businesscardnoimg,
+    "OtherDoc":logindata.otherscardno,
+    "OtherDocImg":logindata.otherscardnoimg,
+    "Region":logindata.city,
+    "StateName":logindata.state,
+    "CountryName":logindata.country,
+
     "vehicleManufacturer":logindata.vehiclemanufacturer,
     "vehicleModel":logindata.vehiclemodel,
     "vehicleMAkeYear":logindata.vehiclemakeyear,
@@ -956,6 +1015,54 @@ class _FaqDetailsState extends State<FaqDetails> {
 }));
 
 print("Response body${response.body}");
+// print("Saved Data:"+
+//         "Company Name:"+logindata.companyname+
+//        "firstName :"+logindata.firstname+
+//        "lastname :"+logindata.lastname+
+//        "contact :"+logindata.mobilenum+
+//        "altcontact :"+logindata.alternativemobilenum+
+//        "emailid :"+logindata.emailaddress+
+//        "landmark :"+logindata.landmark+
+//        "Address1 :"+logindata.address1+
+//        "Address2 :"+logindata.address2+
+//        "Designatoin:"+logindata.designation+
+//        "pincode:"+logindata.pincode+
+//        "city :"+logindata.city+
+//        "panNo :"+logindata.pancardno+
+//        "panImg :"+logindata.pancardimg+
+//        "year :"+logindata.vehiclemakeyear+
+//        "company Type :"+logindata.companytype+
+//        "business Type :"+logindata.businesstype+
+//        "vendor type :"+"Reeferon"+
+//        "preferred Insurance :"+logindata.preferedinsurancepartner+
+//        "prefered fuel :"+logindata.preferedfuelpartner+
+//        "prefered Container :"+logindata.preferedcontaineroem+
+//        "prefered Vehicle :"+logindata.preferedvehicleoem+
+//        "prefered Tyreoem:"+logindata.preferedtyreoem+
+//        "prefered Reefer oem :"+logindata.preferedreeferoem+
+//        "Cancel cheque no:"+logindata.cancelchequeno+
+//        "Cancel Cheque Img :"+logindata.cancelchequeimg+
+//        "Gst no :"+logindata.gstno+
+//        "Gst img :"+logindata.gstnoimg+
+//        "Fssai license no:"+logindata.fssailicenseno+
+//        "Fssai Img : "+logindata.fssaillicenseimg+
+//        "business card :"+logindata.businesscardno+
+//        "business img :"+logindata.businesscardnoimg+
+//        "other doc no:"+logindata.otherscardno+
+//        "other doc img :"+logindata.otherscardnoimg+
+//        "region :"+logindata.city+
+//        "state :"+logindata.state+
+//        "Country :"+logindata.country+
+//        "vehicle manufacture:"+logindata.vehiclemanufacturer+
+//        "vehicle model :"+logindata.vehiclemodel+
+//        "vehicle make year :"+logindata.vehiclemakeyear+
+//        "vehicle capacity :"+logindata.vehiclecapactity+
+//        "reefer unit model :"+logindata.reeferunitmodel+
+//        "reefer make year :"+logindata.reefermakeyear+
+//        "container make "+logindata.containermake+
+//        "vehicle count :"+logindata.no_of_vehicles 
+
+//     );
 
       // Navigator.push(
       //                                 context,
