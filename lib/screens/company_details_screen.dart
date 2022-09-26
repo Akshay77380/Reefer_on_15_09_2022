@@ -1,3 +1,4 @@
+import 'package:referon/models/login_model.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -17,9 +18,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/src/widgets/form.dart';
 import 'package:referon/utils/Common.dart';
 
-class CompanyDetails extends StatefulWidget {
-  const CompanyDetails({Key key}) : super(key: key);
+import 'login_screen.dart';
 
+class CompanyDetails extends StatefulWidget {
+  // var phonenumber;
+   var loginScreenMode;
+  CompanyDetails({Key key, this.loginScreenMode}) : super(key: key);
   @override
   State<CompanyDetails> createState() => _CompanyDetailsState();
 }
@@ -27,6 +31,7 @@ class CompanyDetails extends StatefulWidget {
 class _CompanyDetailsState extends State<CompanyDetails> {
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
@@ -36,16 +41,24 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 }
 
 class CompanyDataForm extends StatefulWidget {
+   LoginScreenModel loginScreenModel;
+   CompanyDataForm({Key key, this.loginScreenModel}) : super(key: key);
+
+  
   @override
   State<CompanyDataForm> createState() => _CompanyDataFormState();
 }
 
 class _CompanyDataFormState extends State<CompanyDataForm>
     with SingleTickerProviderStateMixin {
+      
   PostOffice _pincodeApi;
   List<PostOffice> responseString = [];
   var city, state, country;
-  var company_code,
+  
+  var
+      mobilenum,
+      company_code,
       company_name,
       first_name,
       last_name,
@@ -61,14 +74,17 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
 
+
+
   final _Edt_CompanyName = TextEditingController();
   var _Edt_Address1 = TextEditingController();
   var _Edt_Address2 = TextEditingController();
+  var _Edt_Landmark = TextEditingController();
   var _Edt_pincode = TextEditingController();
   var _Edt_city = TextEditingController();
   var _Edt_State = TextEditingController();
   var _Edt_Country = TextEditingController();
-
+  LoginScreenModel loginData = LoginScreenModel();
   List<String> data = ["New"];
 
   List CompanyType = [];
@@ -82,17 +98,34 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   FocusNode _focusNode = FocusNode();
 
   void _sumbit() {
+       
+loginData = LoginScreenModel(mobilenum: widget.loginScreenModel.mobilenum, companyname: selectedCompanyName.text,
+companytype: _selectedval,
+businesstype: _selectedval2,
+address1: _Edt_Address1.text,
+address2: _Edt_Address2.text,
+landmark:  _Edt_Landmark.text,
+pincode: _Edt_pincode.text,
+city: _Edt_city.text,
+state: _Edt_State.text,
+country: _Edt_Country.text
+);
+print("Company Details:"+loginData.mobilenum);
     final isValid = _formKey.currentState.validate();
+    
+    if (_selectedval == null || _selectedval == "Select") 
+    {
 
-    if (_selectedval == null || _selectedval == "Select") {
       setState(() => _dropdownError = "Company Type Cannot be Empty");
+
     }
-    if (_selectedval2 == null || _selectedval2 == "Select") {
+    if (_selectedval2 == null || _selectedval2 == "Select") 
+    {
       setState(() => _dropdownError = "Business Type Cannot be Empty");
     }
-    if (isValid) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => ContactDetails())));
+    if (isValid) 
+    {
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactForm(loginScreenModel: loginData))));
     }
     _formKey.currentState.save();
   }
@@ -103,12 +136,14 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   @override
   void initState() {
     super.initState();
-
+    loginData = widget.loginScreenModel;
+    print("Contanct num ${widget.loginScreenModel}");
     // fetch pincode here
     FetchCompanyNameList();
     FetchCompanyTypeList();
     FetchBusinessTypeList();
   }
+
 
   Future getPincode(String pincode) async {
     var response = await http
@@ -192,6 +227,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   _CompanyDataFormState() {
     _selectedval = _list[0];
     _selectedval2 = _list[0];
+    
+
   }
 
   int _counter = 0;
@@ -199,7 +236,8 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   String _dropdownError = "";
   String _selectedCompanytype;
   String selectedSalutation;
-
+ 
+  
   final _list = [
     "Select",
     "Sole Proprietor",
@@ -211,9 +249,10 @@ class _CompanyDataFormState extends State<CompanyDataForm>
 
   String _selectedval2 = "";
   final _list2 = ["Select", "Fleet Owner", "Aggregator", "Both"];
-
+  
   @override
   Widget build(BuildContext context) {
+    
     return WillPopScope(
       onWillPop: () {
         moveToLastScreen();
@@ -712,6 +751,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
+                          controller: _Edt_Landmark,
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.map,
@@ -719,6 +759,7 @@ class _CompanyDataFormState extends State<CompanyDataForm>
                               ),
                               iconColor: Color.fromRGBO(17, 24, 66, 100),
                               labelText: 'Landmark :',
+                              
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(

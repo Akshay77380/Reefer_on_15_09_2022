@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/dashBoard_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:referon/utils/Common.dart';
@@ -12,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:dropdownfield/dropdownfield.dart';
 
 class FaQ extends StatefulWidget {
+
   const FaQ({Key key}) : super(key: key);
 
   @override
@@ -30,13 +32,20 @@ class _FaQState extends State<FaQ> {
 }
 
 class FaqDetails extends StatefulWidget {
-  const FaqDetails({Key key}) : super(key: key);
+
+   LoginScreenModel loginScreenModel;
+   FaqDetails({Key key, this.loginScreenModel}) : super(key: key);
 
   @override
   State<FaqDetails> createState() => _FaqDetailsState();
 }
 
 class _FaqDetailsState extends State<FaqDetails> {
+
+   final _formKey2= GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  FocusNode _focusNode = FocusNode();
+
   _FaqDetailsState() {
     _selectedval = _list[0];
     _selectedval2 = _list2[0];
@@ -390,9 +399,7 @@ class _FaqDetailsState extends State<FaqDetails> {
 
   bool viewVisible = false;
 
-  final _formKey = GlobalKey<FormState>();
-  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  FocusNode _focusNode = FocusNode();
+ 
   final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
   final _Edt_CompanyName = TextEditingController();
@@ -400,7 +407,7 @@ class _FaqDetailsState extends State<FaqDetails> {
   @override
   void initState() {
     super.initState();
-
+     print("InSide faq Details: ${widget.loginScreenModel.vehiclemanufacturer}");
     FetchPreferedBankingList();
     FetchFastTagList();
     FetchinsuranceList();
@@ -409,7 +416,10 @@ class _FaqDetailsState extends State<FaqDetails> {
     FetchvehicleoemList();
     FetchtyreoemList();
     FetchreeferoemList();
+
+    
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +436,7 @@ class _FaqDetailsState extends State<FaqDetails> {
           ),
           backgroundColor: Colors.white,
           body: Form(
-            key: _formKey,
+            key: _formKey2,
             child: Container(
               decoration: BoxDecoration(
 
@@ -813,10 +823,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                               child: ElevatedButton(
                                 child: Text(' Submit '),
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) => DashBoard())));
+                                onSubmit();
                                 },
                               ),
                             ),
@@ -834,5 +841,232 @@ class _FaqDetailsState extends State<FaqDetails> {
 
   void moveToLastScreen() {
     Navigator.pop(context);
+  }
+
+  void onSubmit()async{
+
+
+// updated data 
+     LoginScreenModel logindata = widget.loginScreenModel;
+       logindata = LoginScreenModel(
+
+    mobilenum: widget.loginScreenModel.mobilenum,
+
+
+    companyname: widget.loginScreenModel.companyname,
+    companytype: widget.loginScreenModel.companytype,
+    businesstype: widget.loginScreenModel.businesstype,
+    address1: widget.loginScreenModel.address1,
+    address2: widget.loginScreenModel.address2,
+    pincode: widget.loginScreenModel.pincode,
+    city: widget.loginScreenModel.city,
+    state: widget.loginScreenModel.state,
+    country: widget.loginScreenModel.country,
+
+
+    firstname: widget.loginScreenModel.firstname,
+    lastname:  widget.loginScreenModel.lastname,
+    registeredmobilenum:  widget.loginScreenModel.registeredmobilenum,
+    alternativemobilenum :  widget.loginScreenModel.alternativemobilenum,
+    emailaddress:  widget.loginScreenModel.emailaddress,
+    designation:  widget.loginScreenModel.designation,
+    pancardno:  widget.loginScreenModel.pancardno,
+    pancardimg:  widget.loginScreenModel.pancardimg,
+    cancelchequeno: widget.loginScreenModel.cancelchequeno,
+    cancelchequeimg: widget.loginScreenModel.cancelchequeimg,
+    gstno : widget.loginScreenModel.gstno,
+    gstnoimg : widget.loginScreenModel.gstnoimg,
+    fssailicenseno:  widget.loginScreenModel.fssailicenseno,
+    fssaillicenseimg: widget.loginScreenModel.fssaillicenseimg,
+    businesscardno: widget.loginScreenModel.businesscardno,
+    businesscardnoimg: widget.loginScreenModel.businesscardnoimg,
+    otherscardno:  widget.loginScreenModel.otherscardno,
+    otherscardnoimg: widget.loginScreenModel.otherscardnoimg,
+
+    vehiclemanufacturer: widget.loginScreenModel.vehiclemanufacturer,
+    vehiclemodel:widget.loginScreenModel.vehiclemodel,
+    vehiclemakeyear: widget.loginScreenModel.vehiclemakeyear,
+    vehiclecapactity:widget.loginScreenModel.vehiclecapactity,
+    length:widget.loginScreenModel.length,
+    width:widget.loginScreenModel.width,
+    height:widget.loginScreenModel.height,
+    reeferunitmanufacture: widget.loginScreenModel.reeferunitmanufacture,
+    reeferunitmodel: widget.loginScreenModel.reeferunitmodel,
+    reefermakeyear: widget.loginScreenModel.reefermakeyear,
+    containermake: widget.loginScreenModel.containermake,
+    no_of_vehicles:widget.loginScreenModel.no_of_vehicles,
+    vehiclenum:widget.loginScreenModel.vehiclenum,
+
+    preferredbankingpartner:selectedPreferredBankingPartner.text,
+    preferedfast_tagpartner:selectedPreferredFastTagPartner.text,
+    preferedinsurancepartner:selectedPreferredInsurancePartner.text,
+    preferedfuelpartner:selectedPreferredFuelPartner.text,
+    preferedcontaineroem:selectedPreferredContainerOEM.text,
+    preferedvehicleoem:selectedPreferredVehicleOEM.text,
+    preferedtyreoem:selectedPreferredTyreOEM.text,
+    preferedreeferoem:selectedPreferredReeferOEM.text
+    );
+
+    print(jsonEncode({
+    "CompanyName":logindata.companyname,
+    "firstName":logindata.firstname,
+    "lastName":logindata.lastname,
+    "contact":logindata.mobilenum,
+    "altcontact":logindata.alternativemobilenum,
+    "emailid":logindata.emailaddress,
+    "landmark":logindata.landmark,
+    "Address1":logindata.address1,
+    "Address2":logindata.address2,
+    "Designation":logindata.designation,
+    "pincode":logindata.pincode,
+    "city":logindata.city,
+    "panNo":logindata.pancardno,
+    "PanImg":logindata.pancardimg,
+    "year":logindata.vehiclemakeyear,
+    "CompanyType":logindata.companytype,
+    "BusinessType":logindata.businesstype,
+    "VendorType":"",
+    "PreferredInsurance":logindata.preferedinsurancepartner,
+    "PreferredFuel":logindata.preferedfuelpartner,
+    "PreferredContainer":logindata.preferedcontaineroem,
+    "PreferredVehicle":logindata.preferedvehicleoem,
+    "PreferredTyreOEM":logindata.preferedtyreoem,
+    "PreferredReeferOEM":logindata.preferedreeferoem,
+    "CancelChequeNo":logindata.cancelchequeno,
+    "CancelChequeIMG":logindata.cancelchequeimg,
+    "GstNo":logindata.gstno,
+    "GSTImg":logindata.gstnoimg,
+    "FSSAILicNo":logindata.fssailicenseno,
+    "FSSAIImg":logindata.fssaillicenseimg,
+    "BusinessCard":logindata.businesscardno,
+    "BusinessImg":logindata.businesscardnoimg,
+    "OtherDoc":logindata.otherscardno,
+    "OtherDocImg":logindata.otherscardnoimg,
+    "Region":logindata.city,
+    "StateName":logindata.state,
+    "CountryName":logindata.country,
+
+    "vehicleManufacturer":logindata.vehiclemanufacturer,
+    "vehicleModel":logindata.vehiclemodel,
+    "vehicleMAkeYear":logindata.vehiclemakeyear,
+    "VehicleCapMT":logindata.vehiclecapactity,
+    "reeferUnitModel":logindata.reeferunitmodel,
+    "reeferMakeYear":logindata.reefermakeyear,
+    "containerMake":logindata.containermake,
+    "vehicleCount":logindata.no_of_vehicles
+ 
+}));
+
+    
+
+    http.Response response =  await http.post(Uri.parse("http://neotech.v-cloud.in/referonapi/submitApi"),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     body: jsonEncode({
+    "CompanyName":logindata.companyname,
+    "firstName":logindata.firstname,
+    "lastName":logindata.lastname,
+    "contact":logindata.mobilenum,
+    "altcontact":logindata.alternativemobilenum,
+    "emailid":logindata.emailaddress,
+    "landmark":logindata.landmark,
+    "Address1":logindata.address1,
+    "Address2":logindata.address2,
+    "Designation":logindata.designation,
+    "pincode":logindata.pincode,
+    "city":logindata.city,
+    "panNo":logindata.pancardno,
+    "PanImg":logindata.pancardimg,
+    "year":logindata.vehiclemakeyear,
+    "CompanyType":logindata.companytype,
+    "BusinessType":logindata.businesstype,
+    "VendorType":"",
+    "PreferredInsurance":logindata.preferedinsurancepartner,
+    "PreferredFuel":logindata.preferedfuelpartner,
+    "PreferredContainer":logindata.preferedcontaineroem,
+    "PreferredVehicle":logindata.preferedvehicleoem,
+    "PreferredTyreOEM":logindata.preferedtyreoem,
+    "PreferredReeferOEM":logindata.preferedreeferoem,
+    "CancelChequeNo":logindata.cancelchequeno,
+    "CancelChequeIMG":logindata.cancelchequeimg,
+    "GstNo":logindata.gstno,
+    "GSTImg":logindata.gstnoimg,
+    "FSSAILicNo":logindata.fssailicenseno,
+    "FSSAIImg":logindata.fssaillicenseimg,
+    "BusinessCard":logindata.businesscardno,
+    "BusinessImg":logindata.businesscardnoimg,
+    "OtherDoc":logindata.otherscardno,
+    "OtherDocImg":logindata.otherscardnoimg,
+    "Region":logindata.city,
+    "StateName":logindata.state,
+    "CountryName":logindata.country,
+
+    "vehicleManufacturer":logindata.vehiclemanufacturer,
+    "vehicleModel":logindata.vehiclemodel,
+    "vehicleMAkeYear":logindata.vehiclemakeyear,
+    "VehicleCapMT":logindata.vehiclecapactity,
+    "reeferUnitModel":logindata.reeferunitmodel,
+    "reeferMakeYear":logindata.reefermakeyear,
+    "containerMake":logindata.containermake,
+    "vehicleCount":logindata.no_of_vehicles
+ 
+}));
+
+print("Response body${response.body}");
+// print("Saved Data:"+
+//         "Company Name:"+logindata.companyname+
+//        "firstName :"+logindata.firstname+
+//        "lastname :"+logindata.lastname+
+//        "contact :"+logindata.mobilenum+
+//        "altcontact :"+logindata.alternativemobilenum+
+//        "emailid :"+logindata.emailaddress+
+//        "landmark :"+logindata.landmark+
+//        "Address1 :"+logindata.address1+
+//        "Address2 :"+logindata.address2+
+//        "Designatoin:"+logindata.designation+
+//        "pincode:"+logindata.pincode+
+//        "city :"+logindata.city+
+//        "panNo :"+logindata.pancardno+
+//        "panImg :"+logindata.pancardimg+
+//        "year :"+logindata.vehiclemakeyear+
+//        "company Type :"+logindata.companytype+
+//        "business Type :"+logindata.businesstype+
+//        "vendor type :"+"Reeferon"+
+//        "preferred Insurance :"+logindata.preferedinsurancepartner+
+//        "prefered fuel :"+logindata.preferedfuelpartner+
+//        "prefered Container :"+logindata.preferedcontaineroem+
+//        "prefered Vehicle :"+logindata.preferedvehicleoem+
+//        "prefered Tyreoem:"+logindata.preferedtyreoem+
+//        "prefered Reefer oem :"+logindata.preferedreeferoem+
+//        "Cancel cheque no:"+logindata.cancelchequeno+
+//        "Cancel Cheque Img :"+logindata.cancelchequeimg+
+//        "Gst no :"+logindata.gstno+
+//        "Gst img :"+logindata.gstnoimg+
+//        "Fssai license no:"+logindata.fssailicenseno+
+//        "Fssai Img : "+logindata.fssaillicenseimg+
+//        "business card :"+logindata.businesscardno+
+//        "business img :"+logindata.businesscardnoimg+
+//        "other doc no:"+logindata.otherscardno+
+//        "other doc img :"+logindata.otherscardnoimg+
+//        "region :"+logindata.city+
+//        "state :"+logindata.state+
+//        "Country :"+logindata.country+
+//        "vehicle manufacture:"+logindata.vehiclemanufacturer+
+//        "vehicle model :"+logindata.vehiclemodel+
+//        "vehicle make year :"+logindata.vehiclemakeyear+
+//        "vehicle capacity :"+logindata.vehiclecapactity+
+//        "reefer unit model :"+logindata.reeferunitmodel+
+//        "reefer make year :"+logindata.reefermakeyear+
+//        "container make "+logindata.containermake+
+//        "vehicle count :"+logindata.no_of_vehicles 
+
+//     );
+
+      // Navigator.push(
+      //                                 context,
+      //                                 MaterialPageRoute(
+      //                                     builder: ((context) => DashBoard())));
   }
 }

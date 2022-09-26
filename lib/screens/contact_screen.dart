@@ -9,21 +9,25 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ContactDetails extends StatefulWidget {
-  const ContactDetails({Key key}) : super(key: key);
+
+  var str_mobilenum,str_companyname,str_companytype,str_businesstype,str_address1,str_address2,str_landmark,str_pincode,str_city,str_state,str_country;
+  
+  ContactDetails({Key key, String str_mobilenum,String str_companyname,String str_companytype,String str_businesstype,String str_address1,String str_address2,String str_landmark,String str_pincode,String str_city,String str_state,String str_country}): super(key: key); 
 
   @override
   State<ContactDetails> createState() => _ContactDetailsState();
 }
-
 class _ContactDetailsState extends State<ContactDetails> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: ContactForm(),
@@ -32,13 +36,16 @@ class _ContactDetailsState extends State<ContactDetails> {
 }
 
 class ContactForm extends StatefulWidget {
-  const ContactForm({Key key}) : super(key: key);
+  LoginScreenModel loginScreenModel;
+   ContactForm({Key key, this.loginScreenModel}) : super(key: key);
 
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
+
+  
   final _Edt_firstname = TextEditingController();
   final _Edt_lastname = TextEditingController();
   final _Edt_contactnumber = TextEditingController();
@@ -52,6 +59,7 @@ class _ContactFormState extends State<ContactForm> {
   final _Edt_otherscard = TextEditingController();
   String _errorMessage = '';
 
+  
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
@@ -179,10 +187,62 @@ class _ContactFormState extends State<ContactForm> {
   // }
 
   void _sumbit() {
+ 
+
+
+//  inal _Edt_firstname = TextEditingController();
+//   final _Edt_lastname = TextEditingController();
+//   final _Edt_contactnumber = TextEditingController();
+//   final _Edt_alternatenumber = TextEditingController();
+//   final _Edt_emailid = TextEditingController();
+//   final _Edt_pancardno = TextEditingController();
+//   final _Edt_cancelchequeno = TextEditingController();
+//   final _Edt_gstno = TextEditingController();
+//   final _Edt_fssailincenseno = TextEditingController();
+//   final _Edt_businesscardno = TextEditingController();
+//   final _Edt_otherscard = TextEditingController();
+//   String _errorMessage = '';
+
     final isValid = _formKey.currentState.validate();
-    if (isValid) {
+    LoginScreenModel logindata = widget.loginScreenModel;
+
+    logindata = LoginScreenModel(
+    mobilenum: widget.loginScreenModel.mobilenum,
+    companyname: widget.loginScreenModel.companyname,
+    companytype: widget.loginScreenModel.companytype,
+    businesstype: widget.loginScreenModel.businesstype,
+    address1: widget.loginScreenModel.address1,
+    address2: widget.loginScreenModel.address2,
+    pincode: widget.loginScreenModel.pincode,
+    city: widget.loginScreenModel.city,
+    state: widget.loginScreenModel.state,
+    country: widget.loginScreenModel.country,
+    firstname:_Edt_firstname.text,
+    lastname: _Edt_lastname.text,
+    registeredmobilenum: _Edt_contactnumber.text,
+    alternativemobilenum : _Edt_alternatenumber.text,
+    emailaddress: _Edt_emailid.text,
+    designation: _selectedval,
+    pancardno: _Edt_pancardno.text,
+    pancardimg: "shhssh",
+    cancelchequeno:_Edt_cancelchequeno.text,
+    cancelchequeimg:"shshs",
+    gstno : _Edt_gstno.text,
+    gstnoimg :"ssjsj",
+    fssailicenseno: _Edt_fssailincenseno.text,
+    fssaillicenseimg:"hdhdhd",
+    businesscardno:_Edt_businesscardno.text,
+    businesscardnoimg:"hdhdh",
+    otherscardno: _Edt_otherscard.text,
+    otherscardnoimg:"ssgsgs"
+    );
+    
+    print("First Name ${logindata.firstname}");
+    print("Phone number ${logindata.mobilenum}");
+        if (isValid) {
+      print("Company name :"+widget.loginScreenModel.companyname);
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => FleetDetails())));
+          context, MaterialPageRoute(builder: ((context) => FleetDetailsForm(loginScreenModel: logindata))));
     }
     _formKey.currentState.save();
   }

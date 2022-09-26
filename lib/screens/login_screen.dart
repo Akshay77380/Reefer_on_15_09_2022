@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
 import 'package:referon/screens/verifyme.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -15,17 +18,27 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController phoneController = TextEditingController();
-  String text = "";
+class _LoginScreenState extends State<LoginScreen>
+ {
 
+  SharedPreferences prefs;
+  TextEditingController phoneController = TextEditingController();
+  String str_mobilenumber = "";
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
-  void _sumbit() {
+
+  void _sumbit()
+  {
     final isValid = _formKey.currentState.validate();
-    if (isValid) {
+    if (isValid) 
+    {
+      LoginScreenModel loginScreenModel = LoginScreenModel(
+          mobilenum: phoneController.text
+      );
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => VerifyMe(mobilenumber: phoneController.text))));
+          context, MaterialPageRoute(builder: ((context) => VerifyMe(
+            loginScreenModel: loginScreenModel,
+          ))));
     }
     _formKey.currentState.save();
   }
@@ -231,5 +244,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ));
+  }
+  
+  Future<void> savedata() 
+  async {
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("mobilenum",phoneController.text.toString());
+      
+
   }
 }
