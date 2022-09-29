@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
 import 'package:referon/screens/verifyme.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'; 
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -15,17 +19,28 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController phoneController = TextEditingController();
-  String text = "";
+class _LoginScreenState extends State<LoginScreen>
+ {
 
+  SharedPreferences prefs;
+  TextEditingController phoneController = TextEditingController();
+  String str_mobilenumber = "";
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
-  void _sumbit() {
+
+  void _sumbit()
+  {
+     
     final isValid = _formKey.currentState.validate();
-    if (isValid) {
+    if (isValid) 
+    {
+      LoginScreenModel loginScreenModel = LoginScreenModel(
+          mobilenum: phoneController.text
+      );
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => VerifyMe())));
+          context, MaterialPageRoute(builder: ((context) => VerifyMe(
+            loginScreenModel: loginScreenModel,
+          ))));
     }
     _formKey.currentState.save();
   }
@@ -85,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             SizedBox(
-                              height: 30.0,
+                              height: 40.0,
                               child: Center(), //Center
                             ),
                             SizedBox(
@@ -182,41 +197,41 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20.0,
                               child: Center(), //Center
                             ),
-                            Text(
-                              "By Continuing,You Agree To Below ",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 11, 11, 22),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
+                            // Text(
+                            //   "By Continuing,You Agree To Below ",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromARGB(255, 11, 11, 22),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 20.0,
                               child: Center(), //Center
                             ),
-                            Text(
-                              "TERMS & CONDITIONS",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(180, 211, 67, 100),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                              child: Center(), //Center
-                            ),
-                            Text(
-                              "PRIVACY POLICY",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(180, 211, 67, 100),
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
+                            // Text(
+                            //   "TERMS & CONDITIONS",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromRGBO(180, 211, 67, 100),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20.0,
+                            //   child: Center(), //Center
+                            // ),
+                            // Text(
+                            //   "PRIVACY POLICY",
+                            //   style: TextStyle(
+                            //     fontSize: 15,
+                            //     fontWeight: FontWeight.bold,
+                            //     color: Color.fromRGBO(180, 211, 67, 100),
+                            //     fontStyle: FontStyle.normal,
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 30.0,
                               child: Center(), //Center
@@ -231,5 +246,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ));
+  }
+  
+  Future<void> savedata() 
+  async {
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("mobilenum",phoneController.text.toString());
+      
+
   }
 }
