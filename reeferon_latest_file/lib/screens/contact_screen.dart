@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,6 +100,28 @@ class _ContactFormState extends State<ContactForm> {
     super.initState();
   }
 
+
+
+  Future getCameraImage() async{
+    // ignore: deprecated_member_use
+    final image  = await picker.getImage(source: ImageSource.camera);
+
+    setState((){
+        _image = File(image.path);
+        print("image data "+_image.toString());
+        
+    });
+  }
+  Future getGalleryImage() async{
+    // ignore: deprecated_member_use
+    final image  = await picker.getImage(source: ImageSource.gallery);
+
+    setState((){
+        _image = File(image.path);
+        print("image data "+_image.toString());
+        
+    });
+  }
   Future getCheckPanNumber(str_pancardno) async {
     var response = await http.get(Uri.parse(
         "http://neotech.v-cloud.in/referonapi/userPanDetails?panNo=" +
@@ -161,19 +182,7 @@ Future getGstNumber(str_gstcardno) async {
     }
   }
 
- 
-  Future getImage() async{
 
-    final File  pickedImage = (await picker.getImage(source: ImageSource.camera)) as File;
-    if(pickedImage == null) return;
-    File tmpFile = File(pickedImage.path);
-    tmpFile = await tmpFile.copy(tmpFile.path);
-    setState((){
-        _image = tmpFile;
-        print("image path "+_image.toString());
-    });
-
-  }
   
   
 
@@ -188,12 +197,12 @@ Future getGstNumber(str_gstcardno) async {
                 children: <Widget>[
                   GestureDetector(
                     child: Text("Camera"),
-                    onTap: () => getImage(),
+                    onTap: () => getCameraImage(),
                   ),
                   Padding(padding: EdgeInsets.all(20.0)),
                   GestureDetector(
                     child: Text("Gallery"),
-                    onTap: () => getImage(),
+                    onTap: () => getGalleryImage(),
                   ),
                 ],
               ),
@@ -811,7 +820,7 @@ Future getGstNumber(str_gstcardno) async {
                                             errorBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                 width: 0,
-                                                color: Colors.red,
+                                                color: Colors.red ,
                                               ),
                                               borderRadius:
                                                   BorderRadius.circular(15),
@@ -864,40 +873,81 @@ Future getGstNumber(str_gstcardno) async {
                                       // optional flex property if flex is 1 because the default flex is 1
                                       flex: 1,
                                       child: ButtonTheme(
+                                        
                                         minWidth: 210.0,
-
-                                        //                 child: RaisedButton(
-
-                                        //                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-
-                                        //                child: Text(' Upload '),
-                                        //                textColor: Colors.white,
-                                        //                color: Color.fromRGBO(17,24,66,40),
-
-                                        //                shape: RoundedRectangleBorder(
-                                        //   borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                                        //                onPressed: () {
-                                        // Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactDetails())));
-                                        //                },
-                                        //              ),
-                                        child: TextButton.icon(
+                                        child: TextButton.icon
+                                        (
                                           onPressed: () {
                                             _showChoiceDialog(context);
+                                            setState((){
+
+                                                String pancardimgpath = _image.path;
+                                               
+                                                print("Pancard Image path "+pancardimgpath);
+
+                                            });
                                           },
+                                          
                                           icon: Icon(
                                             Icons.camera_enhance,
                                             color: Colors.white,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
+                                          label: Text( "Upload",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                               )),
+
                                           style: TextButton.styleFrom(
-                                              backgroundColor: Color.fromRGBO(
-                                                  17, 24, 66, 40)),
+                                              backgroundColor:   Color.fromRGBO(
+                                                  17, 24, 66, 40) ),
+
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  child: SizedBox(
+                                    width: 120,
+                                    child: Expanded(
+                                      // optional flex property if flex is 1 because the default flex is 1
+                                      flex: 1,
+                                      child: ButtonTheme(
+                                        
+                                        minWidth: 210.0,
+                                        child: TextButton.icon
+                                        (
+                                          onPressed: () {
+                                            _showChoiceDialog(context);
+                                            setState((){
+
+                                                String pancardimgpath = _image.path;
+                                               
+                                                print("Pancard Image path "+pancardimgpath);
+
+                                            });
+                                          },
+                                          
+                                          icon: Icon(
+                                            Icons.check,
+                                            color: Colors.white,
+                                            size: 28,
+                                          ),
+                                          label: Text( "Uploaded",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+
+                                          style: TextButton.styleFrom(
+                                              backgroundColor:   Color.fromRGBO(
+                                                  180, 211, 67, 30) ),
+
                                         ),
                                       ),
                                     ),
