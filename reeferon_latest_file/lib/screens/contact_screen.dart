@@ -83,12 +83,26 @@ class _ContactFormState extends State<ContactForm> {
   String str_pancardno = "";
   String str_gstcardno = "";
 
-  var  pancard_sts = "";
+  var pancard_sts = "";
   var gstcard_sts = "";
 
- File _image;
+  bool click = true;
+  bool click2 = true;
+  bool click3 = true;
+  bool click4 = true;
+  bool click5 = true;
+  bool click6 = true;
+
+  File _image;
   final picker = ImagePicker();
-  
+
+  String buttonText = 'Upload';
+  String btn_cancelChqText = 'Upload';
+  String btn_gstnoText = 'Upload';
+  String btn_fssaiLicText = 'Upload';
+  String btn_businessText = 'Upload';
+  String btn_othersText = 'Upload';
+
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -100,28 +114,92 @@ class _ContactFormState extends State<ContactForm> {
     super.initState();
   }
 
-
-
-  Future getCameraImage() async{
+  Future getCameraImage() async {
     // ignore: deprecated_member_use
-    final image  = await picker.getImage(source: ImageSource.camera);
+    final image = await picker.getImage(source: ImageSource.camera);
 
-    setState((){
-        _image = File(image.path);
-        print("image data "+_image.toString());
-        
+    setState(() {
+      _image = File(image.path);
+      print("image data " + _image.toString());
+
+      String pancardimgpath = _image.path;
+      String cancel_cheque_no_path = _image.path;
+      String gst_no_path = _image.path;
+      String fssai_license_path = _image.path;
+      String business_card_no_path = _image.path;
+      String others_card_no_path = _image.path;
+
+      if (pancardimgpath != null) {
+        buttonText = "Uploaded";
+
+        click = !click;
+      }
+       else {
+        buttonText = "Upload";
+      }
+      print("Pancard Image path " + pancardimgpath);
+
+      if (cancel_cheque_no_path != null) {
+        btn_cancelChqText = "Uploaded";
+
+        click2 = !click2;
+      } else {
+        btn_cancelChqText = "Upload";
+      }
+      print("Cancel Cheque Image path " + cancel_cheque_no_path);
+
+      if (gst_no_path != null) {
+        btn_gstnoText = "Uploaded";
+
+        click = !click;
+      } else {
+        btn_gstnoText = "Upload";
+      }
+      print("Gst No Image path " + gst_no_path);
+
+      if (fssai_license_path != null) {
+        btn_fssaiLicText = "Uploaded";
+
+        click = !click;
+      } else {
+        btn_fssaiLicText = "Upload";
+      }
+      print("Fssai License Image path " + fssai_license_path);
+
+      if (business_card_no_path != null) {
+        btn_businessText = "Uploaded";
+
+        click = !click;
+      } else {
+        btn_businessText = "Upload";
+      }
+      print("Business Card No " + business_card_no_path);
+
+      if (others_card_no_path != null) {
+        btn_othersText = "Uploaded";
+
+        click = !click;
+      } 
+      else 
+      {
+        btn_othersText = "Upload";
+      }
+      print("Others Card No Image path " + others_card_no_path);
+
+
     });
   }
-  Future getGalleryImage() async{
-    // ignore: deprecated_member_use
-    final image  = await picker.getImage(source: ImageSource.gallery);
 
-    setState((){
-        _image = File(image.path);
-        print("image data "+_image.toString());
-        
+  Future getGalleryImage() async {
+    // ignore: deprecated_member_use
+    final image = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(image.path);
+      print("image data " + _image.toString());
     });
   }
+
   Future getCheckPanNumber(str_pancardno) async {
     var response = await http.get(Uri.parse(
         "http://neotech.v-cloud.in/referonapi/userPanDetails?panNo=" +
@@ -134,25 +212,19 @@ class _ContactFormState extends State<ContactForm> {
 
       pancard_sts = ('${dataList[0]['status']}');
       // var one = int.parse('1');
-                                            if(pancard_sts == '1')
-                                            {
-                                              final text = 'Your Pancard Number is Verified'; 
-                                              final snackBar = SnackBar(content: Text(text));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                            }
-                                            else
-                                            {
-                                              final text = 'Your Pancard Number is  Not Verified'; 
-                                              final snackBar = SnackBar(content: Text(text));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                            }
-                                           
-
-      
+      if (pancard_sts == '1') {
+        final text = 'Your Pancard Number is Verified';
+        final snackBar = SnackBar(content: Text(text));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        final text = 'Your Pancard Number is  Not Verified';
+        final snackBar = SnackBar(content: Text(text));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
 
-Future getGstNumber(str_gstcardno) async {
+  Future getGstNumber(str_gstcardno) async {
     var response = await http.get(Uri.parse(
         "http://neotech.v-cloud.in/referonapi/userGstDetails?gstin_number=" +
             str_gstcardno));
@@ -164,27 +236,17 @@ Future getGstNumber(str_gstcardno) async {
 
       gstcard_sts = ('${dataList[0]['status']}');
       // var one = int.parse('1');
-                                            if(gstcard_sts == '1')
-                                            {
-                                              final text = 'Your Gst Number is Verified'; 
-                                              final snackBar = SnackBar(content: Text(text));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                            }
-                                            else
-                                            {
-                                              final text = 'Your Gst Number is  Not Verified'; 
-                                              final snackBar = SnackBar(content: Text(text));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                            }
-                                           
-
-      
+      if (gstcard_sts == '1') {
+        final text = 'Your Gst Number is Verified';
+        final snackBar = SnackBar(content: Text(text));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        final text = 'Your Gst Number is  Not Verified';
+        final snackBar = SnackBar(content: Text(text));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
-
-
-  
-  
 
   Future<void> _showChoiceDialog(BuildContext buildContext) {
     return showDialog(
@@ -790,13 +852,10 @@ Future getGstNumber(str_gstcardno) async {
                                         onFieldSubmitted: (value) {},
                                         onChanged: (data) async {
                                           str_pancardno = data;
-                                        
+
                                           getCheckPanNumber(str_pancardno);
-                                         
-                                          setState(() {
-                                            
-                                            
-                                          });
+
+                                          setState(() {});
                                         },
                                         validator: (val) {
                                           if (val == null || val.isEmpty) {
@@ -808,8 +867,6 @@ Future getGstNumber(str_gstcardno) async {
                                           if (!regExp.hasMatch(val)) {
                                             return "please Enter Valid Pancard No";
                                           }
-                                        
-                                          
                                         },
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
@@ -820,7 +877,7 @@ Future getGstNumber(str_gstcardno) async {
                                             errorBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                 width: 0,
-                                                color: Colors.red ,
+                                                color: Colors.red,
                                               ),
                                               borderRadius:
                                                   BorderRadius.circular(15),
@@ -873,86 +930,85 @@ Future getGstNumber(str_gstcardno) async {
                                       // optional flex property if flex is 1 because the default flex is 1
                                       flex: 1,
                                       child: ButtonTheme(
-                                        
                                         minWidth: 210.0,
-                                        child: TextButton.icon
-                                        (
+                                        child: TextButton.icon(
                                           onPressed: () {
                                             _showChoiceDialog(context);
-                                            setState((){
 
-                                                String pancardimgpath = _image.path;
-                                               
-                                                print("Pancard Image path "+pancardimgpath);
-
-                                            });
+                                            setState(() {});
                                           },
-                                          
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click)
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text( "Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
-
+                                          label: Text(
+                                            buttonText,
+                                            style: click
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
-                                              backgroundColor:   Color.fromRGBO(
-                                                  17, 24, 66, 40) ),
-
+                                              backgroundColor: Color.fromRGBO(
+                                                  17, 24, 66, 40)),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: SizedBox(
-                                    width: 120,
-                                    child: Expanded(
-                                      // optional flex property if flex is 1 because the default flex is 1
-                                      flex: 1,
-                                      child: ButtonTheme(
-                                        
-                                        minWidth: 210.0,
-                                        child: TextButton.icon
-                                        (
-                                          onPressed: () {
-                                            _showChoiceDialog(context);
-                                            setState((){
 
-                                                String pancardimgpath = _image.path;
-                                               
-                                                print("Pancard Image path "+pancardimgpath);
+                                // Padding(
+                                //   padding: EdgeInsets.only(left: 5, right: 5),
+                                //   child: SizedBox(
+                                //     width: 120,
+                                //     child: Expanded(
+                                //       // optional flex property if flex is 1 because the default flex is 1
+                                //       flex: 1,
+                                //       child: ButtonTheme(
 
-                                            });
-                                          },
-                                          
-                                          icon: Icon(
-                                            Icons.check,
-                                            color: Colors.white,
-                                            size: 28,
-                                          ),
-                                          label: Text( "Uploaded",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                //         minWidth: 210.0,
+                                //         child: TextButton.icon
+                                //         (
+                                //           onPressed: () {
+                                //             _showChoiceDialog(context);
+                                //             setState((){
 
-                                          style: TextButton.styleFrom(
-                                              backgroundColor:   Color.fromRGBO(
-                                                  180, 211, 67, 30) ),
+                                //                 String pancardimgpath = _image.path;
 
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                //                 print("Pancard Image path "+pancardimgpath);
+
+                                //             });
+                                //           },
+
+                                //           icon: Icon(
+                                //             Icons.check,
+                                //             color: Colors.white,
+                                //             size: 28,
+                                //           ),
+                                //           label: Text( "Uploaded",
+                                //               style: TextStyle(
+                                //                 color: Colors.white,
+                                //                 fontSize: 18,
+                                //                 fontWeight: FontWeight.bold,
+                                //               )),
+
+                                //           style: TextButton.styleFrom(
+                                //               backgroundColor:   Color.fromRGBO(
+                                //                   180, 211, 67, 30) ),
+
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                             SizedBox(
@@ -976,7 +1032,6 @@ Future getGstNumber(str_gstcardno) async {
                                         textCapitalization:
                                             TextCapitalization.characters,
                                         onFieldSubmitted: (value) {},
-
                                         validator: (val) {
                                           if (val == null || val.isEmpty) {
                                             return "Cannot be Empty ";
@@ -1065,18 +1120,30 @@ Future getGstNumber(str_gstcardno) async {
                                           onPressed: () {
                                             // pickImage();
                                             _showChoiceDialog(context);
+                                            
+                                            setState((){
+
+                                            });
                                           },
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click2 == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click2)
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                          label: Text(
+                                            btn_cancelChqText,
+                                            style: click2
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
                                               backgroundColor: Color.fromRGBO(
                                                   17, 24, 66, 40)),
@@ -1104,20 +1171,17 @@ Future getGstNumber(str_gstcardno) async {
                                       child: TextFormField(
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
-                                            controller: _Edt_gstno,
+                                        controller: _Edt_gstno,
                                         keyboardType: TextInputType.name,
                                         textCapitalization:
                                             TextCapitalization.characters,
                                         onFieldSubmitted: (value) {},
                                         onChanged: (data) async {
                                           str_gstcardno = data;
-                                        
+
                                           getGstNumber(str_gstcardno);
-                                         
-                                          setState(() {
-                                            
-                                            
-                                          });
+
+                                          setState(() {});
                                         },
                                         validator: (val) {
                                           if (val == null || val.isEmpty) {
