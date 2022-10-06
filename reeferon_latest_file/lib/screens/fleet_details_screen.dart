@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:referon/models/fleetFormDetails.dart';
 import 'package:referon/models/getVehicleModel.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/utils/Common.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_year_picker/flutter_year_picker.dart';
 
 class FleetDetails extends StatefulWidget 
 {
-
   @override
   State<FleetDetails> createState() => _FleetDetailsState();
 }
@@ -35,7 +35,8 @@ class _FleetDetailsState extends State<FleetDetails> {
 class FleetDetailsForm extends StatefulWidget {
 
  LoginScreenModel loginScreenModel;
-   FleetDetailsForm({Key key, this.loginScreenModel}) : super(key: key);
+  final FleetFormDetails fleetformdetails ;
+   FleetDetailsForm({Key key, this.fleetformdetails,this.loginScreenModel}) : super(key: key);
 
   @override
   State<FleetDetailsForm> createState() => _FleetDetailsFormState();
@@ -60,13 +61,21 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
     _selectedval6 = _list[0];
   }
   String _selectedval = "Select";
+
   String _selectedval2 = "Select";
+
   String _selectedval3 = "Select";
+
   String _selectedval4 = "Select";
+
   String _selectedval5 = "Select";
+
   String _selectedval6 = "Select";
+
   String vehicleMakeyeardate = "Select Date";
+
   String refervehicleyeardate = "Select Date";
+  
   getVehicleModel_List _vehicleModel_List;
 
   final selectedVehicleManufacturer = TextEditingController();

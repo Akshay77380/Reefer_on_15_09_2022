@@ -14,6 +14,8 @@ import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class ContactDetails extends StatefulWidget {
   var str_mobilenum,
@@ -93,7 +95,7 @@ class _ContactFormState extends State<ContactForm> {
   bool click5 = true;
   bool click6 = true;
 
-  File _image;
+  File _image,_image_cancel_chq,_image_gstno,_image_fssai,_image_business,_image_others;
   final picker = ImagePicker();
 
   String buttonText = 'Upload';
@@ -120,86 +122,336 @@ class _ContactFormState extends State<ContactForm> {
 
     setState(() {
       _image = File(image.path);
+
       print("image data " + _image.toString());
 
       String pancardimgpath = _image.path;
-      String cancel_cheque_no_path = _image.path;
-      String gst_no_path = _image.path;
-      String fssai_license_path = _image.path;
-      String business_card_no_path = _image.path;
-      String others_card_no_path = _image.path;
 
-      if (pancardimgpath != null) {
-        buttonText = "Uploaded";
 
-        click = !click;
-      }
-       else {
-        buttonText = "Upload";
-      }
-      print("Pancard Image path " + pancardimgpath);
-
-      if (cancel_cheque_no_path != null) {
-        btn_cancelChqText = "Uploaded";
-
-        click2 = !click2;
-      } else {
-        btn_cancelChqText = "Upload";
-      }
-      print("Cancel Cheque Image path " + cancel_cheque_no_path);
-
-      if (gst_no_path != null) {
-        btn_gstnoText = "Uploaded";
-
-        click = !click;
-      } else {
-        btn_gstnoText = "Upload";
-      }
-      print("Gst No Image path " + gst_no_path);
-
-      if (fssai_license_path != null) {
-        btn_fssaiLicText = "Uploaded";
-
-        click = !click;
-      } else {
-        btn_fssaiLicText = "Upload";
-      }
-      print("Fssai License Image path " + fssai_license_path);
-
-      if (business_card_no_path != null) {
-        btn_businessText = "Uploaded";
-
-        click = !click;
-      } else {
-        btn_businessText = "Upload";
-      }
-      print("Business Card No " + business_card_no_path);
-
-      if (others_card_no_path != null) {
-        btn_othersText = "Uploaded";
-
-        click = !click;
-      } 
-      else 
+      if(pancardimgpath != null)
       {
-        btn_othersText = "Upload";
-      }
-      print("Others Card No Image path " + others_card_no_path);
+        buttonText = "Uploaded";
+        click  = !click;
 
+      }
+      else
+      {
+        buttonText = "Upload";
+        click  = click;
+      }
 
     });
-  }
+      Navigator.pop(context);
 
+    
+  }
   Future getGalleryImage() async {
-    // ignore: deprecated_member_use
     final image = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       _image = File(image.path);
+
       print("image data " + _image.toString());
+
+      String pancardimgpath = _image.path;
+
+
+      if(pancardimgpath != null)
+      {
+        buttonText = "Uploaded";
+        click  = !click;
+
+      }
+      else
+      {
+        buttonText = "Upload";
+        click  = click;
+      }
+
     });
+     Navigator.pop(context);
   }
 
+
+Future getChequeCameraImage() async {
+    // ignore: deprecated_member_use
+    final image2 = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image_cancel_chq = File(image2.path);
+
+      print("image data " + _image_cancel_chq.toString());
+
+      String cancelchequeimgpath = _image_cancel_chq.path;
+
+
+      if(cancelchequeimgpath != null)
+      {
+        btn_cancelChqText = "Uploaded";
+        click2  = !click2;
+
+      }
+      else
+      {
+        btn_cancelChqText  = "Upload";
+        click2  = click2;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getChequegalleryImage() async {
+    // ignore: deprecated_member_use
+    final image2 = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image_cancel_chq = File(image2.path);
+
+      print("image data " + _image_cancel_chq.toString());
+
+      String cancelchequeimgpath = _image_cancel_chq.path;
+
+
+      if(cancelchequeimgpath != null)
+      {
+        btn_cancelChqText = "Uploaded";
+        click2  = !click2;
+
+      }
+      else
+      {
+        btn_cancelChqText  = "Upload";
+        click2  = click2;
+      }
+
+
+    });
+     Navigator.pop(context);
+  }
+
+  Future getGstCameraImage() async {
+    // ignore: deprecated_member_use
+    final image3 = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image_gstno = File(image3.path);
+
+      print("image data " + _image_gstno.toString());
+
+      String gst_number_img_path = _image_gstno.path;
+
+
+      if(gst_number_img_path!= null)
+      {
+        btn_gstnoText =  "Uploaded";
+        click3  = !click3;
+
+      }
+      else
+      {
+        btn_gstnoText  = "Upload";
+        click3  = click3;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getGstGalleryImage() async {
+    // ignore: deprecated_member_use
+    final image3 = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image_gstno = File(image3.path);
+
+      print("image data " + _image_gstno.toString());
+
+      String gst_number_img_path = _image_gstno.path;
+
+
+      if(gst_number_img_path!= null)
+      {
+        btn_gstnoText =  "Uploaded";
+        click3  = !click3;
+
+      }
+      else
+      {
+        btn_gstnoText  = "Upload";
+        click3  = click3;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getFssaiLicCameraImage() async {
+    // ignore: deprecated_member_use
+    final image4 = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image_fssai = File(image4.path);
+
+      print("image data " + _image_fssai.toString());
+
+      String fssai_license_img_path = _image_fssai.path;
+
+
+      if(fssai_license_img_path!= null)
+      {
+        btn_fssaiLicText =   "Uploaded";
+        click4  = !click4;
+
+      }
+      else
+      {
+        btn_fssaiLicText  = "Upload";
+        click4  = click4;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getFssaiLicGalleryImage() async {
+    // ignore: deprecated_member_use
+    final image4 = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image_fssai = File(image4.path);
+
+      print("image data " + _image_fssai.toString());
+
+      String fssai_license_img_path = _image_fssai.path;
+
+
+      if(fssai_license_img_path!= null)
+      {
+        btn_fssaiLicText =   "Uploaded";
+        click4  = !click4;
+
+      }
+      else
+      {
+        btn_fssaiLicText  = "Upload";
+        click4  = click4;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getBusinesCardCameraImage() async {
+    // ignore: deprecated_member_use
+    final image5 = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image_business = File(image5.path);
+
+      print("image data " + _image_business.toString());
+
+      String busiess_card_img_path = _image_business.path;
+
+
+      if(busiess_card_img_path!= null)
+      {
+        btn_businessText =   "Uploaded";
+        click5  = !click5;
+
+      }
+      else
+      {
+        btn_businessText  = "Upload";
+        click5  = click5;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  Future getBusinesCardGalleryImage() async {
+    // ignore: deprecated_member_use
+    final image5 = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image_business = File(image5.path);
+
+      print("image data " + _image_business.toString());
+
+      String busiess_card_img_path = _image_business.path;
+
+
+      if(busiess_card_img_path!= null)
+      {
+        btn_businessText =   "Uploaded";
+        click5  = !click5;
+
+      }
+      else
+      {
+        btn_businessText  = "Upload";
+        click5  = click5;
+      }
+      
+    });
+     Navigator.pop(context);
+  }
+  Future getOthersDocCameraImage() async {
+    // ignore: deprecated_member_use
+    final image5 = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image_others = File(image5.path);
+
+      print("image data " + _image_others.toString());
+
+      String others_doc_path = _image_others.path;
+
+
+      if(others_doc_path!= null)
+      {
+        btn_othersText =   "Uploaded";
+        click6  = !click6;
+
+      }
+      else
+      {
+        btn_othersText  = "Upload";
+        click6  = click6;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+
+
+  Future getOthersDocGalleryImage() async {
+    // ignore: deprecated_member_use
+    final image5 = await picker.getImage(source: ImageSource.gallery);
+    String others_doc_path;
+
+    
+
+    setState(() {
+      _image_others = File(image5.path);
+
+      print("image data " + _image_others.toString());
+
+       others_doc_path = _image_others.path;
+
+      
+      if(others_doc_path!= null)
+      {
+        btn_othersText =   "Uploaded";
+        click6  = !click6;
+        
+
+      }
+      else
+      {
+        btn_othersText  = "Upload";
+        click6  = click6;
+      }
+
+    });
+     Navigator.pop(context);
+  }
+  
   Future getCheckPanNumber(str_pancardno) async {
     var response = await http.get(Uri.parse(
         "http://neotech.v-cloud.in/referonapi/userPanDetails?panNo=" +
@@ -212,14 +464,31 @@ class _ContactFormState extends State<ContactForm> {
 
       pancard_sts = ('${dataList[0]['status']}');
       // var one = int.parse('1');
-      if (pancard_sts == '1') {
-        final text = 'Your Pancard Number is Verified';
-        final snackBar = SnackBar(content: Text(text));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        final text = 'Your Pancard Number is  Not Verified';
-        final snackBar = SnackBar(content: Text(text));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      if (pancard_sts == '1')
+      {
+        Fluttertoast.showToast(
+        msg: "Pan Card Number is Verified....",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+
+      } 
+      else if(pancard_sts == '0')
+       {
+        Fluttertoast.showToast(
+        msg: "Pan Card Number is  Not Verified.....",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+
       }
     }
   }
@@ -237,13 +506,23 @@ class _ContactFormState extends State<ContactForm> {
       gstcard_sts = ('${dataList[0]['status']}');
       // var one = int.parse('1');
       if (gstcard_sts == '1') {
-        final text = 'Your Gst Number is Verified';
-        final snackBar = SnackBar(content: Text(text));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        Fluttertoast.showToast(
+        msg: "GST Number is Verified....",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
       } else {
-        final text = 'Your Gst Number is  Not Verified';
-        final snackBar = SnackBar(content: Text(text));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Fluttertoast.showToast(
+        msg: "GST Number is Not  Verified....",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
       }
     }
   }
@@ -253,7 +532,7 @@ class _ContactFormState extends State<ContactForm> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Make a Choice"),
+            title: Text("Select Pan Card Image "),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -265,6 +544,126 @@ class _ContactFormState extends State<ContactForm> {
                   GestureDetector(
                     child: Text("Gallery"),
                     onTap: () => getGalleryImage(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  Future<void> _showChoiceDialog2(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select cancel Cheque Image"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => getChequeCameraImage(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => getChequegalleryImage(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  Future<void> _showChoiceDialog3(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select GST Image"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => getGstCameraImage(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => getGstGalleryImage(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  Future<void> _showChoiceDialog4(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select Fssai License Image"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => getFssaiLicCameraImage(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => getFssaiLicGalleryImage(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  Future<void> _showChoiceDialog5(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select Business Card Image"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => getBusinesCardCameraImage(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => getBusinesCardGalleryImage(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  Future<void> _showChoiceDialog6(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select Others Doc Image"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => getOthersDocCameraImage(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => getOthersDocGalleryImage(),
                   ),
                 ],
               ),
@@ -1117,9 +1516,10 @@ class _ContactFormState extends State<ContactForm> {
                                         //    },
                                         //  ),
                                         child: TextButton.icon(
+                                          
                                           onPressed: () {
                                             // pickImage();
-                                            _showChoiceDialog(context);
+                                            _showChoiceDialog2(context);
                                             
                                             setState((){
 
@@ -1129,7 +1529,7 @@ class _ContactFormState extends State<ContactForm> {
                                             (click2 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click2)
+                                            color: (click2 )
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -1276,19 +1676,27 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                            _showChoiceDialog(context);
+                                            _showChoiceDialog3(context);
                                           },
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click3 == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click3 )
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                          label: Text(
+                                            btn_gstnoText,
+                                            style: click3
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
                                               backgroundColor: Color.fromRGBO(
                                                   17, 24, 66, 40)),
@@ -1407,19 +1815,27 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                            _showChoiceDialog(context);
+                                            _showChoiceDialog4(context);
                                           },
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click4 == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click4 )
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                          label: Text(
+                                            btn_fssaiLicText,
+                                            style: click4
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
                                               backgroundColor: Color.fromRGBO(
                                                   17, 24, 66, 40)),
@@ -1537,19 +1953,27 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                            _showChoiceDialog(context);
+                                            _showChoiceDialog5(context);
                                           },
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click5 == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click5 )
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                          label: Text(
+                                            btn_businessText,
+                                            style: click5
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
                                               backgroundColor: Color.fromRGBO(
                                                   17, 24, 66, 40)),
@@ -1634,19 +2058,27 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                            _showChoiceDialog(context);
+                                            _showChoiceDialog6(context);
                                           },
                                           icon: Icon(
-                                            Icons.camera_enhance,
-                                            color: Colors.white,
+                                            (click6 == false)
+                                                ? Icons.check
+                                                : Icons.camera_enhance,
+                                            color: (click6 )
+                                                ? Colors.white
+                                                : Colors.green,
                                             size: 28,
                                           ),
-                                          label: Text("Upload",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              )),
+                                          label: Text(
+                                            btn_othersText,
+                                            style: click6
+                                                ? TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18)
+                                                : TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 18),
+                                          ),
                                           style: TextButton.styleFrom(
                                               backgroundColor: Color.fromRGBO(
                                                   17, 24, 66, 40)),
