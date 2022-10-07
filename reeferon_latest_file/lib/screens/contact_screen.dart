@@ -15,6 +15,7 @@ import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:referon/screens/multi_fleet_screen.dart';
 
 
 class ContactDetails extends StatefulWidget {
@@ -776,7 +777,7 @@ Future getChequeCameraImage() async {
           context,
           MaterialPageRoute(
               builder: ((context) =>
-                  FleetDetailsForm(loginScreenModel: logindata))));
+                 MultiFleetScreen())));
     }
     _formKey.currentState.save();
   }

@@ -35,11 +35,22 @@ class _FleetDetailsState extends State<FleetDetails> {
 class FleetDetailsForm extends StatefulWidget {
 
  LoginScreenModel loginScreenModel;
-  final FleetFormDetails fleetformdetails ;
-   FleetDetailsForm({Key key, this.fleetformdetails,this.loginScreenModel}) : super(key: key);
+  
+
+   FleetDetailsForm({Key key, this.fleetformdetails,this.loginScreenModel,this.index}) : super(key: key);
+   final FleetFormDetails fleetformdetails;
+   final index;
+   final state = _FleetDetailsFormState();
+
 
   @override
-  State<FleetDetailsForm> createState() => _FleetDetailsFormState();
+  State<FleetDetailsForm> createState()
+  {
+    return state;
+  }
+
+  bool isValidated() => state.validate();
+
 }
 
 class _FleetDetailsFormState extends State<FleetDetailsForm> {
@@ -47,6 +58,8 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   List<String> data = ["Others"];
   List<String> reeferunitsp = ["Others"];
   List<String> reeferUnitModelsp = ["Others"];
+  final state = _FleetDetailsFormState();
+
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
@@ -93,7 +106,7 @@ class _FleetDetailsFormState extends State<FleetDetailsForm> {
   final _Edt_No_of_Vehicles = TextEditingController();
   final _Edt_VehicleNumber = TextEditingController();
 
-
+  bool isValidated() => state.validate();
   DateTime _date = DateTime.now();
 
   Future<Null> selectDate(BuildContext context) async {
@@ -584,7 +597,7 @@ Future FetchContainerMake() async {
                         child: Column(
                           children: [
                             Text(
-                              " Enter Details",
+                              " Enter Details - ${widget.index}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -1579,6 +1592,12 @@ Future FetchContainerMake() async {
           context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
     // }
 
+  }
+  bool validate() {
+    //Validate Form Fields
+    bool validate = _formKey.currentState.validate();
+    if (validate) _formKey.currentState.save();
+    return validate;
   }
 }
 
