@@ -355,7 +355,7 @@ class _VerifyMeState extends State<VerifyMe> {
                           height: 20.0,
                           child: Center(), //Center
                         ),
-                        Row(
+                        new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Expanded(

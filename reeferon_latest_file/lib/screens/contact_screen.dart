@@ -15,11 +15,13 @@ import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:referon/screens/multi_fleet_screen.dart';
 
 
-class ContactDetails extends StatefulWidget {
-  var str_mobilenum,
+class ContactDetails extends StatefulWidget
+ {
+     var str_mobilenum,
       str_companyname,
       str_companytype,
       str_businesstype,
@@ -64,7 +66,7 @@ class _ContactDetailsState extends State<ContactDetails> {
 class ContactForm extends StatefulWidget {
   LoginScreenModel loginScreenModel;
   ContactForm({Key key, this.loginScreenModel}) : super(key: key);
-
+ 
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
@@ -1232,7 +1234,7 @@ Future getChequeCameraImage() async {
                               height: 20.0,
                               child: Center(), //Center
                             ),
-                            Row(
+                            new Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Padding(
@@ -1415,7 +1417,7 @@ Future getChequeCameraImage() async {
                               height: 10.0,
                               child: Center(), //Center
                             ),
-                            Row(
+                            new Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Padding(
@@ -1491,13 +1493,14 @@ Future getChequeCameraImage() async {
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                Expanded(
+                                      // optional flex property if flex is 1 because the default flex is 1
+                                      flex: 1,
+                                child:Padding(
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   child: SizedBox(
                                     width: 120,
-                                    child: Expanded(
-                                      // optional flex property if flex is 1 because the default flex is 1
-                                      flex: 1,
+                                    
                                       child: ButtonTheme(
                                         minWidth: 210.0,
                                         height: 45,
@@ -1559,7 +1562,7 @@ Future getChequeCameraImage() async {
                               height: 10.0,
                               child: Center(), //Center
                             ),
-                            Row(
+                            new Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Padding(
@@ -1712,7 +1715,7 @@ Future getChequeCameraImage() async {
                               height: 10.0,
                               child: Center(), //Center
                             ),
-                            Row(
+                            Row( 
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Padding(

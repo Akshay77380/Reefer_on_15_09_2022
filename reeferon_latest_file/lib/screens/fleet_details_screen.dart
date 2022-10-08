@@ -634,15 +634,15 @@ Future FetchContainerMake() async {
                                       selectVehicle = value;
                                       print("Data of Selected Vehicle Name: " +selectVehicle);
                                       _list2.clear();
-
+      
                                       if(selectVehicle == "Others")
                                       {
                                         selectedVehicleManufacturer.text = " ";
                                         _list2.add("Others");
                                       }
-
+      
                                       FetchVehicleModel(selectVehicle);
-
+      
                                       setState(() async {
                                         print(selectVehicle);
                                       });
@@ -674,7 +674,7 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: _list2,
                                     onValueChanged: (value) {
-
+      
                                        if(selectVehicleModel == "Others")
                                       {
                                         selectedVehicleModel.text = " ";
@@ -1184,7 +1184,7 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: reeferUnitModelsp,
                                     onValueChanged: (value) {
-
+      
                                       if(selectedVehicleReferModel == "Others")
                                       {
                                         selectedReeferUnitModel.text= " ";
@@ -1416,7 +1416,7 @@ Future FetchContainerMake() async {
                                     onPressed: () {
                                       final text = 'Fleet Details Data Saved....!'; 
                                         final snackBar = SnackBar(content: Text(text));
-
+      
                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     },
                                   ),
@@ -1447,11 +1447,10 @@ Future FetchContainerMake() async {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 1,
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
                               child: SizedBox(
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -1481,12 +1480,11 @@ Future FetchContainerMake() async {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: SizedBox(
-                              child: Expanded(
-                                // optional flex property if flex is 1 because the default flex is 1
-                                flex: 1,
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: SizedBox(
                                 child: ButtonTheme(
                                   child: Padding(
                                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
