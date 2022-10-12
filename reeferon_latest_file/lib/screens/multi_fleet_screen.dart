@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:referon/models/fleetFormDetails.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/empty_state.dart';
 import 'package:referon/screens/faq_screen.dart';
 import 'package:referon/screens/fleet_item_widget.dart';
@@ -10,6 +11,9 @@ import 'package:referon/screens/multi_fleet_screen.dart';
 import 'fleet_details_screen.dart';
 
 class MultiFleetScreen extends StatefulWidget {
+  LoginScreenModel loginScreenModel;
+  MultiFleetScreen({Key key, this.loginScreenModel}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _MultiFleetScreenState();
@@ -17,6 +21,7 @@ class MultiFleetScreen extends StatefulWidget {
 }
 
 class _MultiFleetScreenState extends State<MultiFleetScreen> {
+
   List<FleetItemWidget> fleetitemwidget = List.empty(growable: true);
 
   @override
@@ -60,13 +65,12 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
         icon: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(180, 211, 67, 50),
         focusColor: Colors.green,
-        label: Text('Add New Fleet Form'),
+        label: Text(' Add New Fleet Form '),
         elevation: 10,
       ),
 
       body: fleetitemwidget.isNotEmpty
           ? ListView.builder(
-              
               itemCount: fleetitemwidget.length,
               itemBuilder: (_, index) {
                 return fleetitemwidget[index];
@@ -82,15 +86,23 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
         .forEach((element) => allValid = (allValid && element.isValidated()));
 
     if (allValid) {
-      List<String> names = fleetitemwidget
-          .map((e) => e.fleetformdetails.vehicle_manufacturer)
-          .toList();
-        debugPrint("$names");
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => FaqDetails())));
+      // List<String> names = fleetitemwidget
+      //     .map((e) => e.fleetformdetails.vehicle_manufacturer)
+      //     .toList();
+      //   print("$names");
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: ((context) => FaqDetails())));
+      for(int i = 0; i < fleetitemwidget.length; i++)
+      {
+        FleetItemWidget itemWidget = fleetitemwidget[i];
+        print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_manufacturer);
+         print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_model);
+         print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_manufacturer);
+         print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_manufacturer);
+      }
     } 
     else {
-      print("Empty Data ");
+      print(" Empty Data ");
       debugPrint("Form is Not Valid");
     }
   }

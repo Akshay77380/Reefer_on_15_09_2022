@@ -597,28 +597,31 @@ Future FetchContainerMake() async {
                                   child: DropDownField(
                                     controller: selectedVehicleManufacturer,
                                     
-
+                                    
                                     hintText: "Select",
                                     enabled: true,
                                     items: data,
                                     
                                     onValueChanged: (value) async {
                                       widget.fleetformdetails.vehicle_manufacturer = value;
-                                      print("Data of Selected Vehicle Name: " +selectVehicle);
+                                      
+                                      print("Data of Selected Vehicle Name: " +widget.fleetformdetails.vehicle_manufacturer);
                                       _list2.clear();
       
-                                      if(selectVehicle == "Others")
+                                      if(widget.fleetformdetails.vehicle_manufacturer == "Others")
                                       {
                                         selectedVehicleManufacturer.text = " ";
                                         _list2.add("Others");
                                       }
       
-                                      FetchVehicleModel(selectVehicle);
+                                      FetchVehicleModel(widget.fleetformdetails.vehicle_manufacturer);
       
                                       setState(() async {
-                                        print(selectVehicle);
+                                        
+                                        print(widget.fleetformdetails.vehicle_manufacturer);
                                       });
                                     },
+                                    
                                   ),
                                 )),
       
@@ -642,19 +645,21 @@ Future FetchContainerMake() async {
                                           ))),
                                   child: DropDownField(
                                     controller: selectedVehicleModel,
+
                                     hintText: "Select",
                                     enabled: true,
                                     items: _list2,
                                     onValueChanged: (value) {
+                                      widget.fleetformdetails.vehicle_model = value;
       
-                                       if(selectVehicleModel == "Others")
+                                       if(widget.fleetformdetails.vehicle_model == "Others")
                                       {
                                         selectedVehicleModel.text = " ";
                                     
                                       }
                                       setState(() {
-                                        selectVehicleModel = value;
-                                        print(selectVehicleModel);
+                                        widget.fleetformdetails.vehicle_model = value;
+                                        print("Data From Model :"+widget.fleetformdetails.vehicle_model);
                                       });
                                     },
                                   ),
@@ -915,9 +920,11 @@ Future FetchContainerMake() async {
                             SizedBox(
                               width: 400,
                               height: 75,
-                              child: TextField(
+                              child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 controller:selectedVehicleCapacity,
+                                onChanged: (value)=>widget.fleetformdetails.vehicle_capacity,
+                                onSaved:(value) => widget.fleetformdetails.vehicle_capacity,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefix: Icon(
@@ -995,9 +1002,12 @@ Future FetchContainerMake() async {
                                       SizedBox(
                                         width: 100,
                                         height: 75,
-                                        child: TextField(
+                                        child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller: length,
+                                          onChanged: (value) => widget.fleetformdetails.length,
+                                          onSaved: (value) => widget.fleetformdetails.length,
+
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               labelText: 'Length :',
@@ -1029,9 +1039,11 @@ Future FetchContainerMake() async {
                                         child: SizedBox(
                                           width: 100,
                                           height: 75,
-                                          child: TextField(
+                                          child: TextFormField(
                                             keyboardType: TextInputType.number,
                                             controller: width,
+                                            onChanged: (value) => widget.fleetformdetails.width,
+                                            onSaved: (value) => widget.fleetformdetails.width,
                                             textAlign: TextAlign.center,
                                             decoration: InputDecoration(
                                                 labelText: 'Width :',
@@ -1062,9 +1074,11 @@ Future FetchContainerMake() async {
                                       SizedBox(
                                         width: 100,
                                         height: 75,
-                                        child: TextField(
+                                        child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller:height,
+                                          onChanged:(value) => widget.fleetformdetails.height,
+                                          onSaved:(value) => widget.fleetformdetails.height,
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               labelText: 'Height :',
@@ -1113,22 +1127,28 @@ Future FetchContainerMake() async {
                                           ))),
                                   child: DropDownField(
                                     controller: selectedReeferUnitManufacturer,
+                                     
                                     hintText: "Select",
                                     enabled: true,
                                     items: reeferunitsp,
-                                    onValueChanged: (value) {
-                                      selectedVehicleReferUnit = value;
+                                    onValueChanged: (value)
+                                     {
+
+                                      widget.fleetformdetails.reefer_unit_manufacturer = value;
+
                                       reeferUnitModelsp.clear();
-                                      if(selectedVehicleReferUnit == "Others")
+
+                                      if(widget.fleetformdetails.reefer_unit_manufacturer == "Others")
                                       {
                                         selectedReeferUnitManufacturer.text =" ";
                                         reeferUnitModelsp.add("Others");
                                       }
-                                      FetchReeferUnitModel(selectedVehicleReferUnit);
+
+                                      FetchReeferUnitModel(widget.fleetformdetails.reefer_unit_manufacturer = value);
                                       
                                       setState(() {
-                                      
-                                        print(selectedVehicleReferUnit);
+                                        
+                                        print(widget.fleetformdetails.reefer_unit_manufacturer = value);
                                       });
                                     },
                                   ),
@@ -1158,14 +1178,14 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: reeferUnitModelsp,
                                     onValueChanged: (value) {
-      
-                                      if(selectedVehicleReferModel == "Others")
+                                      widget.fleetformdetails.reefer_unit_model = value;
+                                      if(widget.fleetformdetails.reefer_unit_model == "Others")
                                       {
                                         selectedReeferUnitModel.text= " ";
                                       }
                                       setState(() {
-                                        selectedVehicleReferModel = value;
-                                        print(selectedVehicleReferModel);
+                                        widget.fleetformdetails.reefer_unit_model = value;
+                                        print(widget.fleetformdetails.reefer_unit_model);
                                       });
                                     },
                                   ),
@@ -1180,6 +1200,9 @@ Future FetchContainerMake() async {
                                 controller: selectedReeferMakeYear =
                                     TextEditingController(
                                         text: refervehicleyeardate),
+                                        onChanged: (value) => widget.fleetformdetails.vehicle_make_year = value,
+                                        onSaved:  (value) => widget.fleetformdetails.vehicle_make_year = value,
+
                                 readOnly: true,
                                 onTap: () {
                                   return showDialog(
@@ -1288,17 +1311,21 @@ Future FetchContainerMake() async {
                                           ))),
                                   child: DropDownField(
                                     controller: selectedContainerMake,
+
                                     hintText: "Select",
                                     enabled: true,
                                     items: _list8,
                                     onValueChanged: (value) {
-                                      if(selectedVehicleContainerMake == "Others")
+
+                                      widget.fleetformdetails.container_make = value;
+                                      if( widget.fleetformdetails.container_make == "Others")
                                       {
                                         selectedContainerMake.text = " ";
                                       }
-                                      setState(() {
-                                        selectedVehicleContainerMake = value;
-                                        print(selectedVehicleContainerMake);
+                                      setState(()
+                                       {
+                                         widget.fleetformdetails.container_make = value;
+                                        print( widget.fleetformdetails.container_make);
                                       });
                                     },
                                   ),
@@ -1309,9 +1336,13 @@ Future FetchContainerMake() async {
                             SizedBox(
                               width: 400,
                               height: 65,
-                              child: TextField(
+                              child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 controller:_Edt_No_of_Vehicles,
+
+                                onChanged: (value) => widget.fleetformdetails.numberofvehicle,
+                                onSaved: (value) => widget.fleetformdetails.numberofvehicle,
+
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefix: Icon(
@@ -1341,9 +1372,13 @@ Future FetchContainerMake() async {
                             SizedBox(
                               width: 400,
                               height: 65,
-                              child: TextField(
+                              child: TextFormField(
                                 keyboardType: TextInputType.text,
                                 controller:_Edt_VehicleNumber,
+
+                                onChanged: (value) =>widget.fleetformdetails.vehicle_number,
+                                onSaved: (value) => widget.fleetformdetails.vehicle_number,
+
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefix: Icon(
@@ -1375,7 +1410,7 @@ Future FetchContainerMake() async {
                             //   child: Padding(
                             //     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             //     child: ElevatedButtonTheme(
-                            //       data: ElevatedButtonThemeData(
+                            //       data:  ElevatedButtonThemeData(
                             //         style: ElevatedButton.styleFrom(
                             //           minimumSize: Size(120.0, 50),
                             //           primary: Color.fromRGBO(17, 24, 66,
@@ -1403,94 +1438,96 @@ Future FetchContainerMake() async {
                           ],
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 30.0,
-                      // ),
-                      // Text(
-                      //   "--------------------OR--------------------",
-                      //   style: TextStyle(
-                      //     fontSize: 18,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: Color.fromARGB(255, 11, 11, 22),
-                      //     fontStyle: FontStyle.normal,
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 20.0,
-                      // ),
-                      // new Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       flex: 1,
-                      //       child: Padding(
-                      //         padding: EdgeInsets.only(left: 5, right: 5),
-                      //         child: SizedBox(
-                      //           child: Padding(
-                      //             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      //             child: ElevatedButtonTheme(
-                      //               data: ElevatedButtonThemeData(
-                      //                 style: ElevatedButton.styleFrom(
-                      //                   minimumSize: Size(120.0, 60),
-                      //                   primary: Color.fromRGBO(17, 24, 66,
-                      //                       40), // Sets color for all the descendent ElevatedButtons
-                      //                   shape: RoundedRectangleBorder(
-                      //                       borderRadius: BorderRadius.all(
-                      //                           Radius.circular(6.0))),
-                      //                 ),
-                      //               ),
-                      //               child: ElevatedButton(
-                      //                 child: Text(' Upload With Excel '),
-                      //                 onPressed: () {
-                      //                   Navigator.push(
-                      //                       context,
-                      //                       MaterialPageRoute(
-                      //                           builder: ((context) =>
-                      //                               FleetDetails())));
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //       flex: 1,
-                      //       child: Padding(
-                      //         padding: EdgeInsets.only(left: 5, right: 5),
-                      //         child: SizedBox(
-                      //           child: ButtonTheme(
-                      //             child: Padding(
-                      //               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      //               child: ElevatedButtonTheme(
-                      //                 data: ElevatedButtonThemeData(
-                      //                   style: ElevatedButton.styleFrom(
-                      //                     minimumSize: Size(120.0, 60),
-                      //                     primary: Color.fromRGBO(17, 24, 66,
-                      //                         40), // Sets color for all the descendent ElevatedButtons
-                      //                     shape: RoundedRectangleBorder(
-                      //                         borderRadius: BorderRadius.all(
-                      //                             Radius.circular(6.0))),
-                      //                   ),
-                      //                 ),
-                      //                 child: ElevatedButton(
-                      //                   child: Text(' Next '),
-                      //                   onPressed: () {
-                      //                     // Navigator.push(
-                      //                     //     context,
-                      //                     //     MaterialPageRoute(
-                      //                     //         builder: ((context) => _submit())));
-                      //                     _submit();
-                      //                   },
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      Text(
+                        "--------------------OR--------------------",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 11, 11, 22),
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: SizedBox(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                  child: ElevatedButtonTheme(
+                                    data: ElevatedButtonThemeData(
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(120.0, 60),
+                                        primary: Color.fromRGBO(17, 24, 66,
+                                            40), // Sets color for all the descendent ElevatedButtons
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6.0))),
+                                      ),
+                                    ),
+                                    child: ElevatedButton(
+                                      child: Text(' Upload With Excel '),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    FleetDetails())));
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: SizedBox(
+                                child: ButtonTheme(
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                    child: ElevatedButtonTheme(
+                                      data: ElevatedButtonThemeData(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size(120.0, 60),
+                                          primary: Color.fromRGBO(17, 24, 66,
+                                              40), // Sets color for all the descendent ElevatedButtons
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.0))),
+                                        ),
+                                      ),
+                                      child: ElevatedButton(
+                                        child: Text(' Next '),
+                                        onPressed: () {
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: ((context) => _submit())));
+
+                                          // for(int i = 0;i<fleetform)
+                                          _submit();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -1561,6 +1598,7 @@ Future FetchContainerMake() async {
     
     // if(isValid)
     // {
+      
       Navigator.push(
           context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
     // }

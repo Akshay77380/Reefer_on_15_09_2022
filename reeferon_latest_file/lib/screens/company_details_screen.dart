@@ -134,7 +134,9 @@ print("Company Details:"+loginData.mobilenum);
   void initState() {
     super.initState();
     loginData = widget.loginScreenModel;
+     
     print("Contanct num ${widget.loginScreenModel}");
+
     // fetch pincode here
     FetchCompanyNameList();
     FetchCompanyTypeList();

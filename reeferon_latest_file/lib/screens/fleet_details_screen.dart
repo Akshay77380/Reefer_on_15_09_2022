@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:referon/models/fleetFormDetails.dart';
 import 'package:referon/models/getVehicleModel.dart';
 import 'package:referon/models/login_model.dart';
+import 'package:referon/screens/multi_fleet_screen.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
@@ -631,17 +632,17 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: data,
                                     onValueChanged: (value) async {
-                                      selectVehicle = value;
-                                      print("Data of Selected Vehicle Name: " +selectVehicle);
+                                      widget.fleetformdetails.vehicle_manufacturer = value;
+                                      print("Data of Selected Vehicle Name: " +widget.fleetformdetails.vehicle_manufacturer );
                                       _list2.clear();
       
-                                      if(selectVehicle == "Others")
+                                      if(widget.fleetformdetails.vehicle_manufacturer  == "Others")
                                       {
                                         selectedVehicleManufacturer.text = " ";
                                         _list2.add("Others");
                                       }
       
-                                      FetchVehicleModel(selectVehicle);
+                                      FetchVehicleModel(widget.fleetformdetails.vehicle_manufacturer);
       
                                       setState(() async {
                                         print(selectVehicle);
@@ -1587,7 +1588,7 @@ Future FetchContainerMake() async {
     // if(isValid)
     // {
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
+          context, MaterialPageRoute(builder: ((context) => MultiFleetScreen(loginScreenModel: logindata))));
     // }
 
   }

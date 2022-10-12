@@ -27,10 +27,6 @@ class VerifyMe extends StatefulWidget {
   State<VerifyMe> createState() => _VerifyMeState();
 } 
 
-
-
-
-
 class _VerifyMeState extends State<VerifyMe> {
   OtpFieldController otpController = OtpFieldController();
   String text = "";
