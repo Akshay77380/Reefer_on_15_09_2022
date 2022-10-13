@@ -923,8 +923,8 @@ Future FetchContainerMake() async {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 controller:selectedVehicleCapacity,
-                                onChanged: (value)=>widget.fleetformdetails.vehicle_capacity,
-                                onSaved:(value) => widget.fleetformdetails.vehicle_capacity,
+                                onChanged: (value)=>widget.fleetformdetails.vehicle_capacity = value,
+                                onSaved:(value) => widget.fleetformdetails.vehicle_capacity = value,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefix: Icon(
@@ -1005,8 +1005,8 @@ Future FetchContainerMake() async {
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller: length,
-                                          onChanged: (value) => widget.fleetformdetails.length,
-                                          onSaved: (value) => widget.fleetformdetails.length,
+                                          onChanged: (value) => widget.fleetformdetails.length = value,
+                                          onSaved: (value) => widget.fleetformdetails.length = value,
 
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
@@ -1042,8 +1042,8 @@ Future FetchContainerMake() async {
                                           child: TextFormField(
                                             keyboardType: TextInputType.number,
                                             controller: width,
-                                            onChanged: (value) => widget.fleetformdetails.width,
-                                            onSaved: (value) => widget.fleetformdetails.width,
+                                            onChanged: (value) => widget.fleetformdetails.width = value,
+                                            onSaved: (value) => widget.fleetformdetails.width = value,
                                             textAlign: TextAlign.center,
                                             decoration: InputDecoration(
                                                 labelText: 'Width :',
@@ -1077,8 +1077,8 @@ Future FetchContainerMake() async {
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller:height,
-                                          onChanged:(value) => widget.fleetformdetails.height,
-                                          onSaved:(value) => widget.fleetformdetails.height,
+                                          onChanged:(value) => widget.fleetformdetails.height = value,
+                                          onSaved:(value) => widget.fleetformdetails.height = value,
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               labelText: 'Height :',
@@ -1190,7 +1190,7 @@ Future FetchContainerMake() async {
                                     },
                                   ),
                                 )),
-                            SizedBox(
+                            SizedBox( 
                               height: 10,
                             ),
                             SizedBox(
@@ -1200,8 +1200,8 @@ Future FetchContainerMake() async {
                                 controller: selectedReeferMakeYear =
                                     TextEditingController(
                                         text: refervehicleyeardate),
-                                        onChanged: (value) => widget.fleetformdetails.vehicle_make_year = value,
-                                        onSaved:  (value) => widget.fleetformdetails.vehicle_make_year = value,
+                                        onChanged: (value) => widget.fleetformdetails.reefer_make_year = value,
+                                        onSaved:  (value) => widget.fleetformdetails.reefer_make_year = value,
 
                                 readOnly: true,
                                 onTap: () {
@@ -1340,8 +1340,8 @@ Future FetchContainerMake() async {
                                 keyboardType: TextInputType.number,
                                 controller:_Edt_No_of_Vehicles,
 
-                                onChanged: (value) => widget.fleetformdetails.numberofvehicle,
-                                onSaved: (value) => widget.fleetformdetails.numberofvehicle,
+                                onChanged: (value) => widget.fleetformdetails.numberofvehicle = value,
+                                onSaved: (value) => widget.fleetformdetails.numberofvehicle = value,
 
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -1376,8 +1376,8 @@ Future FetchContainerMake() async {
                                 keyboardType: TextInputType.text,
                                 controller:_Edt_VehicleNumber,
 
-                                onChanged: (value) =>widget.fleetformdetails.vehicle_number,
-                                onSaved: (value) => widget.fleetformdetails.vehicle_number,
+                                onChanged: (value) =>widget.fleetformdetails.vehicle_number = value,
+                                onSaved: (value) => widget.fleetformdetails.vehicle_number = value,
 
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -1387,7 +1387,7 @@ Future FetchContainerMake() async {
                                     ),
                                     iconColor: Color.fromRGBO(17, 24, 66, 100),
                                     labelText: 'Vehicle Number :',
-                                    hintText: 'Example: MH 01 CS 7859, MH 01 TL 1234',
+                                    hintText: ' Example: MH 01 CS 7859 , MH 01 TL 1234 ',
                                     labelStyle: TextStyle(color: Colors.black),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -1441,93 +1441,93 @@ Future FetchContainerMake() async {
                       SizedBox(
                         height: 30.0,
                       ),
-                      Text(
-                        "--------------------OR--------------------",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 11, 11, 22),
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: SizedBox(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                  child: ElevatedButtonTheme(
-                                    data: ElevatedButtonThemeData(
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize: Size(120.0, 60),
-                                        primary: Color.fromRGBO(17, 24, 66,
-                                            40), // Sets color for all the descendent ElevatedButtons
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(6.0))),
-                                      ),
-                                    ),
-                                    child: ElevatedButton(
-                                      child: Text(' Upload With Excel '),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    FleetDetails())));
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: SizedBox(
-                                child: ButtonTheme(
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                    child: ElevatedButtonTheme(
-                                      data: ElevatedButtonThemeData(
-                                        style: ElevatedButton.styleFrom(
-                                          minimumSize: Size(120.0, 60),
-                                          primary: Color.fromRGBO(17, 24, 66,
-                                              40), // Sets color for all the descendent ElevatedButtons
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.0))),
-                                        ),
-                                      ),
-                                      child: ElevatedButton(
-                                        child: Text(' Next '),
-                                        onPressed: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: ((context) => _submit())));
+                      // Text(
+                      //   "--------------------OR--------------------",
+                      //   style: TextStyle(
+                      //     fontSize: 18,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: Color.fromARGB(255, 11, 11, 22),
+                      //     fontStyle: FontStyle.normal,
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 20.0,
+                      // ),
+                      // new Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: <Widget>[
+                      //     Expanded(
+                      //       flex: 1,
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 5, right: 5),
+                      //         child: SizedBox(
+                      //           child: Padding(
+                      //             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      //             child: ElevatedButtonTheme(
+                      //               data: ElevatedButtonThemeData(
+                      //                 style: ElevatedButton.styleFrom(
+                      //                   minimumSize: Size(120.0, 60),
+                      //                   primary: Color.fromRGBO(17, 24, 66,
+                      //                       40), // Sets color for all the descendent ElevatedButtons
+                      //                   shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.all(
+                      //                           Radius.circular(6.0))),
+                      //                 ),
+                      //               ),
+                      //               child: ElevatedButton(
+                      //                 child: Text(' Upload With Excel '),
+                      //                 onPressed: () {
+                      //                   Navigator.push(
+                      //                       context,
+                      //                       MaterialPageRoute(
+                      //                           builder: ((context) =>
+                      //                               FleetDetails())));
+                      //                 },
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       flex: 1,
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 5, right: 5),
+                      //         child: SizedBox(
+                      //           child: ButtonTheme(
+                      //             child: Padding(
+                      //               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      //               child: ElevatedButtonTheme(
+                      //                 data: ElevatedButtonThemeData(
+                      //                   style: ElevatedButton.styleFrom(
+                      //                     minimumSize: Size(120.0, 60),
+                      //                     primary: Color.fromRGBO(17, 24, 66,
+                      //                         40), // Sets color for all the descendent ElevatedButtons
+                      //                     shape: RoundedRectangleBorder(
+                      //                         borderRadius: BorderRadius.all(
+                      //                             Radius.circular(6.0))),
+                      //                   ),
+                      //                 ),
+                      //                 child: ElevatedButton(
+                      //                   child: Text(' Next '),
+                      //                   onPressed: () {
+                      //                     // Navigator.push(
+                      //                     //     context,
+                      //                     //     MaterialPageRoute(
+                      //                     //         builder: ((context) => _submit())));
 
-                                          // for(int i = 0;i<fleetform)
-                                          _submit();
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      //                     // for(int i = 0;i<fleetform)
+                      //                     _submit();
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

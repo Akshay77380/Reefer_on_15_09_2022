@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:dropdownfield/dropdownfield.dart';
 
 class FaQ extends StatefulWidget {
-
   const FaQ({Key key}) : super(key: key);
 
   @override
@@ -33,17 +32,15 @@ class _FaQState extends State<FaQ> {
 }
 
 class FaqDetails extends StatefulWidget {
-
-   LoginScreenModel loginScreenModel;
-   FaqDetails({Key key, this.loginScreenModel}) : super(key: key);
+  LoginScreenModel loginScreenModel;
+  FaqDetails({Key key, this.loginScreenModel}) : super(key: key);
 
   @override
   State<FaqDetails> createState() => _FaqDetailsState();
 }
 
 class _FaqDetailsState extends State<FaqDetails> {
-
-   final _formKey2= GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
 
@@ -400,7 +397,6 @@ class _FaqDetailsState extends State<FaqDetails> {
 
   bool viewVisible = false;
 
- 
   final selectedCompanyName = TextEditingController();
   String selectcompanyname = "";
   final _Edt_CompanyName = TextEditingController();
@@ -408,7 +404,7 @@ class _FaqDetailsState extends State<FaqDetails> {
   @override
   void initState() {
     super.initState();
-     print("InSide faq Details: ${widget.loginScreenModel.vehiclemanufacturer}");
+    //  print("InSide faq Details: ${widget.loginScreenModel.vehiclemanufacturer}");
     FetchPreferedBankingList();
     FetchFastTagList();
     FetchinsuranceList();
@@ -417,10 +413,7 @@ class _FaqDetailsState extends State<FaqDetails> {
     FetchvehicleoemList();
     FetchtyreoemList();
     FetchreeferoemList();
-
-    
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -530,7 +523,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               focusNode: FocusNode(),
-                              keyboardType: TextInputType.name,  
+                              keyboardType: TextInputType.name,
                               textAlign: TextAlign.center,
                               controller: _Edt_CompanyName,
                               onFieldSubmitted: (value) {},
@@ -812,7 +805,46 @@ class _FaqDetailsState extends State<FaqDetails> {
                             child: ElevatedButtonTheme(
                               data: ElevatedButtonThemeData(
                                 style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(180.0, 50),
+                                  minimumSize: Size(400.0, 50),
+
+                                  primary: Color.fromRGBO(17, 24, 66,
+                                      40), // Sets color for all the descendent ElevatedButtons
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6.0))),
+                                ),
+                              ),
+                              child: ElevatedButton(
+                                child: Text(' Add More '),
+                                onPressed: () {
+                                  // onSubmit();
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Text(
+                          "--------------------OR--------------------",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 11, 11, 22),
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        ButtonTheme(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            child: ElevatedButtonTheme(
+                              data: ElevatedButtonThemeData(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(400.0, 50),
 
                                   primary: Color.fromRGBO(17, 24, 66,
                                       40), // Sets color for all the descendent ElevatedButtons
@@ -824,7 +856,7 @@ class _FaqDetailsState extends State<FaqDetails> {
                               child: ElevatedButton(
                                 child: Text(' Submit '),
                                 onPressed: () {
-                                onSubmit();
+                                  onSubmit();
                                 },
                               ),
                             ),
@@ -844,193 +876,172 @@ class _FaqDetailsState extends State<FaqDetails> {
     Navigator.pop(context);
   }
 
-  void onSubmit()async{
-
-
-// updated data 
-     LoginScreenModel logindata = widget.loginScreenModel;
-       logindata = LoginScreenModel(
-
-    mobilenum: widget.loginScreenModel.mobilenum,
-
-
-    companyname: widget.loginScreenModel.companyname,
-    companytype: widget.loginScreenModel.companytype,
-    businesstype: widget.loginScreenModel.businesstype,
-    address1: widget.loginScreenModel.address1,
-    address2: widget.loginScreenModel.address2,
-    pincode: widget.loginScreenModel.pincode,
-    city: widget.loginScreenModel.city,
-    state: widget.loginScreenModel.state,
-    country: widget.loginScreenModel.country,
-
-
-    firstname: widget.loginScreenModel.firstname,
-    lastname:  widget.loginScreenModel.lastname,
-    registeredmobilenum:  widget.loginScreenModel.registeredmobilenum,
-    alternativemobilenum :  widget.loginScreenModel.alternativemobilenum,
-    emailaddress:  widget.loginScreenModel.emailaddress,
-    designation:  widget.loginScreenModel.designation,
-    pancardno:  widget.loginScreenModel.pancardno,
-    pancardimg:  widget.loginScreenModel.pancardimg,
-    cancelchequeno: widget.loginScreenModel.cancelchequeno,
-    cancelchequeimg: widget.loginScreenModel.cancelchequeimg,
-    gstno : widget.loginScreenModel.gstno,
-    gstnoimg : widget.loginScreenModel.gstnoimg,
-    fssailicenseno:  widget.loginScreenModel.fssailicenseno,
-    fssaillicenseimg: widget.loginScreenModel.fssaillicenseimg,
-    businesscardno: widget.loginScreenModel.businesscardno,
-    businesscardnoimg: widget.loginScreenModel.businesscardnoimg,
-    otherscardno:  widget.loginScreenModel.otherscardno,
-    otherscardnoimg: widget.loginScreenModel.otherscardnoimg,
-
-    vehiclemanufacturer: widget.loginScreenModel.vehiclemanufacturer,
-    vehiclemodel:widget.loginScreenModel.vehiclemodel,
-    vehiclemakeyear: widget.loginScreenModel.vehiclemakeyear,
-    vehiclecapactity:widget.loginScreenModel.vehiclecapactity,
-    length:widget.loginScreenModel.length,
-    width:widget.loginScreenModel.width,
-    height:widget.loginScreenModel.height,
-    reeferunitmanufacture: widget.loginScreenModel.reeferunitmanufacture,
-    reeferunitmodel: widget.loginScreenModel.reeferunitmodel,
-    reefermakeyear: widget.loginScreenModel.reefermakeyear,
-    containermake: widget.loginScreenModel.containermake,
-    no_of_vehicles:widget.loginScreenModel.no_of_vehicles,
-    vehiclenum:widget.loginScreenModel.vehiclenum,
-
-    preferredbankingpartner:selectedPreferredBankingPartner.text,
-    preferedfast_tagpartner:selectedPreferredFastTagPartner.text,
-    preferedinsurancepartner:selectedPreferredInsurancePartner.text,
-    preferedfuelpartner:selectedPreferredFuelPartner.text,
-    preferedcontaineroem:selectedPreferredContainerOEM.text,
-    preferedvehicleoem:selectedPreferredVehicleOEM.text,
-    preferedtyreoem:selectedPreferredTyreOEM.text,
-    preferedreeferoem:selectedPreferredReeferOEM.text
-    );
+  void onSubmit() async {
+// updated data
+    LoginScreenModel logindata = widget.loginScreenModel;
+    logindata = LoginScreenModel(
+        mobilenum: widget.loginScreenModel.mobilenum,
+        companyname: widget.loginScreenModel.companyname,
+        companytype: widget.loginScreenModel.companytype,
+        businesstype: widget.loginScreenModel.businesstype,
+        address1: widget.loginScreenModel.address1,
+        address2: widget.loginScreenModel.address2,
+        pincode: widget.loginScreenModel.pincode,
+        city: widget.loginScreenModel.city,
+        state: widget.loginScreenModel.state,
+        country: widget.loginScreenModel.country,
+        firstname: widget.loginScreenModel.firstname,
+        lastname: widget.loginScreenModel.lastname,
+        registeredmobilenum: widget.loginScreenModel.registeredmobilenum,
+        alternativemobilenum: widget.loginScreenModel.alternativemobilenum,
+        emailaddress: widget.loginScreenModel.emailaddress,
+        designation: widget.loginScreenModel.designation,
+        pancardno: widget.loginScreenModel.pancardno,
+        pancardimg: widget.loginScreenModel.pancardimg,
+        cancelchequeno: widget.loginScreenModel.cancelchequeno,
+        cancelchequeimg: widget.loginScreenModel.cancelchequeimg,
+        gstno: widget.loginScreenModel.gstno,
+        gstnoimg: widget.loginScreenModel.gstnoimg,
+        fssailicenseno: widget.loginScreenModel.fssailicenseno,
+        fssaillicenseimg: widget.loginScreenModel.fssaillicenseimg,
+        businesscardno: widget.loginScreenModel.businesscardno,
+        businesscardnoimg: widget.loginScreenModel.businesscardnoimg,
+        otherscardno: widget.loginScreenModel.otherscardno,
+        otherscardnoimg: widget.loginScreenModel.otherscardnoimg,
+        vehiclemanufacturer: widget.loginScreenModel.vehiclemanufacturer,
+        vehiclemodel: widget.loginScreenModel.vehiclemodel,
+        vehiclemakeyear: widget.loginScreenModel.vehiclemakeyear,
+        vehiclecapactity: widget.loginScreenModel.vehiclecapactity,
+        length: widget.loginScreenModel.length,
+        width: widget.loginScreenModel.width,
+        height: widget.loginScreenModel.height,
+        reeferunitmanufacture: widget.loginScreenModel.reeferunitmanufacture,
+        reeferunitmodel: widget.loginScreenModel.reeferunitmodel,
+        reefermakeyear: widget.loginScreenModel.reefermakeyear,
+        containermake: widget.loginScreenModel.containermake,
+        no_of_vehicles: widget.loginScreenModel.no_of_vehicles,
+        vehiclenum: widget.loginScreenModel.vehiclenum,
+        preferredbankingpartner: selectedPreferredBankingPartner.text,
+        preferedfast_tagpartner: selectedPreferredFastTagPartner.text,
+        preferedinsurancepartner: selectedPreferredInsurancePartner.text,
+        preferedfuelpartner: selectedPreferredFuelPartner.text,
+        preferedcontaineroem: selectedPreferredContainerOEM.text,
+        preferedvehicleoem: selectedPreferredVehicleOEM.text,
+        preferedtyreoem: selectedPreferredTyreOEM.text,
+        preferedreeferoem: selectedPreferredReeferOEM.text);
 
     print(jsonEncode({
-    "CompanyName":logindata.companyname,
-    "firstName":logindata.firstname,
-    "lastName":logindata.lastname,
-    "contact":logindata.mobilenum,
-    "altcontact":logindata.alternativemobilenum,
-    "emailid":logindata.emailaddress,
-    "landmark":logindata.landmark,
-    "Address1":logindata.address1,
-    "Address2":logindata.address2,
-    "Designation":logindata.designation,
-    "pincode":logindata.pincode,
-    "city":logindata.city,
-    "panNo":logindata.pancardno,
-    "PanImg":logindata.pancardimg,
-    "year":logindata.vehiclemakeyear,
-    "CompanyType":logindata.companytype,
-    "BusinessType":logindata.businesstype,
-    "VendorType":"",
-    "PreferredInsurance":logindata.preferedinsurancepartner,
-    "PreferredFuel":logindata.preferedfuelpartner,
-    "PreferredContainer":logindata.preferedcontaineroem,
-    "PreferredVehicle":logindata.preferedvehicleoem,
-    "PreferredTyreOEM":logindata.preferedtyreoem,
-    "PreferredReeferOEM":logindata.preferedreeferoem,
-    "CancelChequeNo":logindata.cancelchequeno,
-    "CancelChequeIMG":logindata.cancelchequeimg,
-    "GstNo":logindata.gstno,
-    "GSTImg":logindata.gstnoimg,
-    "FSSAILicNo":logindata.fssailicenseno,
-    "FSSAIImg":logindata.fssaillicenseimg,
-    "BusinessCard":logindata.businesscardno,
-    "BusinessImg":logindata.businesscardnoimg,
-    "OtherDoc":logindata.otherscardno,
-    "OtherDocImg":logindata.otherscardnoimg,
-    "Region":logindata.city,
-    "StateName":logindata.state,
-    "CountryName":logindata.country,
+      "CompanyName": logindata.companyname,
+      "firstName": logindata.firstname,
+      "lastName": logindata.lastname,
+      "contact": logindata.mobilenum,
+      "altcontact": logindata.alternativemobilenum,
+      "emailid": logindata.emailaddress,
+      "landmark": logindata.landmark,
+      "Address1": logindata.address1,
+      "Address2": logindata.address2,
+      "Designation": logindata.designation,
+      "pincode": logindata.pincode,
+      "city": logindata.city,
+      "panNo": logindata.pancardno,
+      "PanImg": logindata.pancardimg,
+      "year": logindata.vehiclemakeyear,
+      "CompanyType": logindata.companytype,
+      "BusinessType": logindata.businesstype,
+      "VendorType": "",
+      "PreferredInsurance": logindata.preferedinsurancepartner,
+      "PreferredFuel": logindata.preferedfuelpartner,
+      "PreferredContainer": logindata.preferedcontaineroem,
+      "PreferredVehicle": logindata.preferedvehicleoem,
+      "PreferredTyreOEM": logindata.preferedtyreoem,
+      "PreferredReeferOEM": logindata.preferedreeferoem,
+      "CancelChequeNo": logindata.cancelchequeno,
+      "CancelChequeIMG": logindata.cancelchequeimg,
+      "GstNo": logindata.gstno,
+      "GSTImg": logindata.gstnoimg,
+      "FSSAILicNo": logindata.fssailicenseno,
+      "FSSAIImg": logindata.fssaillicenseimg,
+      "BusinessCard": logindata.businesscardno,
+      "BusinessImg": logindata.businesscardnoimg,
+      "OtherDoc": logindata.otherscardno,
+      "OtherDocImg": logindata.otherscardnoimg,
+      "Region": logindata.city,
+      "StateName": logindata.state,
+      "CountryName": logindata.country,
+      "vehicleManufacturer": logindata.vehiclemanufacturer,
+      "vehicleModel": logindata.vehiclemodel,
+      "vehicleMAkeYear": logindata.vehiclemakeyear,
+      "VehicleCapMT": logindata.vehiclecapactity,
+      "reeferUnitModel": logindata.reeferunitmodel,
+      "reeferMakeYear": logindata.reefermakeyear,
+      "containerMake": logindata.containermake,
+      "vehicleCount": logindata.no_of_vehicles
+    }));
 
-    "vehicleManufacturer":logindata.vehiclemanufacturer,
-    "vehicleModel":logindata.vehiclemodel,
-    "vehicleMAkeYear":logindata.vehiclemakeyear,
-    "VehicleCapMT":logindata.vehiclecapactity,
-    "reeferUnitModel":logindata.reeferunitmodel,
-    "reeferMakeYear":logindata.reefermakeyear,
-    "containerMake":logindata.containermake,
-    "vehicleCount":logindata.no_of_vehicles
- 
-}));
+    http.Response response = await http.post(
+        Uri.parse("http://neotech.v-cloud.in/referonapi/submitApi"),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          "CompanyName": logindata.companyname,
+          "firstName": logindata.firstname,
+          "lastName": logindata.lastname,
+          "contact": logindata.mobilenum,
+          "altcontact": logindata.alternativemobilenum,
+          "emailid": logindata.emailaddress,
+          "landmark": logindata.landmark,
+          "Address1": logindata.address1,
+          "Address2": logindata.address2,
+          "Designation": logindata.designation,
+          "pincode": logindata.pincode,
+          "city": logindata.city,
+          "panNo": logindata.pancardno,
+          "PanImg": logindata.pancardimg,
+          "year": logindata.vehiclemakeyear,
+          "CompanyType": logindata.companytype,
+          "BusinessType": logindata.businesstype,
+          "VendorType": "",
+          "PreferredInsurance": logindata.preferedinsurancepartner,
+          "PreferredFuel": logindata.preferedfuelpartner,
+          "PreferredContainer": logindata.preferedcontaineroem,
+          "PreferredVehicle": logindata.preferedvehicleoem,
+          "PreferredTyreOEM": logindata.preferedtyreoem,
+          "PreferredReeferOEM": logindata.preferedreeferoem,
+          "CancelChequeNo": logindata.cancelchequeno,
+          "CancelChequeIMG": logindata.cancelchequeimg,
+          "GstNo": logindata.gstno,
+          "GSTImg": logindata.gstnoimg,
+          "FSSAILicNo": logindata.fssailicenseno,
+          "FSSAIImg": logindata.fssaillicenseimg,
+          "BusinessCard": logindata.businesscardno,
+          "BusinessImg": logindata.businesscardnoimg,
+          "OtherDoc": logindata.otherscardno,
+          "OtherDocImg": logindata.otherscardnoimg,
+          "Region": logindata.city,
+          "StateName": logindata.state,
+          "CountryName": logindata.country,
+          "vehicleManufacturer": logindata.vehiclemanufacturer,
+          "vehicleModel": logindata.vehiclemodel,
+          "vehicleMAkeYear": logindata.vehiclemakeyear,
+          "VehicleCapMT": logindata.vehiclecapactity,
+          "reeferUnitModel": logindata.reeferunitmodel,
+          "reeferMakeYear": logindata.reefermakeyear,
+          "containerMake": logindata.containermake,
+          "vehicleCount": logindata.no_of_vehicles
+        }));
 
-    
+    print("Response body${response.body}");
 
-    http.Response response =  await http.post(Uri.parse("http://neotech.v-cloud.in/referonapi/submitApi"),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-     body: jsonEncode({
-    "CompanyName":logindata.companyname,
-    "firstName":logindata.firstname,
-    "lastName":logindata.lastname,
-    "contact":logindata.mobilenum,
-    "altcontact":logindata.alternativemobilenum,
-    "emailid":logindata.emailaddress,
-    "landmark":logindata.landmark,
-    "Address1":logindata.address1,
-    "Address2":logindata.address2,
-    "Designation":logindata.designation,
-    "pincode":logindata.pincode,
-    "city":logindata.city,
-    "panNo":logindata.pancardno,
-    "PanImg":logindata.pancardimg,
-    "year":logindata.vehiclemakeyear,
-    "CompanyType":logindata.companytype,
-    "BusinessType":logindata.businesstype,
-    "VendorType":"",
-    "PreferredInsurance":logindata.preferedinsurancepartner,
-    "PreferredFuel":logindata.preferedfuelpartner,
-    "PreferredContainer":logindata.preferedcontaineroem,
-    "PreferredVehicle":logindata.preferedvehicleoem,
-    "PreferredTyreOEM":logindata.preferedtyreoem,
-    "PreferredReeferOEM":logindata.preferedreeferoem,
-    "CancelChequeNo":logindata.cancelchequeno,
-    "CancelChequeIMG":logindata.cancelchequeimg,
-    "GstNo":logindata.gstno,
-    "GSTImg":logindata.gstnoimg,
-    "FSSAILicNo":logindata.fssailicenseno,
-    "FSSAIImg":logindata.fssaillicenseimg,
-    "BusinessCard":logindata.businesscardno,
-    "BusinessImg":logindata.businesscardnoimg,
-    "OtherDoc":logindata.otherscardno,
-    "OtherDocImg":logindata.otherscardnoimg,
-    "Region":logindata.city,
-    "StateName":logindata.state,
-    "CountryName":logindata.country,
+    Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => SuccessScreen())));
 
-    "vehicleManufacturer":logindata.vehiclemanufacturer,
-    "vehicleModel":logindata.vehiclemodel,
-    "vehicleMAkeYear":logindata.vehiclemakeyear,
-    "VehicleCapMT":logindata.vehiclecapactity,
-    "reeferUnitModel":logindata.reeferunitmodel,
-    "reeferMakeYear":logindata.reefermakeyear,
-    "containerMake":logindata.containermake,
-    "vehicleCount":logindata.no_of_vehicles
- 
-}));
-
-print("Response body${response.body}");
-
-
-
-Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    SuccessScreen())));
-
-                                                    
-// final text = 'Thanks for completing the Onboarding Formalities, within 48hrs will update you the status'; 
+// final text = 'Thanks for completing the Onboarding Formalities, within 48hrs will update you the status';
 //                                         final snackBar = SnackBar(content: Text(text));
 
 //                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
- 
+
 // print("Saved Data:"+
 //         "Company Name:"+logindata.companyname+
 //        "firstName :"+logindata.firstname+
@@ -1076,13 +1087,13 @@ Navigator.push(
 //        "reefer unit model :"+logindata.reeferunitmodel+
 //        "reefer make year :"+logindata.reefermakeyear+
 //        "container make "+logindata.containermake+
-//        "vehicle count :"+logindata.no_of_vehicles 
+//        "vehicle count :"+logindata.no_of_vehicles
 
 //     );
 
-      // Navigator.push(
-      //                                 context,
-      //                                 MaterialPageRoute(
-      //                                     builder: ((context) => DashBoard())));
+    // Navigator.push(
+    //                                 context,
+    //                                 MaterialPageRoute(
+    //                                     builder: ((context) => DashBoard())));
   }
 }
