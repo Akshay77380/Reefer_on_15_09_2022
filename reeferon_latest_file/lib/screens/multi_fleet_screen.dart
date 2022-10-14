@@ -7,13 +7,15 @@ import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/empty_state.dart';
 import 'package:referon/screens/faq_screen.dart';
 import 'package:referon/screens/fleet_item_widget.dart';
+import 'package:referon/screens/multi_faq_screen.dart';
 import 'package:referon/screens/multi_fleet_screen.dart';
 import 'fleet_details_screen.dart';
 
 class MultiFleetScreen extends StatefulWidget {
+
   LoginScreenModel loginScreenModel;
   MultiFleetScreen({Key key, this.loginScreenModel}) : super(key: key);
-  
+
   @override
   State<StatefulWidget> createState() {
     return _MultiFleetScreenState();
@@ -26,7 +28,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
   void initState() {
     // TODO: implement initState
     
-    //  print("InSide  Mullti Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
+     print("InSide  Mullti Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
     super.initState();
   }
 
@@ -149,7 +151,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
       }
 
 
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => FaqDetails())));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen())));
     } 
     else {
       print(" Empty Data ");

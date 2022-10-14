@@ -14,8 +14,9 @@ import 'package:referon/utils/Common.dart';
 import 'package:http/http.dart' as http;
 
 class FleetItemWidget extends StatefulWidget {
-LoginScreenModel loginScreenModel;
- FleetItemWidget({ Key key, this.fleetformdetails,this.index, this.onRemove }) : super(key: key);
+
+  LoginScreenModel loginScreenModel;
+  FleetItemWidget({ Key key, this.fleetformdetails,this.index, this.onRemove }) : super(key: key);
 
   final index;
   FleetFormDetails fleetformdetails;
@@ -606,6 +607,7 @@ Future FetchContainerMake() async {
                                       widget.fleetformdetails.vehicle_manufacturer = value;
                                       
                                       print("Data of Selected Vehicle Name: " +widget.fleetformdetails.vehicle_manufacturer);
+                                      
                                       _list2.clear();
       
                                       if(widget.fleetformdetails.vehicle_manufacturer == "Others")
@@ -1599,8 +1601,8 @@ Future FetchContainerMake() async {
     // if(isValid)
     // {
       
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
     // }
 
   }

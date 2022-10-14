@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:referon/models/faqFormDetails.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/dashBoard_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -33,10 +34,21 @@ class _FaQState extends State<FaQ> {
 
 class FaqDetails extends StatefulWidget {
   LoginScreenModel loginScreenModel;
-  FaqDetails({Key key, this.loginScreenModel}) : super(key: key);
+  FaqDetails({Key key, this.faqFormDetails,this.index, this.onRemove}) : super(key: key);
 
+  final index;
+  FaqFormDetails faqFormDetails;
+  final Function onRemove;
+  final state = _FaqDetailsState();
+ 
+ 
   @override
-  State<FaqDetails> createState() => _FaqDetailsState();
+  State<FaqDetails> createState() {
+    return state;
+  }
+  
+
+  bool isValidated() => state.validate();
 }
 
 class _FaqDetailsState extends State<FaqDetails> {
@@ -416,20 +428,14 @@ class _FaqDetailsState extends State<FaqDetails> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        moveToLastScreen();
-      },
-      child: Scaffold(
-          appBar: AppBar(
-            title:
-                Image.asset('assets/images/loginheader.png', fit: BoxFit.cover),
-            backgroundColor: Colors.white,
-            elevation: 0,
-          ),
-          backgroundColor: Colors.white,
-          body: Form(
+  Widget build(BuildContext context)
+  {
+    return Material(
+      
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+            
+          child: Form(
             key: _formKey2,
             child: Container(
               decoration: BoxDecoration(
@@ -478,104 +484,47 @@ class _FaqDetailsState extends State<FaqDetails> {
                           height: 50.0,
                           child: Center(), //Center
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 0, right: 0),
-                            child: InputDecorator(
-                              decoration: InputDecoration(
-                                  filled: true,
-                                  labelText: 'Preferred Banking Partner : ',
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(17, 24, 66, 100),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0),
-                                      ))),
-                              child: DropDownField(
-                                controller: selectedPreferredBankingPartner,
-                                hintText: "Select",
-                                enabled: true,
-                                items: preferedbankinglist,
-                                onValueChanged: (value) {
-                                  setState(() {
-                                    selectpreferredbankingpartner = value;
-                                    print("Selected Partner" +
-                                        selectpreferredbankingpartner);
-
-                                    if (selectedPreferredBankingPartner ==
-                                        "Others") {
-                                      setState(() {
-                                        viewVisible = true;
-                                      });
-                                    }
-                                  });
-                                },
-                              ),
-                            )),
-                        Visibility(
-                          visible: viewVisible,
-                          child: SizedBox(
-                            width: 400,
-                            child: TextFormField(
-                              autofocus: false,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              focusNode: FocusNode(),
-                              keyboardType: TextInputType.name,
-                              textAlign: TextAlign.center,
-                              controller: _Edt_CompanyName,
-                              onFieldSubmitted: (value) {},
-                              validator: (text) {
-                                if (text.isEmpty) {
-                                  return 'Company Name Cannot be Empty ';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefix: Icon(
-                                    Icons.business,
-                                    size: 20,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      width: 0,
-                                      color: Colors.red,
+                        Container(
+                        
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 0, right: 0),
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                    filled: true,
+                                    labelText: 'Preferred Banking Partner : ',
+                                    labelStyle: TextStyle(
+                                      color: Color.fromRGBO(17, 24, 66, 100),
                                     ),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  errorStyle: _focusNode.hasFocus
-                                      ? TextStyle(
-                                          fontSize: 0,
-                                          height: 0,
-                                          color: Colors.white)
-                                      : null,
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                  labelText: 'Company Name :',
-                                  labelStyle: TextStyle(color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0,
-                                        color: Color.fromARGB(255, 5, 10, 22)),
-                                    borderRadius: BorderRadius.circular(15),
-                                  )),
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
+                                    border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ))),
+                                child: DropDownField(
+                                  controller: selectedPreferredBankingPartner,
+
+                                  hintText: "Select",
+                                  enabled: true,
+                                  items: preferedbankinglist,
+                                  onValueChanged: (value) {
+                                    widget.faqFormDetails.preferedbankingpartner = value;
+                                    print("Data of Selected Prefered banking partner: " + widget.faqFormDetails.preferedbankingpartner);
+                                    setState(() {
+                                      
+                        
+                                      if (widget.faqFormDetails.preferedbankingpartner ==
+                                          "Others") {
+                                        setState(() {
+                                          viewVisible = true;
+                                        });
+                                      }
+                                    });
+                                  },
+                                ),
+                              )),
                         ),
+                        
                         SizedBox(
                           height: 20.0,
                           child: Center(), //Center
@@ -597,13 +546,25 @@ class _FaqDetailsState extends State<FaqDetails> {
                                       ))),
                               child: DropDownField(
                                 controller: selectedPreferredFastTagPartner,
+
                                 hintText: "Select",
                                 enabled: true,
                                 items: preferedFastaglist,
                                 onValueChanged: (value) {
+                                  widget.faqFormDetails.preferedfastagpartner = value;
+
+                                    if(widget.faqFormDetails.preferedfastagpartner == "Others")
+                                    {
+
+                                      selectedPreferredFastTagPartner.text = " ";
+                                      
+
+                                      }
                                   setState(() {
-                                    selectpreferredfasttag = value;
-                                    print(selectpreferredfasttag);
+
+                                      print(widget.faqFormDetails.preferedfastagpartner);
+
+                                    
                                   });
                                 },
                               ),
@@ -633,9 +594,16 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 enabled: true,
                                 items: preferedinsurancelist,
                                 onValueChanged: (value) {
+
+                                  widget.faqFormDetails.preferedinsurancepartner = value;
+
+                                  if(widget.faqFormDetails.preferedinsurancepartner == "Others")
+                                  {
+                                    selectedPreferredInsurancePartner.text = " ";
+                                  }
                                   setState(() {
-                                    selectpreferinsurance = value;
-                                    print(selectpreferinsurance);
+                                    // selectpreferinsurance = value;
+                                    print(widget.faqFormDetails.preferedinsurancepartner);
                                   });
                                 },
                               ),
@@ -661,13 +629,22 @@ class _FaqDetailsState extends State<FaqDetails> {
                                       ))),
                               child: DropDownField(
                                 controller: selectedPreferredFuelPartner,
+
                                 hintText: "Select",
                                 enabled: true,
                                 items: preferedfuellist,
                                 onValueChanged: (value) {
+
+                                  widget.faqFormDetails.preferedfuelpartner = value;
+                                  
+                                  if(widget.faqFormDetails.preferedfuelpartner == "Others")
+                                  {
+                                    selectedPreferredFuelPartner.text = " ";
+                                  }
                                   setState(() {
-                                    String selectprefferedfuelpartner = value;
-                                    print(selectprefferedfuelpartner);
+                                    // String selectprefferedfuelpartner = value;
+                                    print(widget.faqFormDetails.preferedfuelpartner);
+
                                   });
                                 },
                               ),
@@ -692,13 +669,26 @@ class _FaqDetailsState extends State<FaqDetails> {
                                       ))),
                               child: DropDownField(
                                 controller: selectedPreferredContainerOEM,
+                                
+
                                 hintText: "Select",
                                 enabled: true,
                                 items: preferedcontaineroemlist,
                                 onValueChanged: (value) {
+                                  widget.faqFormDetails.preferedcontaineroem = value;
+
+                                  if(widget.faqFormDetails.preferedcontaineroem == "Others")
+                                  {
+
+                                      selectedPreferredContainerOEM.text = "";
+
+                                  }
                                   setState(() {
-                                    String selectprefferedcontaineroem = value;
-                                    print(selectprefferedcontaineroem);
+
+
+                                    // String selectprefferedcontaineroem = value;
+                                    print(widget.faqFormDetails.preferedcontaineroem);
+
                                   });
                                 },
                               ),
@@ -727,9 +717,17 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 enabled: true,
                                 items: preferedvehicleoemlist,
                                 onValueChanged: (value) {
+                                  widget.faqFormDetails.preferedvehicleoem = value;
+                                  
+                                  if(widget.faqFormDetails.preferedvehicleoem == "Others")
+                                  {
+
+                                    selectedPreferredVehicleOEM.text = "";
+                                  }
+
                                   setState(() {
-                                    String selectedprefferedvehicleoem = value;
-                                    print(selectedprefferedvehicleoem);
+                                    // String selectedprefferedvehicleoem = value;
+                                    print(widget.faqFormDetails.preferedvehicleoem);
                                   });
                                 },
                               ),
@@ -754,13 +752,22 @@ class _FaqDetailsState extends State<FaqDetails> {
                                       ))),
                               child: DropDownField(
                                 controller: selectedPreferredTyreOEM,
+                                
+
                                 hintText: "Select",
                                 enabled: true,
                                 items: preferedtyreoemlist,
                                 onValueChanged: (value) {
+                                  widget.faqFormDetails.preferedtyreoem = value;
+
+                                  if(widget.faqFormDetails.preferedtyreoem == "Others")
+                                  {
+
+                                        selectedPreferredTyreOEM.text = "";
+
+                                  }
                                   setState(() {
-                                    String selectedprefferedTyreoem = value;
-                                    print(selectedprefferedTyreoem);
+                                    print("widget.faqFormDetails.preferedtyreoem ");
                                   });
                                 },
                               ),
@@ -789,8 +796,15 @@ class _FaqDetailsState extends State<FaqDetails> {
                                 enabled: true,
                                 items: preferedreeferoemlist,
                                 onValueChanged: (value) {
+
+                                  widget.faqFormDetails.preferedreefereoem = value;
+
+                                  if(widget.faqFormDetails.preferedreefereoem == "Others")
+                                  {
+                                    selectedPreferredReeferOEM.text = "";
+                                  }
                                   setState(() {
-                                    String selectedpreferredrefferoem = value;
+                                    // String selectedpreferredrefferoem = value;
                                     print(selectedpreferredrefferoem);
                                   });
                                 },
@@ -1095,5 +1109,11 @@ class _FaqDetailsState extends State<FaqDetails> {
     //                                 context,
     //                                 MaterialPageRoute(
     //                                     builder: ((context) => DashBoard())));
+  }
+  bool validate() {
+    //Validate Form Fields
+    bool validate = _formKey2.currentState.validate();
+    if (validate) _formKey2.currentState.save();
+    return validate;
   }
 }

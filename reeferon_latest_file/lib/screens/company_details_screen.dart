@@ -96,7 +96,9 @@ class _CompanyDataFormState extends State<CompanyDataForm>
 
   void _sumbit() {
        
-loginData = LoginScreenModel(mobilenum: widget.loginScreenModel.mobilenum, companyname: selectedCompanyName.text,
+loginData = LoginScreenModel(
+mobilenum: widget.loginScreenModel.mobilenum,
+companyname: selectedCompanyName.text,
 companytype: _selectedval,
 businesstype: _selectedval2,
 address1: _Edt_Address1.text,

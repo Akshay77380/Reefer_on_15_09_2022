@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:referon/models/faqFormDetails.dart';
+import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/faq_screen.dart';
+import 'package:referon/screens/success_screen.dart';
 
 class MultiFaqScreen extends StatefulWidget {
-
-  const MultiFaqScreen({ Key key }) : super(key: key);
-
-@override
+LoginScreenModel loginScreenModel;
+  MultiFaqScreen({Key key, this.loginScreenModel}) : super(key: key);
+  
+  @override
   State<StatefulWidget> createState() {
     return _MultiFaqScreenState();
   }
 }
 
 class _MultiFaqScreenState extends State<MultiFaqScreen> {
+
+
 
   List<FaqDetails> faqdetails = List.empty(growable: true);
 
@@ -54,7 +59,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // onAdd();
+          onAdd();
         },
         icon: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(180, 211, 67, 50),
@@ -76,8 +81,8 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
    {
     bool allValid = true;
 
-    // faqdetails
-    //     .forEach((element) => allValid = (allValid && element.isValidated()));
+    faqdetails
+        .forEach((element) => allValid = (allValid && element.isValidated()));
     
     if (allValid) {
       // List<String> names = fleetitemwidget
@@ -91,66 +96,52 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
 
         
 
-        // FleetItemWidget itemWidget = fleetitemwidget[i];
+        FaqDetails itemWidget = faqdetails[i];
 
       
 
-      // Map<String, dynamic> json ={  
-      //   "FLeetDetails Form": itemWidget.fleetformdetails.id,
-      //   "value":{
-      //     "vehicleManufacturer":itemWidget.fleetformdetails.vehicle_manufacturer,
-      //     "vehicleModel":itemWidget.fleetformdetails.vehicle_model,
-      //     "vehicleMAkeYear":itemWidget.fleetformdetails.vehicle_make_year,
-      //     "VehicleCapMT":itemWidget.fleetformdetails.vehicle_capacity,
-      //     "Length":itemWidget.fleetformdetails.length,
-      //     "Width":itemWidget.fleetformdetails.width,
-      //     "Height":itemWidget.fleetformdetails.height,
-      //     "reeferUnitManufacturer":itemWidget.fleetformdetails.reefer_unit_manufacturer,
-      //     "reeferUnitModel":itemWidget.fleetformdetails.reefer_unit_model,
-      //     "reeferMakeYear":itemWidget.fleetformdetails.reefer_make_year,
-      //     "containerMake":itemWidget.fleetformdetails.container_make,
-      //     "vehicleCount":itemWidget.fleetformdetails.numberofvehicle,
-      //     "vehicleNo":itemWidget.fleetformdetails.vehicle_number
+      Map<String, dynamic> json =
+      {  
 
-      //   }
-      // };
-        // data.add(itemWidget.fleetformdetails.vehicle_manufacturer+","+itemWidget.fleetformdetails.vehicle_model+","+itemWidget.fleetformdetails.vehicle_make_year);
+        "Faq Detail Form": itemWidget.faqFormDetails.id,
+
+        "value":{
+
+          "banking_partner":itemWidget.faqFormDetails.preferedbankingpartner,
+          "fastTag_partner":itemWidget.faqFormDetails.preferedfastagpartner,
+          "insurance_partner":itemWidget.faqFormDetails.preferedinsurancepartner,
+          "fuel_partner":itemWidget.faqFormDetails.preferedfuelpartner,
+          "container_OEM":itemWidget.faqFormDetails.preferedcontaineroem,
+          "vehicle_OEM":itemWidget.faqFormDetails.preferedvehicleoem,
+          "tyre_OEM":itemWidget.faqFormDetails.preferedtyreoem,
+          "reefer_OEM":itemWidget.faqFormDetails.preferedtyreoem
+        }
+
+      };
+
         
-        // print(json); 
+        print(json); 
         
 
-        //  print("Data in Multi Screen ${itemWidget.fleetformdetails.vehicle_manufacturer}");
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_model);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_make_year);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_capacity);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.length);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.width);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.height);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_unit_manufacturer);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_unit_model);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_make_year);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.container_make);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.numberofvehicle);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_number);
       }
 
 
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => FaqDetails())));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => SuccessPage())));
     } 
     else {
       print(" Empty Data ");
       debugPrint("Form is Not Valid");
     }
   }
-  // onAdd() {
-  //   setState(() {
-  //     FleetFormDetails _fleetformdetails =
-  //         FleetFormDetails(id: fleetitemwidget.length);
-  //     fleetitemwidget.add(FleetItemWidget(
-  //       index: fleetitemwidget.length,
-  //       fleetformdetails: _fleetformdetails,
-  //       // onRemove: () => onRemove(_contactModel),
-  //     ));
-  //   });
-  // }
+  onAdd() {
+    setState(() {
+      FaqFormDetails  _faqformdetails =
+          FaqFormDetails(id: faqdetails.length);
+      faqdetails.add(FaqDetails(
+        index: faqdetails.length,
+        faqFormDetails : _faqformdetails,
+        // onRemove: () => onRemove(_contactModel),
+      ));
+    });
+  }
 }

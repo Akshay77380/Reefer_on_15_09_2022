@@ -112,6 +112,7 @@ class _ContactFormState extends State<ContactForm> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
+  LoginScreenModel loginData = LoginScreenModel();
 
   @override
   void initState() {
@@ -779,7 +780,7 @@ Future getChequeCameraImage() async {
           context,
           MaterialPageRoute(
               builder: ((context) =>
-                 MultiFleetScreen())));
+                 MultiFleetScreen(loginScreenModel: loginData))));
     }
     _formKey.currentState.save();
   }
