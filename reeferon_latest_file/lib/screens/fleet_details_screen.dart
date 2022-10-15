@@ -519,7 +519,7 @@ Future FetchContainerMake() async {
   @override
   void initState() {
     super.initState();
-    print("InSide Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
+    print("InSide Fleet Details: ${widget.loginScreenModel.contact}");
     // Vehicle Manufacturer
   
     FetchVehicleManfList();
@@ -1536,52 +1536,64 @@ Future FetchContainerMake() async {
        LoginScreenModel logindata = widget.loginScreenModel;
        logindata = LoginScreenModel(
 
-    mobilenum: widget.loginScreenModel.mobilenum,
+    // contact: widget.loginScreenModel.contact,
 
-
-    companyname: widget.loginScreenModel.companyname,
-    companytype: widget.loginScreenModel.companytype,
-    businesstype: widget.loginScreenModel.businesstype,
+    companyName: widget.loginScreenModel.companyName,
+    companyType: widget.loginScreenModel.companyType,
+    businessType: widget.loginScreenModel.businessType,
     address1: widget.loginScreenModel.address1,
     address2: widget.loginScreenModel.address2,
     pincode: widget.loginScreenModel.pincode,
     city: widget.loginScreenModel.city,
-    state: widget.loginScreenModel.state,
-    country: widget.loginScreenModel.country,
+    stateName: widget.loginScreenModel.stateName,
+    countryName: widget.loginScreenModel.countryName,
 
 
-    firstname: widget.loginScreenModel.firstname,
-    lastname:  widget.loginScreenModel.lastname,
-    registeredmobilenum:  widget.loginScreenModel.registeredmobilenum,
-    alternativemobilenum :  widget.loginScreenModel.alternativemobilenum,
-    emailaddress:  widget.loginScreenModel.emailaddress,
+    firstName: widget.loginScreenModel.firstName,
+    lastName:  widget.loginScreenModel.lastName,
+    contact: widget.loginScreenModel.contact,
+    altcontact :  widget.loginScreenModel.altcontact,
+    emailid:  widget.loginScreenModel.emailid,
     designation:  widget.loginScreenModel.designation,
-    pancardno:  widget.loginScreenModel.pancardno,
-    pancardimg:  widget.loginScreenModel.pancardimg,
-    cancelchequeno: widget.loginScreenModel.cancelchequeno,
-    cancelchequeimg: widget.loginScreenModel.cancelchequeimg,
-    gstno : widget.loginScreenModel.gstno,
-    gstnoimg : widget.loginScreenModel.gstnoimg,
-    fssailicenseno:  widget.loginScreenModel.fssailicenseno,
-    fssaillicenseimg: widget.loginScreenModel.fssaillicenseimg,
-    businesscardno: widget.loginScreenModel.businesscardno,
-    businesscardnoimg: widget.loginScreenModel.businesscardnoimg,
-    otherscardno:  widget.loginScreenModel.otherscardno,
-    otherscardnoimg: widget.loginScreenModel.otherscardnoimg,
+    panNo:  widget.loginScreenModel.panNo,
+    panImg:  widget.loginScreenModel.panImg,
+    cancelChequeNo: widget.loginScreenModel.cancelChequeNo,
+    cancelChequeImg: widget.loginScreenModel.cancelChequeImg,
+    gstNo : widget.loginScreenModel.gstNo,
+    gstImg : widget.loginScreenModel.gstImg,
+    fssaiLicNo:  widget.loginScreenModel.fssaiLicNo,
+    fssaiImg: widget.loginScreenModel.fssaiImg,
+    businessCard: widget.loginScreenModel.businessCard,
+    businessImg: widget.loginScreenModel.businessImg,
+    otherDoc:  widget.loginScreenModel.otherDoc,
+    otherDocImg: widget.loginScreenModel.otherDocImg,
 
-    vehiclemanufacturer:selectedVehicleManufacturer.text,
+    vehicleManufacturer:selectedVehicleManufacturer.text,
+    
     vehiclemodel: selectedVehicleModel.text,
+
     vehiclemakeyear: vehicleMakeyeardate,
+
     vehiclecapactity:selectedVehicleCapacity.text,
+
     length:length.text,
+
     width:width.text,
+
     height:height.text,
+
     reeferunitmanufacture: selectedReeferUnitManufacturer.text,
+
     reeferunitmodel: selectedReeferUnitModel.text,
+
     reefermakeyear: selectedReeferMakeYear.text,
+
     containermake: selectedContainerMake.text,
+
     no_of_vehicles:_Edt_No_of_Vehicles.text,
+
     vehiclenum:_Edt_VehicleNumber.text
+
 
     );
     

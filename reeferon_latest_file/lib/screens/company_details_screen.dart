@@ -97,19 +97,19 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   void _sumbit() {
        
 loginData = LoginScreenModel(
-mobilenum: widget.loginScreenModel.mobilenum,
-companyname: selectedCompanyName.text,
-companytype: _selectedval,
-businesstype: _selectedval2,
+contact: widget.loginScreenModel.contact,
+companyName: selectedCompanyName.text,
+companyType: _selectedval,
+businessType: _selectedval2,
 address1: _Edt_Address1.text,
 address2: _Edt_Address2.text,
 landmark:  _Edt_Landmark.text,
 pincode: _Edt_pincode.text,
 city: _Edt_city.text,
-state: _Edt_State.text,
-country: _Edt_Country.text
+stateName: _Edt_State.text,
+countryName: _Edt_Country.text
 );
-print("Company Details:"+loginData.mobilenum);
+print("Company Details:"+loginData.contact);
     final isValid = _formKey.currentState.validate();
     
     if (_selectedval == null || _selectedval == "Select") 

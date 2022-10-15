@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen>
     if (isValid) 
     {
       LoginScreenModel loginScreenModel = LoginScreenModel(
-          mobilenum: phoneController.text
+          contact: phoneController.text
       );
       Navigator.push(
           context, MaterialPageRoute(builder: ((context) => VerifyMe(

@@ -35,9 +35,9 @@ class _VerifyMeState extends State<VerifyMe> {
   LoginScreenModel loginData;
   String Language = 'English';
   void _sumbit() {
-     print(widget.loginScreenModel.mobilenum);
+     print(widget.loginScreenModel.contact);
      loginData = widget.loginScreenModel;
-     print("Login data ${loginData.mobilenum}");
+     print("Login data ${loginData.contact}");
       // String mobilenum = "${widget.phonenumber}";
       // print("Mobile Number "+mobilenum);
 

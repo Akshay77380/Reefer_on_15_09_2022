@@ -108,6 +108,8 @@ class _ContactFormState extends State<ContactForm> {
   String btn_businessText = 'Upload';
   String btn_othersText = 'Upload';
 
+  String pancardimgpath,cancelchequeimgpath,gst_number_img_path,fssai_license_img_path,busiess_card_img_path,others_doc_path;
+
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -129,7 +131,7 @@ class _ContactFormState extends State<ContactForm> {
 
       print("image data " + _image.toString());
 
-      String pancardimgpath = _image.path;
+      pancardimgpath = _image.path;
 
 
       if(pancardimgpath != null)
@@ -157,7 +159,7 @@ class _ContactFormState extends State<ContactForm> {
 
       print("image data " + _image.toString());
 
-      String pancardimgpath = _image.path;
+      pancardimgpath = _image.path;
 
 
       if(pancardimgpath != null)
@@ -186,7 +188,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_cancel_chq.toString());
 
-      String cancelchequeimgpath = _image_cancel_chq.path;
+      cancelchequeimgpath = _image_cancel_chq.path;
 
 
       if(cancelchequeimgpath != null)
@@ -213,7 +215,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_cancel_chq.toString());
 
-      String cancelchequeimgpath = _image_cancel_chq.path;
+       cancelchequeimgpath = _image_cancel_chq.path;
 
 
       if(cancelchequeimgpath != null)
@@ -242,7 +244,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_gstno.toString());
 
-      String gst_number_img_path = _image_gstno.path;
+       gst_number_img_path = _image_gstno.path;
 
 
       if(gst_number_img_path!= null)
@@ -269,7 +271,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_gstno.toString());
 
-      String gst_number_img_path = _image_gstno.path;
+       gst_number_img_path = _image_gstno.path;
 
 
       if(gst_number_img_path!= null)
@@ -296,7 +298,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_fssai.toString());
 
-      String fssai_license_img_path = _image_fssai.path;
+      fssai_license_img_path = _image_fssai.path;
 
 
       if(fssai_license_img_path!= null)
@@ -323,7 +325,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_fssai.toString());
 
-      String fssai_license_img_path = _image_fssai.path;
+      fssai_license_img_path = _image_fssai.path;
 
 
       if(fssai_license_img_path!= null)
@@ -350,7 +352,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_business.toString());
 
-      String busiess_card_img_path = _image_business.path;
+       busiess_card_img_path = _image_business.path;
 
 
       if(busiess_card_img_path!= null)
@@ -377,7 +379,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_business.toString());
 
-      String busiess_card_img_path = _image_business.path;
+       busiess_card_img_path = _image_business.path;
 
 
       if(busiess_card_img_path!= null)
@@ -404,7 +406,7 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_others.toString());
 
-      String others_doc_path = _image_others.path;
+       others_doc_path = _image_others.path;
 
 
       if(others_doc_path!= null)
@@ -743,39 +745,38 @@ Future getChequeCameraImage() async {
     LoginScreenModel logindata = widget.loginScreenModel;
 
     logindata = LoginScreenModel(
-        mobilenum: widget.loginScreenModel.mobilenum,
-        companyname: widget.loginScreenModel.companyname,
-        companytype: widget.loginScreenModel.companytype,
-        businesstype: widget.loginScreenModel.businesstype,
+        contact: widget.loginScreenModel.contact,
+        companyName: widget.loginScreenModel.companyName,
+        companyType: widget.loginScreenModel.companyType,
+        businessType: widget.loginScreenModel.businessType,
         address1: widget.loginScreenModel.address1,
         address2: widget.loginScreenModel.address2,
         pincode: widget.loginScreenModel.pincode,
         city: widget.loginScreenModel.city,
-        state: widget.loginScreenModel.state,
-        country: widget.loginScreenModel.country,
-        firstname: _Edt_firstname.text,
-        lastname: _Edt_lastname.text,
-        registeredmobilenum: _Edt_contactnumber.text,
-        alternativemobilenum: _Edt_alternatenumber.text,
-        emailaddress: _Edt_emailid.text,
+        stateName: widget.loginScreenModel.stateName,
+        countryName: widget.loginScreenModel.countryName,
+        firstName: _Edt_firstname.text,
+        lastName: _Edt_lastname.text,
+        altcontact: _Edt_alternatenumber.text,
+        emailid: _Edt_emailid.text,
         designation: _selectedval,
-        pancardno: _Edt_pancardno.text,
-        pancardimg: "shhssh",
-        cancelchequeno: _Edt_cancelchequeno.text,
-        cancelchequeimg: "shshs",
-        gstno: _Edt_gstno.text,
-        gstnoimg: "ssjsj",
-        fssailicenseno: _Edt_fssailincenseno.text,
-        fssaillicenseimg: "hdhdhd",
-        businesscardno: _Edt_businesscardno.text,
-        businesscardnoimg: "hdhdh",
-        otherscardno: _Edt_otherscard.text,
-        otherscardnoimg: "ssgsgs");
+        panNo: _Edt_pancardno.text,
+        panImg: pancardimgpath.toString(),
+        cancelChequeNo: _Edt_cancelchequeno.text,
+        cancelChequeImg: cancelchequeimgpath.toString(),
+        gstNo: _Edt_gstno.text,
+        gstImg: gst_number_img_path.toString(),
+        fssaiLicNo: _Edt_fssailincenseno.text,
+        fssaiImg:fssai_license_img_path.toString(),
+        businessCard: _Edt_businesscardno.text,
+        businessImg: busiess_card_img_path.toString(),
+        otherDoc: _Edt_otherscard.text,
+        otherDocImg: others_doc_path.toString());
 
-    print("First Name ${logindata.firstname}");
-    print("Phone number ${logindata.mobilenum}");
+    print("First Name ${logindata.firstName}");
+    print("Company Name ${logindata.companyName}");
     if (isValid) {
-      print("Company name :" + widget.loginScreenModel.companyname);
+      print("Company name :" + widget.loginScreenModel.companyName);
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -986,7 +987,7 @@ Future getChequeCameraImage() async {
                           textAlign: TextAlign.center,
                           controller: _Edt_contactnumber =
                               TextEditingController(
-                                  text: widget.loginScreenModel.mobilenum),
+                                  text: widget.loginScreenModel.contact),
                           maxLength: 10,
                           onFieldSubmitted: (value) {},
                           validator: (value) {

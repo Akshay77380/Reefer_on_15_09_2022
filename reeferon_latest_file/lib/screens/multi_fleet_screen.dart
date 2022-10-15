@@ -28,7 +28,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
   void initState() {
     // TODO: implement initState
     
-     print("InSide  Mullti Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
+     print("InSide  Mullti Fleet Details: ${widget.loginScreenModel.firstName}");
     super.initState();
   }
 
@@ -104,16 +104,19 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
       //   print("$names");
       // Navigator.push(
       //     context, MaterialPageRoute(builder: ((context) => FaqDetails())));
+       List<FleetItemWidget> formsData = fleetitemwidget.map((e) => FleetItemWidget(name: e["value"]["name"])).toList();
       for(int i = 0; i < fleetitemwidget.length; i++)
       {
 
         
 
-        FleetItemWidget itemWidget = fleetitemwidget[i];
 
       Map<String, dynamic> json ={  
+
         "FLeetDetails Form": itemWidget.fleetformdetails.id,
-        "value":{
+
+        "value":FleetItemWidget{
+
           "vehicleManufacturer":itemWidget.fleetformdetails.vehicle_manufacturer,
           "vehicleModel":itemWidget.fleetformdetails.vehicle_model,
           "vehicleMAkeYear":itemWidget.fleetformdetails.vehicle_make_year,
@@ -127,6 +130,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
           "containerMake":itemWidget.fleetformdetails.container_make,
           "vehicleCount":itemWidget.fleetformdetails.numberofvehicle,
           "vehicleNo":itemWidget.fleetformdetails.vehicle_number
+
 
         }
       };
@@ -151,7 +155,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
       }
 
 
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen())));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen(forms: formsData))));
     } 
     else {
       print(" Empty Data ");

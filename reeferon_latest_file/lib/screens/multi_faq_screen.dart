@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:referon/models/faqFormDetails.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/faq_screen.dart';
+import 'package:referon/screens/fleet_item_widget.dart';
 import 'package:referon/screens/success_screen.dart';
 
 class MultiFaqScreen extends StatefulWidget {
 LoginScreenModel loginScreenModel;
-  MultiFaqScreen({Key key, this.loginScreenModel}) : super(key: key);
+List<FleetItemWidget> forms;
+  MultiFaqScreen({Key key, this.loginScreenModel, this.forms}) : super(key: key);
   
   @override
   State<StatefulWidget> createState() {
@@ -22,6 +24,12 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
 
   List<String> data = [];
   
+  @override
+  void initState() {
+    print(widget.forms.length);
+    super.initState();
+  }
+
    @override
    Widget build(BuildContext context) {
        return Scaffold(
