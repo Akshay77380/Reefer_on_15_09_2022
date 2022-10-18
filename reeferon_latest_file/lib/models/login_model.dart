@@ -4,11 +4,16 @@
 
 import 'dart:convert';
 
+import 'package:referon/models/faqFormDetails.dart';
+import 'package:referon/screens/fleet_details_screen.dart';
+import 'package:referon/screens/fleet_item_widget.dart';
+
 LoginScreenModel loginScreenModelFromJson(String str) => LoginScreenModel.fromJson(json.decode(str));
 
 String loginScreenModelToJson(LoginScreenModel data) => json.encode(data.toJson());
 
-class LoginScreenModel {
+class LoginScreenModel 
+{
     LoginScreenModel({
         this.companyName,
         this.firstName,
@@ -79,10 +84,13 @@ class LoginScreenModel {
     String region;
     String stateName;
     String countryName;
+
     List<FLeetDetail> fLeetDetails;
+
     List<Faq> faq;
 
     factory LoginScreenModel.fromJson(Map<String, dynamic> json) => LoginScreenModel(
+
         companyName: json["CompanyName"],
         firstName: json["firstName"],
         lastName: json["lastName"],
@@ -114,8 +122,11 @@ class LoginScreenModel {
         region: json["Region"],
         stateName: json["StateName"],
         countryName: json["CountryName"],
+
         fLeetDetails: List<FLeetDetail>.from(json["FLeetDetails"].map((x) => FLeetDetail.fromJson(x))),
+
         faq: List<Faq>.from(json["FAQ"].map((x) => Faq.fromJson(x))),
+
     );
 
     Map<String, dynamic> toJson() => {
@@ -151,14 +162,15 @@ class LoginScreenModel {
         "StateName": stateName,
         "CountryName": countryName,
 
-        "FLeetDetails": List<dynamic>.from(fLeetDetails.map((x) => x.toJson())),
+        "FLeetDetails": List<FLeetDetail>.from(fLeetDetails.map((x) => x.toJson())),
 
-        "FAQ": List<dynamic>.from(faq.map((x) => x.toJson())),
+        "FAQ": List<Faq>.from(faq.map((x) => x.toJson())),
     };
 }
 
 class FLeetDetail {
     FLeetDetail({
+        this.id,
         this.vehicleManufacturer,
         this.vehicleModel,
         this.vehicleMAkeYear,
@@ -173,7 +185,7 @@ class FLeetDetail {
         this.vehicleCount,
         this.vehicleNo,
     });
-
+    int id;
     String vehicleManufacturer;
     String vehicleModel;
     DateTime vehicleMAkeYear;
@@ -226,6 +238,7 @@ class FLeetDetail {
 
 class Faq {
     Faq({
+        this.id,
         this.bankingPartner,
         this.fastTagPartner,
         this.insurancePartner,
@@ -235,7 +248,7 @@ class Faq {
         this.tyreOem,
         this.reeferOem,
     });
-
+    int id;
     String bankingPartner;
     String fastTagPartner;
     String insurancePartner;

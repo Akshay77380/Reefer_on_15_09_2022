@@ -1,14 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:referon/models/checklogin.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
 import 'package:referon/screens/verifyme.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -27,17 +31,51 @@ class _LoginScreenState extends State<LoginScreen>
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode = FocusNode();
 
+  String  otp,msgid,sts;
+
+  Future getOTP(str_mobilenumber) async
+  {
+    var response = await http.get(Uri.parse(
+        "http://neotech.v-cloud.in/referonapi/loginWithOtp?mobile=" +
+            str_mobilenumber));
+
+      if (response.statusCode == 200) {
+            final jsonResponse = jsonDecode(response.body);
+            final dataList = jsonResponse['Data'] as List;
+
+         otp =  (' ${dataList[0]['OTP']}');
+         msgid =  (' ${dataList[0]['MsgId']}');
+         sts =  (' ${dataList[0]['status']}');
+        
+
+
+         print("OTP"+otp+"msgid"+msgid+"status"+sts);
+     
+
+    } else {
+      throw Exception('Failed to  get OTP Code');
+    }
+
+
+  }
   void _sumbit()
   {
     final isValid = _formKey.currentState.validate();
     if (isValid) 
     {
-      LoginScreenModel loginScreenModel = LoginScreenModel(
-          contact: phoneController.text
-      );
+      
+      // CheckLogin checklogin = CheckLogin(
+      //     otp:otp,
+      //     msgid: msgid,
+      //     sts: sts
+      // );
       Navigator.push(
           context, MaterialPageRoute(builder: ((context) => VerifyMe(
-            loginScreenModel: loginScreenModel,
+          mobilenum: str_mobilenumber, 
+          otpcode: otp,
+          msgidcode: msgid,
+          sts: sts,
+
           ))));
     }
     _formKey.currentState.save();
@@ -107,6 +145,15 @@ class _LoginScreenState extends State<LoginScreen>
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 controller: phoneController,
+
+                                onChanged: (value) {
+                                    setState(() {
+                                      str_mobilenumber = value;
+                                      getOTP(str_mobilenumber);
+                                    });
+                                      
+
+                                },
                                 maxLength: 10,
                                 onFieldSubmitted: (value) {},
                                 validator: (value) {

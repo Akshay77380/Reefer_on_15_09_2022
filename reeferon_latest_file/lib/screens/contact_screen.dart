@@ -65,13 +65,16 @@ class _ContactDetailsState extends State<ContactDetails> {
 
 class ContactForm extends StatefulWidget {
   LoginScreenModel loginScreenModel;
-  ContactForm({Key key, this.loginScreenModel}) : super(key: key);
+  var mobilenum;
+
+  ContactForm({Key key, this.loginScreenModel,this.mobilenum}) : super(key: key);
  
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
+  String regnum;
   final _Edt_firstname = TextEditingController();
   final _Edt_lastname = TextEditingController();
   var _Edt_contactnumber = TextEditingController();
@@ -118,7 +121,8 @@ class _ContactFormState extends State<ContactForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    regnum = widget.mobilenum;
+    print("Data in Contact Screen "+regnum);
     super.initState();
   }
 
@@ -728,24 +732,24 @@ Future getChequeCameraImage() async {
   // }
 
   void _sumbit() {
-//  inal _Edt_firstname = TextEditingController();
-//   final _Edt_lastname = TextEditingController();
-//   final _Edt_contactnumber = TextEditingController();
-//   final _Edt_alternatenumber = TextEditingController();
-//   final _Edt_emailid = TextEditingController();
-//   final _Edt_pancardno = TextEditingController();
-//   final _Edt_cancelchequeno = TextEditingController();
-//   final _Edt_gstno = TextEditingController();
-//   final _Edt_fssailincenseno = TextEditingController();
-//   final _Edt_businesscardno = TextEditingController();
-//   final _Edt_otherscard = TextEditingController();
-//   String _errorMessage = '';
+  final _Edt_firstname = TextEditingController();
+  final _Edt_lastname = TextEditingController();
+  final _Edt_contactnumber = TextEditingController();
+  final _Edt_alternatenumber = TextEditingController();
+  final _Edt_emailid = TextEditingController();
+  final _Edt_pancardno = TextEditingController();
+  final _Edt_cancelchequeno = TextEditingController();
+  final _Edt_gstno = TextEditingController();
+  final _Edt_fssailincenseno = TextEditingController();
+  final _Edt_businesscardno = TextEditingController();
+  final _Edt_otherscard = TextEditingController();
+  String _errorMessage = '';
 
     final isValid = _formKey.currentState.validate();
     LoginScreenModel logindata = widget.loginScreenModel;
 
     logindata = LoginScreenModel(
-        contact: widget.loginScreenModel.contact,
+        
         companyName: widget.loginScreenModel.companyName,
         companyType: widget.loginScreenModel.companyType,
         businessType: widget.loginScreenModel.businessType,
@@ -757,6 +761,7 @@ Future getChequeCameraImage() async {
         countryName: widget.loginScreenModel.countryName,
         firstName: _Edt_firstname.text,
         lastName: _Edt_lastname.text,
+        contact: _Edt_contactnumber.text,
         altcontact: _Edt_alternatenumber.text,
         emailid: _Edt_emailid.text,
         designation: _selectedval,
@@ -773,10 +778,8 @@ Future getChequeCameraImage() async {
         otherDoc: _Edt_otherscard.text,
         otherDocImg: others_doc_path.toString());
 
-    print("First Name ${logindata.firstName}");
-    print("Company Name ${logindata.companyName}");
     if (isValid) {
-      print("Company name :" + widget.loginScreenModel.companyName);
+      print(" OnClick Company name :" + widget.loginScreenModel.companyName);
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -987,7 +990,7 @@ Future getChequeCameraImage() async {
                           textAlign: TextAlign.center,
                           controller: _Edt_contactnumber =
                               TextEditingController(
-                                  text: widget.loginScreenModel.contact),
+                                  text: regnum),
                           maxLength: 10,
                           onFieldSubmitted: (value) {},
                           validator: (value) {

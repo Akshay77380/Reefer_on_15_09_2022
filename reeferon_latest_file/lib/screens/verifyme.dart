@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:referon/models/checklogin.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
@@ -15,10 +16,11 @@ import 'package:group_radio_button/group_radio_button.dart';
 class VerifyMe extends StatefulWidget {
 
   //fetching from LoginScreen
-  LoginScreenModel loginScreenModel;
+  CheckLogin checklogin;
+  String mobilenum,otpcode,msgidcode,sts;
 
    VerifyMe(
-      {Key key, this.loginScreenModel})
+      {Key key, this.mobilenum,this.otpcode,this.msgidcode,this.sts})
       : super(key: key);
 
 
@@ -27,31 +29,51 @@ class VerifyMe extends StatefulWidget {
   State<VerifyMe> createState() => _VerifyMeState();
 } 
 
-class _VerifyMeState extends State<VerifyMe> {
+class _VerifyMeState extends State<VerifyMe> 
+{
+
   OtpFieldController otpController = OtpFieldController();
   String text = "";
+
   final _formKey = GlobalKey<FormState>();
+
   FocusNode _focusNode = FocusNode();
+
   LoginScreenModel loginData;
+  
+
+  CheckLogin checkLogin;
+
   String Language = 'English';
+
   void _sumbit() {
-     print(widget.loginScreenModel.contact);
-     loginData = widget.loginScreenModel;
-     print("Login data ${loginData.contact}");
-      // String mobilenum = "${widget.phonenumber}";
+
+      
+
+     
+      String registerednum = "${widget.mobilenum}";
       // print("Mobile Number "+mobilenum);
 
     final isValid = _formKey.currentState.validate();
    
     if (isValid) {
 
-
+      
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => CompanyDataForm(loginScreenModel:loginData))));
+          context, MaterialPageRoute(builder: ((context) => CompanyDataForm(registerednum: registerednum,loginScreenModel:loginData))));
     }
     _formKey.currentState.save();
   }
 
+@override
+  void initState() {
+    
+    print(" OTP CODE: "+widget.otpcode); 
+    print(" Msg Id: "+widget.msgidcode); 
+    print(" sts: "+widget.sts); 
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -108,7 +130,7 @@ class _VerifyMeState extends State<VerifyMe> {
                           ),
                         ),
                         Text(
-                          "91-XXXXXXXXXX.",
+                          "91-$widget.mobilenum",
                           style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(255, 11, 11, 22),

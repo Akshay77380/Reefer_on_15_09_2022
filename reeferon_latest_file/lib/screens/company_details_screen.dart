@@ -1,3 +1,4 @@
+import 'package:referon/models/checklogin.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:searchfield/searchfield.dart';
@@ -22,6 +23,7 @@ import 'login_screen.dart';
 class CompanyDetails extends StatefulWidget {
   // var phonenumber;
    var loginScreenMode;
+
   CompanyDetails({Key key, this.loginScreenMode}) : super(key: key);
   @override
   State<CompanyDetails> createState() => _CompanyDetailsState();
@@ -41,7 +43,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
 class CompanyDataForm extends StatefulWidget {
    LoginScreenModel loginScreenModel;
-   CompanyDataForm({Key key, this.loginScreenModel}) : super(key: key);
+   var registerednum;
+   CompanyDataForm({Key key, this.registerednum,this.loginScreenModel}) : super(key: key);
 
   
   @override
@@ -97,7 +100,6 @@ class _CompanyDataFormState extends State<CompanyDataForm>
   void _sumbit() {
        
 loginData = LoginScreenModel(
-contact: widget.loginScreenModel.contact,
 companyName: selectedCompanyName.text,
 companyType: _selectedval,
 businessType: _selectedval2,
@@ -109,7 +111,7 @@ city: _Edt_city.text,
 stateName: _Edt_State.text,
 countryName: _Edt_Country.text
 );
-print("Company Details:"+loginData.contact);
+
     final isValid = _formKey.currentState.validate();
     
     if (_selectedval == null || _selectedval == "Select") 
@@ -124,7 +126,7 @@ print("Company Details:"+loginData.contact);
     }
     if (isValid) 
     {
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactForm(loginScreenModel: loginData))));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactForm(loginScreenModel: loginData,mobilenum:widget.registerednum,))));
     }
     _formKey.currentState.save();
   }
@@ -137,7 +139,7 @@ print("Company Details:"+loginData.contact);
     super.initState();
     loginData = widget.loginScreenModel;
      
-    print("Contanct num ${widget.loginScreenModel}");
+    print(" Company Details Screen :Contanct num ${widget.registerednum}");
 
     // fetch pincode here
     FetchCompanyNameList();
@@ -857,8 +859,7 @@ print("Company Details:"+loginData.contact);
                         child: TextField(
                           keyboardType: TextInputType.streetAddress,
                           textAlign: TextAlign.center,
-                          controller: _Edt_city =
-                              TextEditingController(text: city),
+                          controller: _Edt_city = TextEditingController(text: city),
                           decoration: InputDecoration(
                               prefix: Icon(
                                 Icons.location_city,

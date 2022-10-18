@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -14,7 +16,10 @@ import 'fleet_details_screen.dart';
 class MultiFleetScreen extends StatefulWidget {
 
   LoginScreenModel loginScreenModel;
+  FLeetDetail fleetdetail; 
+
   MultiFleetScreen({Key key, this.loginScreenModel}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -28,11 +33,12 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
   void initState() {
     // TODO: implement initState
     
-     print("InSide  Mullti Fleet Details: ${widget.loginScreenModel.firstName}");
+     print(" InSide  Mullti Fleet Details: ${widget.loginScreenModel}");
     super.initState();
   }
 
   List<FleetItemWidget> fleetitemwidget = List.empty(growable: true);
+  
   List<String> data = [];
   @override
   Widget build(BuildContext context) {
@@ -104,66 +110,50 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
       //   print("$names");
       // Navigator.push(
       //     context, MaterialPageRoute(builder: ((context) => FaqDetails())));
-       List<FleetItemWidget> formsData = fleetitemwidget.map((e) => FleetItemWidget(name: e["value"]["name"])).toList();
+      //  List<FleetItemWidget> formsData = fleetitemwidget.map((e) => FleetItemWidget(name: e["value"]["name"])).toList();
       for(int i = 0; i < fleetitemwidget.length; i++)
       {
 
         
+          FleetItemWidget fleetItemWidget = fleetitemwidget[i];
+          
+          Map<String ,dynamic> json =
+          
+          {
 
+              // "Fleet Detail Form": fleetItemWidget.fLeetDetail.id,
 
-      Map<String, dynamic> json ={  
+        "value":{
 
-        "FLeetDetails Form": itemWidget.fleetformdetails.id,
-
-        "value":FleetItemWidget{
-
-          "vehicleManufacturer":itemWidget.fleetformdetails.vehicle_manufacturer,
-          "vehicleModel":itemWidget.fleetformdetails.vehicle_model,
-          "vehicleMAkeYear":itemWidget.fleetformdetails.vehicle_make_year,
-          "VehicleCapMT":itemWidget.fleetformdetails.vehicle_capacity,
-          "Length":itemWidget.fleetformdetails.length,
-          "Width":itemWidget.fleetformdetails.width,
-          "Height":itemWidget.fleetformdetails.height,
-          "reeferUnitManufacturer":itemWidget.fleetformdetails.reefer_unit_manufacturer,
-          "reeferUnitModel":itemWidget.fleetformdetails.reefer_unit_model,
-          "reeferMakeYear":itemWidget.fleetformdetails.reefer_make_year,
-          "containerMake":itemWidget.fleetformdetails.container_make,
-          "vehicleCount":itemWidget.fleetformdetails.numberofvehicle,
-          "vehicleNo":itemWidget.fleetformdetails.vehicle_number
-
-
+              "vehicleManufacturer":fleetItemWidget.fLeetDetail.vehicleManufacturer,
+              "vehicleModel":fleetItemWidget.fLeetDetail.vehicleModel,
+              "vehicleMAkeYear":fleetItemWidget.fLeetDetail.vehicleMAkeYear,
+              "VehicleCapMT":fleetItemWidget.fLeetDetail.vehicleCapMt,
+              "Length":fleetItemWidget.fLeetDetail.length,
+              "Width":fleetItemWidget.fLeetDetail.width,
+              "Height":fleetItemWidget.fLeetDetail.height,
+              "reeferUnitManufacturer":fleetItemWidget.fLeetDetail.reeferUnitManufacturer,
+              "reeferUnitModel":fleetItemWidget.fLeetDetail.reeferUnitModel,
+              "reeferMakeYear":fleetItemWidget.fLeetDetail.reeferMakeYear,
+              "containerMake":fleetItemWidget.fLeetDetail.containerMake,
+              "vehicleCount":fleetItemWidget.fLeetDetail.vehicleCount,
+              "vehicleNo":fleetItemWidget.fLeetDetail.vehicleNo
+              
         }
-      };
-        // data.add(itemWidget.fleetformdetails.vehicle_manufacturer+","+itemWidget.fleetformdetails.vehicle_model+","+itemWidget.fleetformdetails.vehicle_make_year);
-        
-        print(json); 
-        
 
-        //  print("Data in Multi Screen ${itemWidget.fleetformdetails.vehicle_manufacturer}");
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_model);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_make_year);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_capacity);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.length);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.width);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.height);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_unit_manufacturer);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_unit_model);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.reefer_make_year);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.container_make);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.numberofvehicle);
-        //  print("Data in Multi Screen "+itemWidget.fleetformdetails.vehicle_number);
+          };
+
+
       }
+      
 
 
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen(forms: formsData))));
+
     } 
-    else {
-      print(" Empty Data ");
-      debugPrint("Form is Not Valid");
-    }
-  }
-
-  onAdd() {
+  print("Data Ayegaya "+json.toString());
+  
+   }
+   onAdd() {
     setState(() {
       FleetFormDetails _fleetformdetails =
           FleetFormDetails(id: fleetitemwidget.length);

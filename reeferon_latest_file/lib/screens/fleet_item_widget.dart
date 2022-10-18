@@ -19,9 +19,15 @@ class FleetItemWidget extends StatefulWidget {
   FleetItemWidget({ Key key, this.fleetformdetails,this.index, this.onRemove }) : super(key: key);
 
   final index;
+
   FleetFormDetails fleetformdetails;
+
+  FLeetDetail fLeetDetail;
+
   final Function onRemove;
+
   final state = _FleetItemWidgetState();
+
  
  
   @override
@@ -1583,19 +1589,19 @@ Future FetchContainerMake() async {
     otherDoc:  widget.loginScreenModel.otherDoc,
     otherDocImg: widget.loginScreenModel.otherDocImg,
 
-    vehiclemanufacturer:selectedVehicleManufacturer.text,
-    vehiclemodel: selectedVehicleModel.text,
-    vehiclemakeyear: vehicleMakeyeardate,
-    vehiclecapactity:selectedVehicleCapacity.text,
-    length:length.text,
-    width:width.text,
-    height:height.text,
-    reeferunitmanufacture: selectedReeferUnitManufacturer.text,
-    reeferunitmodel: selectedReeferUnitModel.text,
-    reefermakeyear: selectedReeferMakeYear.text,
-    containermake: selectedContainerMake.text,
-    no_of_vehicles:_Edt_No_of_Vehicles.text,
-    vehiclenum:_Edt_VehicleNumber.text
+    // vehiclemanufacturer:selectedVehicleManufacturer.text,
+    // vehiclemodel: selectedVehicleModel.text,
+    // vehiclemakeyear: vehicleMakeyeardate,
+    // vehiclecapactity:selectedVehicleCapacity.text,
+    // length:length.text,
+    // width:width.text,
+    // height:height.text,
+    // reeferunitmanufacture: selectedReeferUnitManufacturer.text,
+    // reeferunitmodel: selectedReeferUnitModel.text,
+    // reefermakeyear: selectedReeferMakeYear.text,
+    // containermake: selectedContainerMake.text,
+    // no_of_vehicles:_Edt_No_of_Vehicles.text,
+    // vehiclenum:_Edt_VehicleNumber.text
     
 
     );

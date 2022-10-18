@@ -8,6 +8,7 @@ import 'package:referon/screens/success_screen.dart';
 class MultiFaqScreen extends StatefulWidget {
 LoginScreenModel loginScreenModel;
 List<FleetItemWidget> forms;
+
   MultiFaqScreen({Key key, this.loginScreenModel, this.forms}) : super(key: key);
   
   @override
@@ -20,7 +21,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
 
 
 
-  List<FaqDetails> faqdetails = List.empty(growable: true);
+  List<FaqDetails>  faqdetails = List.empty(growable: true);
 
   List<String> data = [];
   
@@ -111,7 +112,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
       Map<String, dynamic> json =
       {  
 
-        "Faq Detail Form": itemWidget.faqFormDetails.id,
+        "Faq Detail Form": itemWidget.faqFormDetails.id,  
 
         "value":{
 

@@ -1568,35 +1568,35 @@ Future FetchContainerMake() async {
     otherDoc:  widget.loginScreenModel.otherDoc,
     otherDocImg: widget.loginScreenModel.otherDocImg,
 
-    vehicleManufacturer:selectedVehicleManufacturer.text,
+    // vehicleManufacturer:selectedVehicleManufacturer.text,
     
-    vehiclemodel: selectedVehicleModel.text,
+    // vehiclemodel: selectedVehicleModel.text,
 
-    vehiclemakeyear: vehicleMakeyeardate,
+    // vehiclemakeyear: vehicleMakeyeardate,
 
-    vehiclecapactity:selectedVehicleCapacity.text,
+    // vehiclecapactity:selectedVehicleCapacity.text,
 
-    length:length.text,
+    // length:length.text,
 
-    width:width.text,
+    // width:width.text,
 
-    height:height.text,
+    // height:height.text,
 
-    reeferunitmanufacture: selectedReeferUnitManufacturer.text,
+    // reeferunitmanufacture: selectedReeferUnitManufacturer.text,
 
-    reeferunitmodel: selectedReeferUnitModel.text,
+    // reeferunitmodel: selectedReeferUnitModel.text,
 
-    reefermakeyear: selectedReeferMakeYear.text,
+    // reefermakeyear: selectedReeferMakeYear.text,
 
-    containermake: selectedContainerMake.text,
+    // containermake: selectedContainerMake.text,
 
-    no_of_vehicles:_Edt_No_of_Vehicles.text,
+    // no_of_vehicles:_Edt_No_of_Vehicles.text,
 
-    vehiclenum:_Edt_VehicleNumber.text
+    // vehiclenum:_Edt_VehicleNumber.text
 
 
     );
-    
+     
     // if(isValid)
     // {
       Navigator.push(
