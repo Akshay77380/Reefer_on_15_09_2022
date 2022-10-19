@@ -15,10 +15,11 @@ import 'fleet_details_screen.dart';
 
 class MultiFleetScreen extends StatefulWidget {
 
-  LoginScreenModel loginScreenModel;
-  FLeetDetail fleetdetail; 
+  
+LoginScreenModel loginScreenModel;
+List<FLeetDetail> forms;
 
-  MultiFleetScreen({Key key, this.loginScreenModel}) : super(key: key);
+  MultiFleetScreen({Key key, this.loginScreenModel,this.forms}) : super(key: key);
 
 
   @override
@@ -28,7 +29,9 @@ class MultiFleetScreen extends StatefulWidget {
 }
 
 class _MultiFleetScreenState extends State<MultiFleetScreen> {
-  
+  LoginScreenModel loginScreenModel;
+  List<FLeetDetail> forms;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -104,62 +107,25 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
         .forEach((element) => allValid = (allValid && element.isValidated()));
     
     if (allValid) {
-      // List<String> names = fleetitemwidget
-      //     .map((e) => e.fleetformdetails.vehicle_manufacturer)
-      //     .toList();
-      //   print("$names");
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: ((context) => FaqDetails())));
-      //  List<FleetItemWidget> formsData = fleetitemwidget.map((e) => FleetItemWidget(name: e["value"]["name"])).toList();
-      for(int i = 0; i < fleetitemwidget.length; i++)
-      {
-
-        
-          FleetItemWidget fleetItemWidget = fleetitemwidget[i];
-          
-          Map<String ,dynamic> json =
-          
-          {
-
-              // "Fleet Detail Form": fleetItemWidget.fLeetDetail.id,
-
-        "value":{
-
-              "vehicleManufacturer":fleetItemWidget.fLeetDetail.vehicleManufacturer,
-              "vehicleModel":fleetItemWidget.fLeetDetail.vehicleModel,
-              "vehicleMAkeYear":fleetItemWidget.fLeetDetail.vehicleMAkeYear,
-              "VehicleCapMT":fleetItemWidget.fLeetDetail.vehicleCapMt,
-              "Length":fleetItemWidget.fLeetDetail.length,
-              "Width":fleetItemWidget.fLeetDetail.width,
-              "Height":fleetItemWidget.fLeetDetail.height,
-              "reeferUnitManufacturer":fleetItemWidget.fLeetDetail.reeferUnitManufacturer,
-              "reeferUnitModel":fleetItemWidget.fLeetDetail.reeferUnitModel,
-              "reeferMakeYear":fleetItemWidget.fLeetDetail.reeferMakeYear,
-              "containerMake":fleetItemWidget.fLeetDetail.containerMake,
-              "vehicleCount":fleetItemWidget.fLeetDetail.vehicleCount,
-              "vehicleNo":fleetItemWidget.fLeetDetail.vehicleNo
-              
-        }
-
-          };
-
-
-      }
       
 
-
-
+       List<FLeetDetail> formsData = fleetitemwidget.map((e) => FLeetDetail.fromJson(e.fLeetDetail.toJson())).toList();
+       
+       print(formsData);
+      
     } 
-  print("Data Ayegaya "+json.toString());
+
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen(loginScreenModel:loginScreenModel, forms:forms))));
+  
   
    }
    onAdd() {
     setState(() {
-      FleetFormDetails _fleetformdetails =
-          FleetFormDetails(id: fleetitemwidget.length);
+      FLeetDetail _fleetdetail =
+          FLeetDetail(id: fleetitemwidget.length);
       fleetitemwidget.add(FleetItemWidget(
         index: fleetitemwidget.length,
-        fleetformdetails: _fleetformdetails,
+        fLeetDetail:_fleetdetail,
         // onRemove: () => onRemove(_contactModel),
       ));
     });

@@ -15,7 +15,7 @@ String loginScreenModelToJson(LoginScreenModel data) => json.encode(data.toJson(
 class LoginScreenModel 
 {
     LoginScreenModel({
-        this.companyName,
+        this.companyName, 
         this.firstName,
         this.lastName,
         this.contact,
@@ -162,9 +162,9 @@ class LoginScreenModel
         "StateName": stateName,
         "CountryName": countryName,
 
-        "FLeetDetails": List<FLeetDetail>.from(fLeetDetails.map((x) => x.toJson())),
+        "FLeetDetails": List<Map<String,dynamic>>.from(fLeetDetails.map((x) => x.toJson())),
 
-        "FAQ": List<Faq>.from(faq.map((x) => x.toJson())),
+        "FAQ": List<Map<String,dynamic>>.from(faq.map((x) => x.toJson())),
     };
 }
 
@@ -188,30 +188,30 @@ class FLeetDetail {
     int id;
     String vehicleManufacturer;
     String vehicleModel;
-    DateTime vehicleMAkeYear;
+    String vehicleMAkeYear;
     String vehicleCapMt;
-    int length;
-    int width;
-    int height;
+    String length;
+    String width;
+    String height;
     String reeferUnitManufacturer;
     String reeferUnitModel;
-    DateTime reeferMakeYear;
+    String reeferMakeYear;
     String containerMake;
     String vehicleCount;
-    int vehicleNo;
+    String vehicleNo;
 
     factory FLeetDetail.fromJson(Map<String, dynamic> json) => FLeetDetail(
 
         vehicleManufacturer: json["vehicleManufacturer"],
         vehicleModel: json["vehicleModel"],
-        vehicleMAkeYear: DateTime.parse(json["vehicleMAkeYear"]),
+        vehicleMAkeYear:json["vehicleMAkeYear"],
         vehicleCapMt: json["VehicleCapMT"],
         length: json["Length"],
         width: json["Width"],
         height: json["Height"],
         reeferUnitManufacturer: json["reeferUnitManufacturer"],
         reeferUnitModel: json["reeferUnitModel"],
-        reeferMakeYear: DateTime.parse(json["reeferMakeYear"]),
+        reeferMakeYear:json["reeferMakeYear"],
         containerMake: json["containerMake"],
         vehicleCount: json["vehicleCount"],
         vehicleNo: json["vehicleNo"],
@@ -221,19 +221,25 @@ class FLeetDetail {
 
         "vehicleManufacturer": vehicleManufacturer,
         "vehicleModel": vehicleModel,
-        "vehicleMAkeYear": vehicleMAkeYear.toIso8601String(),
+        "vehicleMAkeYear": vehicleMAkeYear,
         "VehicleCapMT": vehicleCapMt,
         "Length": length,
         "Width": width,
         "Height": height,
         "reeferUnitManufacturer": reeferUnitManufacturer,
         "reeferUnitModel": reeferUnitModel,
-        "reeferMakeYear": reeferMakeYear.toIso8601String(),
+        "reeferMakeYear": reeferMakeYear,
         "containerMake": containerMake,
         "vehicleCount": vehicleCount,
         "vehicleNo": vehicleNo,
 
     };
+
+    @override
+      String toString()
+    {
+      return '{vehicleManufacturer:$vehicleManufacturer, vehicleModel:$vehicleModel, vehicleMAkeYear:$vehicleMAkeYear, vehicleCapMt:$vehicleCapMt,Length:$length,Width:$width,Height:$height,reeferUnitManufacturer:$reeferUnitManufacturer,reeferUnitModel:$reeferUnitModel,reeferMakeYear:$reeferMakeYear,containerMake:$containerMake,vehicleCount:$vehicleCount,vehicleNo:$vehicleNo}';
+    }
 }
 
 class Faq {

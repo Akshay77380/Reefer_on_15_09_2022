@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 class FleetItemWidget extends StatefulWidget {
 
   LoginScreenModel loginScreenModel;
-  FleetItemWidget({ Key key, this.fleetformdetails,this.index, this.onRemove }) : super(key: key);
+  FleetItemWidget({ Key key, this.fLeetDetail,this.index, this.onRemove }) : super(key: key);
 
   final index;
 
@@ -107,8 +107,8 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
   }
    String selectVehicle = "";
   String selectVehicleModel = "";
-  String selectVehicleMake_year = "";
-  String selectVehicleCapacity = "";
+  var selectVehicleMake_year = "";
+  var  selectVehicleCapacity = "";
   String selectVehicleSize = "";
   String selectedVehicleReferUnit = "";
   String selectedVehicleReferModel = "";
@@ -408,6 +408,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
   ];
   String country_id;
   List<String> country = [
+    
     "America",
     "Brazil",
     "Canada",
@@ -417,6 +418,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
     "China",
     "Russia",
     "Germany"
+
   ];
    
   Future FetchVehicleManfList() async {
@@ -573,7 +575,7 @@ Future FetchContainerMake() async {
                         child: Column(
                           children: [
                             Text(
-                              " Enter Details - ${widget.index}",
+                              " Enter Details - ${widget.index+1}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -610,23 +612,23 @@ Future FetchContainerMake() async {
                                     items: data,
                                     
                                     onValueChanged: (value) async {
-                                      widget.fleetformdetails.vehicle_manufacturer = value;
+                                      widget.fLeetDetail.vehicleManufacturer = value;
                                       
-                                      print("Data of Selected Vehicle Name: " +widget.fleetformdetails.vehicle_manufacturer);
+                                      print("Data of Selected Vehicle Name: " +widget.fLeetDetail.vehicleManufacturer);
                                       
                                       _list2.clear();
       
-                                      if(widget.fleetformdetails.vehicle_manufacturer == "Others")
+                                      if(widget.fLeetDetail.vehicleManufacturer == "Others")
                                       {
                                         selectedVehicleManufacturer.text = " ";
                                         _list2.add("Others");
                                       }
       
-                                      FetchVehicleModel(widget.fleetformdetails.vehicle_manufacturer);
+                                      FetchVehicleModel(widget.fLeetDetail.vehicleManufacturer);
       
                                       setState(() async {
                                         
-                                        print(widget.fleetformdetails.vehicle_manufacturer);
+                                        print(widget.fLeetDetail.vehicleManufacturer);
                                       });
                                     },
                                     
@@ -658,16 +660,16 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: _list2,
                                     onValueChanged: (value) {
-                                      widget.fleetformdetails.vehicle_model = value;
+                                      widget.fLeetDetail.vehicleModel = value;
       
-                                       if(widget.fleetformdetails.vehicle_model == "Others")
+                                       if(widget.fLeetDetail.vehicleModel == "Others")
                                       {
                                         selectedVehicleModel.text = " ";
                                     
                                       }
                                       setState(() {
-                                        widget.fleetformdetails.vehicle_model = value;
-                                        print("Data From Model :"+widget.fleetformdetails.vehicle_model);
+                                        widget.fLeetDetail.vehicleModel = value;
+                                        print("Data From Model :"+widget.fLeetDetail.vehicleModel);
                                       });
                                     },
                                   ),
@@ -803,8 +805,8 @@ Future FetchContainerMake() async {
                                 controller: selectedVehicleMake_year =
                                     TextEditingController(
                                         text: vehicleMakeyeardate),
-                                         onChanged: (value) => widget.fleetformdetails.vehicle_make_year = value,
-                                         onSaved: (value) => widget.fleetformdetails.vehicle_make_year   = value,
+                                         onChanged: (value) => widget.fLeetDetail.vehicleMAkeYear = value ,
+                                         onSaved: (value) => widget.fLeetDetail.vehicleMAkeYear   = value ,
                                 readOnly: true,
                                 onTap: () {
                                   return showDialog(
@@ -931,8 +933,8 @@ Future FetchContainerMake() async {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 controller:selectedVehicleCapacity,
-                                onChanged: (value)=>widget.fleetformdetails.vehicle_capacity = value,
-                                onSaved:(value) => widget.fleetformdetails.vehicle_capacity = value,
+                                onChanged: (value)=>widget.fLeetDetail.vehicleCapMt = value,
+                                onSaved:(value) => widget.fLeetDetail.vehicleCapMt = value,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefix: Icon(
@@ -1013,8 +1015,8 @@ Future FetchContainerMake() async {
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller: length,
-                                          onChanged: (value) => widget.fleetformdetails.length = value,
-                                          onSaved: (value) => widget.fleetformdetails.length = value,
+                                          onChanged: (value) => widget.fLeetDetail.length = value,
+                                          onSaved: (value) => widget.fLeetDetail.length = value,
 
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
@@ -1050,8 +1052,8 @@ Future FetchContainerMake() async {
                                           child: TextFormField(
                                             keyboardType: TextInputType.number,
                                             controller: width,
-                                            onChanged: (value) => widget.fleetformdetails.width = value,
-                                            onSaved: (value) => widget.fleetformdetails.width = value,
+                                            onChanged: (value) => widget.fLeetDetail.width = value ,
+                                            onSaved: (value) => widget.fLeetDetail.width = value,
                                             textAlign: TextAlign.center,
                                             decoration: InputDecoration(
                                                 labelText: 'Width :',
@@ -1085,8 +1087,8 @@ Future FetchContainerMake() async {
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller:height,
-                                          onChanged:(value) => widget.fleetformdetails.height = value,
-                                          onSaved:(value) => widget.fleetformdetails.height = value,
+                                          onChanged:(value) => widget.fLeetDetail.height = value ,
+                                          onSaved:(value) => widget.fLeetDetail.height = value ,
                                           textAlign: TextAlign.center,
                                           decoration: InputDecoration(
                                               labelText: 'Height :',
@@ -1142,21 +1144,21 @@ Future FetchContainerMake() async {
                                     onValueChanged: (value)
                                      {
 
-                                      widget.fleetformdetails.reefer_unit_manufacturer = value;
+                                      widget.fLeetDetail.reeferUnitManufacturer= value;
 
                                       reeferUnitModelsp.clear();
 
-                                      if(widget.fleetformdetails.reefer_unit_manufacturer == "Others")
+                                      if(widget.fLeetDetail.reeferUnitManufacturer == "Others")
                                       {
                                         selectedReeferUnitManufacturer.text =" ";
                                         reeferUnitModelsp.add("Others");
                                       }
 
-                                      FetchReeferUnitModel(widget.fleetformdetails.reefer_unit_manufacturer = value);
+                                      FetchReeferUnitModel(widget.fLeetDetail.reeferUnitManufacturer);
                                       
                                       setState(() {
                                         
-                                        print(widget.fleetformdetails.reefer_unit_manufacturer = value);
+                                        print(widget.fLeetDetail.reeferUnitManufacturer = value);
                                       });
                                     },
                                   ),
@@ -1186,14 +1188,16 @@ Future FetchContainerMake() async {
                                     enabled: true,
                                     items: reeferUnitModelsp,
                                     onValueChanged: (value) {
-                                      widget.fleetformdetails.reefer_unit_model = value;
-                                      if(widget.fleetformdetails.reefer_unit_model == "Others")
+
+                                      widget.fLeetDetail.reeferUnitModel = value;
+                                      
+                                      if( widget.fLeetDetail.reeferUnitModel == "Others")
                                       {
                                         selectedReeferUnitModel.text= " ";
                                       }
                                       setState(() {
-                                        widget.fleetformdetails.reefer_unit_model = value;
-                                        print(widget.fleetformdetails.reefer_unit_model);
+                                         widget.fLeetDetail.reeferUnitModel = value;
+                                        
                                       });
                                     },
                                   ),
@@ -1208,8 +1212,8 @@ Future FetchContainerMake() async {
                                 controller: selectedReeferMakeYear =
                                     TextEditingController(
                                         text: refervehicleyeardate),
-                                        onChanged: (value) => widget.fleetformdetails.reefer_make_year = value,
-                                        onSaved:  (value) => widget.fleetformdetails.reefer_make_year = value,
+                                        onChanged: (value) => widget.fLeetDetail.reeferMakeYear = value ,
+                                        onSaved:  (value) => widget.fLeetDetail.reeferMakeYear = value ,
 
                                 readOnly: true,
                                 onTap: () {
@@ -1325,15 +1329,15 @@ Future FetchContainerMake() async {
                                     items: _list8,
                                     onValueChanged: (value) {
 
-                                      widget.fleetformdetails.container_make = value;
-                                      if( widget.fleetformdetails.container_make == "Others")
+                                      widget.fLeetDetail.containerMake = value;
+                                      if( widget.fLeetDetail.containerMake == "Others")
                                       {
                                         selectedContainerMake.text = " ";
                                       }
                                       setState(()
                                        {
-                                         widget.fleetformdetails.container_make = value;
-                                        print( widget.fleetformdetails.container_make);
+                                        widget.fLeetDetail.containerMake = value;
+                                        print(widget.fLeetDetail.containerMake);
                                       });
                                     },
                                   ),
@@ -1348,8 +1352,8 @@ Future FetchContainerMake() async {
                                 keyboardType: TextInputType.number,
                                 controller:_Edt_No_of_Vehicles,
 
-                                onChanged: (value) => widget.fleetformdetails.numberofvehicle = value,
-                                onSaved: (value) => widget.fleetformdetails.numberofvehicle = value,
+                                onChanged: (value) => widget.fLeetDetail.vehicleCount = value,
+                                onSaved: (value) => widget.fLeetDetail.vehicleCount = value,
 
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -1384,8 +1388,8 @@ Future FetchContainerMake() async {
                                 keyboardType: TextInputType.text,
                                 controller:_Edt_VehicleNumber,
 
-                                onChanged: (value) =>widget.fleetformdetails.vehicle_number = value,
-                                onSaved: (value) => widget.fleetformdetails.vehicle_number = value,
+                                onChanged: (value) =>widget.fLeetDetail.vehicleNo = value ,
+                                onSaved: (value) => widget.fLeetDetail.vehicleNo = value,
 
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(

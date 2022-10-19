@@ -5,9 +5,11 @@ import 'package:referon/screens/faq_screen.dart';
 import 'package:referon/screens/fleet_item_widget.dart';
 import 'package:referon/screens/success_screen.dart';
 
-class MultiFaqScreen extends StatefulWidget {
+class MultiFaqScreen extends StatefulWidget 
+{
+
 LoginScreenModel loginScreenModel;
-List<FleetItemWidget> forms;
+List<FLeetDetail> forms;
 
   MultiFaqScreen({Key key, this.loginScreenModel, this.forms}) : super(key: key);
   
@@ -27,7 +29,10 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
   
   @override
   void initState() {
-    print(widget.forms.length);
+
+    
+    print("In MultiFaq:$widget.forms");
+
     super.initState();
   }
 
@@ -73,7 +78,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
         icon: Icon(Icons.add),
         backgroundColor: Color.fromRGBO(180, 211, 67, 50),
         focusColor: Colors.green,
-        label: Text(' Add New Faq Form '),
+        label: Text(" Add New Faq Form " ),
         elevation: 10,
       ),
 
@@ -88,53 +93,15 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
   }
   onSave()
    {
+    
     bool allValid = true;
 
     faqdetails
         .forEach((element) => allValid = (allValid && element.isValidated()));
     
     if (allValid) {
-      // List<String> names = fleetitemwidget
-      //     .map((e) => e.fleetformdetails.vehicle_manufacturer)
-      //     .toList();
-      //   print("$names");
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: ((context) => FaqDetails())));
-      for(int i = 0; i < faqdetails.length; i++)
-      {
-
-        
-
-        FaqDetails itemWidget = faqdetails[i];
-
+    
       
-
-      Map<String, dynamic> json =
-      {  
-
-        "Faq Detail Form": itemWidget.faqFormDetails.id,  
-
-        "value":{
-
-          "banking_partner":itemWidget.faqFormDetails.preferedbankingpartner,
-          "fastTag_partner":itemWidget.faqFormDetails.preferedfastagpartner,
-          "insurance_partner":itemWidget.faqFormDetails.preferedinsurancepartner,
-          "fuel_partner":itemWidget.faqFormDetails.preferedfuelpartner,
-          "container_OEM":itemWidget.faqFormDetails.preferedcontaineroem,
-          "vehicle_OEM":itemWidget.faqFormDetails.preferedvehicleoem,
-          "tyre_OEM":itemWidget.faqFormDetails.preferedtyreoem,
-          "reefer_OEM":itemWidget.faqFormDetails.preferedtyreoem
-        }
-
-      };
-
-        
-        print(json); 
-        
-
-      }
-
-
       Navigator.push(context, MaterialPageRoute(builder: ((context) => SuccessPage())));
     } 
     else {

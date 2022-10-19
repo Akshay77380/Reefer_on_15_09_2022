@@ -141,7 +141,7 @@ countryName: _Edt_Country.text
      
     print(" Company Details Screen :Contanct num ${widget.registerednum}");
 
-    // fetch pincode here
+    
     FetchCompanyNameList();
     FetchCompanyTypeList();
     FetchBusinessTypeList();
