@@ -3,9 +3,7 @@
 //     final loginScreenModel = loginScreenModelFromJson(jsonString);
 
 import 'dart:convert';
-
 import 'package:referon/models/faqFormDetails.dart';
-import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:referon/screens/fleet_item_widget.dart';
 
 LoginScreenModel loginScreenModelFromJson(String str) => LoginScreenModel.fromJson(json.decode(str));
@@ -166,6 +164,12 @@ class LoginScreenModel
 
         "FAQ": List<Map<String,dynamic>>.from(faq.map((x) => x.toJson())),
     };
+
+    // @override
+    //   String toString()
+    // {
+    //   return '{CompanyName:$companyName, firstName:$firstName, lastName:$lastName, contact:$contact,altcontact:$altcontact,emailid:$emailid,landmark:$landmark,Address1:$address1,Address2:$address2,Designation:$designation,pincode:$pincode,city:$city,panNo:$panNo,PanImg:$panImg,year:$year,CompanyType:$companyType,BusinessType:$businessType,VendorType:$vendorType,CancelChequeNo:$cancelChequeNo,CancelChequeIMG:$cancelChequeImg,GstNo:$gstNo,GSTImg:$gstImg,FSSAILicNo:$fssaiLicNo,FSSAIImg:$fssaiImg,BusinessCard:$businessCard,businessImg:$businessImg,OtherDoc:$otherDoc,OtherDocImg:$otherDocImg,Region:$region,StateName:$stateName,CountryName:$countryName,FLeetDetails:$fLeetDetails,FAQ:$faq}';
+    // }
 }
 
 class FLeetDetail {

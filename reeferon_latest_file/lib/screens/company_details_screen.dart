@@ -42,7 +42,9 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 }
 
 class CompanyDataForm extends StatefulWidget {
+
    LoginScreenModel loginScreenModel;
+
    var registerednum;
    CompanyDataForm({Key key, this.registerednum,this.loginScreenModel}) : super(key: key);
 
@@ -126,6 +128,7 @@ countryName: _Edt_Country.text
     }
     if (isValid) 
     {
+      
       Navigator.push(context, MaterialPageRoute(builder: ((context) => ContactForm(loginScreenModel: loginData,mobilenum:widget.registerednum,))));
     }
     _formKey.currentState.save();
@@ -209,7 +212,7 @@ countryName: _Edt_Country.text
 
   Future FetchCompanyDetails(selectcompanyname) async {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/companydetails?CompanyName=" +
+        "${baseUrl}companydetails?CompanyName=" +
             selectcompanyname));
 
     if (response.statusCode == 200) {

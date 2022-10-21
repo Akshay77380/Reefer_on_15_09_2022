@@ -15,19 +15,41 @@ import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ContactDetails extends StatefulWidget {
+  var str_mobilenum,
+      str_companyname,
+      str_companytype,
+      str_businesstype,
+      str_address1,
+      str_address2,
+      str_landmark,
+      str_pincode,
+      str_city,
+      str_state,
+      str_country;
 
-  var str_mobilenum,str_companyname,str_companytype,str_businesstype,str_address1,str_address2,str_landmark,str_pincode,str_city,str_state,str_country;
-  
-  ContactDetails({Key key, String str_mobilenum,String str_companyname,String str_companytype,String str_businesstype,String str_address1,String str_address2,String str_landmark,String str_pincode,String str_city,String str_state,String str_country}): super(key: key); 
+  ContactDetails(
+      {Key key,
+      String str_mobilenum,
+      String str_companyname,
+      String str_companytype,
+      String str_businesstype,
+      String str_address1,
+      String str_address2,
+      String str_landmark,
+      String str_pincode,
+      String str_city,
+      String str_state,
+      String str_country})
+      : super(key: key);
 
   @override
   State<ContactDetails> createState() => _ContactDetailsState();
 }
+
 class _ContactDetailsState extends State<ContactDetails> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: ContactForm(),
@@ -37,15 +59,13 @@ class _ContactDetailsState extends State<ContactDetails> {
 
 class ContactForm extends StatefulWidget {
   LoginScreenModel loginScreenModel;
-   ContactForm({Key key, this.loginScreenModel}) : super(key: key);
+  ContactForm({Key key, this.loginScreenModel}) : super(key: key);
 
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
-
-  
   final _Edt_firstname = TextEditingController();
   final _Edt_lastname = TextEditingController();
   final _Edt_contactnumber = TextEditingController();
@@ -59,7 +79,6 @@ class _ContactFormState extends State<ContactForm> {
   final _Edt_otherscard = TextEditingController();
   String _errorMessage = '';
 
-  
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
@@ -73,69 +92,61 @@ class _ContactFormState extends State<ContactForm> {
   //     final imagetemporary = File(image.path);
   //     this.image = imagetemporary;
   //     final imagepermanent = await saveImagePermanently(image.path);
-       
+
   //     setState((() => this.image = imagepermanent));
   //   } on PlatformException catch (e) {
   //     print("Failed to pick image: $e ");
   //   }
   // }
-  _openGallery(BuildContext context) async
-  {
-      var picture = (await ImagePicker().pickImage(source: ImageSource.gallery));
-      this.setState(() {
-          imageFile = picture as File;
-
-      });
-      Navigator.of(context).pop();
-  }
-  _openCamera(BuildContext context) async
-  {
-  var picture = (await ImagePicker().pickImage(source: ImageSource.camera));
-      this.setState(() {
-          imageFile = picture as File;
-
-      });
-      Navigator.of(context).pop();
-  }
-
-  Widget _decideImageView()
-  {
-    if(imageFile == null)
-    {
-          return Text("No Image Selected");
-    }
-    else
-    {
-            return Text("Image Uploaded");
-    }
-  }
-  Future<void> _showChoiceDialog(BuildContext buildContext)
-  {
-    return showDialog(context: context, builder: (BuildContext context){
-
-        return AlertDialog(
-          title:  Text("Make a Choice"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: Text("Camera"),
-                  onTap: ()=> _openCamera(context),
-                ),
-               
-                Padding(padding: EdgeInsets.all(20.0)),
-                GestureDetector(
-                  child: Text("Gallery"),
-                  onTap: ()=> _openGallery(context),
-                  
-                ),
-              ],
-            ),
-          ),
-        );
+  _openGallery(BuildContext context) async {
+    var picture = (await ImagePicker().pickImage(source: ImageSource.gallery));
+    this.setState(() {
+      imageFile = picture as File;
     });
+    Navigator.of(context).pop();
   }
-  // Future < File > saveImagePermanently (String imagePath) async 
+
+  _openCamera(BuildContext context) async {
+    var picture = (await ImagePicker().pickImage(source: ImageSource.camera));
+    this.setState(() {
+      imageFile = picture as File;
+    });
+    Navigator.of(context).pop();
+  }
+
+  Widget _decideImageView() {
+    if (imageFile == null) {
+      return Text("No Image Selected");
+    } else {
+      return Text("Image Uploaded");
+    }
+  }
+
+  Future<void> _showChoiceDialog(BuildContext buildContext) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Make a Choice"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () => _openCamera(context),
+                  ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () => _openGallery(context),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  // Future < File > saveImagePermanently (String imagePath) async
   // {
   //   final directory = await getApplicationDocumentsDirectory() ;
   //   final name = basename(imagePath);
@@ -180,16 +191,12 @@ class _ContactFormState extends State<ContactForm> {
 
   //         )
 
-
   //       ],
   //     ));
   //   }
   // }
 
   void _sumbit() {
- 
-
-
 //  inal _Edt_firstname = TextEditingController();
 //   final _Edt_lastname = TextEditingController();
 //   final _Edt_contactnumber = TextEditingController();
@@ -207,42 +214,45 @@ class _ContactFormState extends State<ContactForm> {
     LoginScreenModel logindata = widget.loginScreenModel;
 
     logindata = LoginScreenModel(
-    mobilenum: widget.loginScreenModel.mobilenum,
-    companyname: widget.loginScreenModel.companyname,
-    companytype: widget.loginScreenModel.companytype,
-    businesstype: widget.loginScreenModel.businesstype,
-    address1: widget.loginScreenModel.address1,
-    address2: widget.loginScreenModel.address2,
-    pincode: widget.loginScreenModel.pincode,
-    city: widget.loginScreenModel.city,
-    state: widget.loginScreenModel.state,
-    country: widget.loginScreenModel.country,
-    firstname:_Edt_firstname.text,
-    lastname: _Edt_lastname.text,
-    registeredmobilenum: _Edt_contactnumber.text,
-    alternativemobilenum : _Edt_alternatenumber.text,
-    emailaddress: _Edt_emailid.text,
-    designation: _selectedval,
-    pancardno: _Edt_pancardno.text,
-    pancardimg: "shhssh",
-    cancelchequeno:_Edt_cancelchequeno.text,
-    cancelchequeimg:"shshs",
-    gstno : _Edt_gstno.text,
-    gstnoimg :"ssjsj",
-    fssailicenseno: _Edt_fssailincenseno.text,
-    fssaillicenseimg:"hdhdhd",
-    businesscardno:_Edt_businesscardno.text,
-    businesscardnoimg:"hdhdh",
-    otherscardno: _Edt_otherscard.text,
-    otherscardnoimg:"ssgsgs"
-    );
-    
+        mobilenum: widget.loginScreenModel.mobilenum,
+        companyname: widget.loginScreenModel.companyname,
+        companytype: widget.loginScreenModel.companytype,
+        businesstype: widget.loginScreenModel.businesstype,
+        address1: widget.loginScreenModel.address1,
+        address2: widget.loginScreenModel.address2,
+        pincode: widget.loginScreenModel.pincode,
+        city: widget.loginScreenModel.city,
+        state: widget.loginScreenModel.state,
+        country: widget.loginScreenModel.country,
+        firstname: _Edt_firstname.text,
+        lastname: _Edt_lastname.text,
+        registeredmobilenum: _Edt_contactnumber.text,
+        alternativemobilenum: _Edt_alternatenumber.text,
+        emailaddress: _Edt_emailid.text,
+        designation: _selectedval,
+        pancardno: _Edt_pancardno.text,
+        pancardimg: "shhssh",
+        cancelchequeno: _Edt_cancelchequeno.text,
+        cancelchequeimg: "shshs",
+        gstno: _Edt_gstno.text,
+        gstnoimg: "ssjsj",
+        fssailicenseno: _Edt_fssailincenseno.text,
+        fssaillicenseimg: "hdhdhd",
+        businesscardno: _Edt_businesscardno.text,
+        businesscardnoimg: "hdhdh",
+        otherscardno: _Edt_otherscard.text,
+        otherscardnoimg: "ssgsgs");
+
     print("First Name ${logindata.firstname}");
     print("Phone number ${logindata.mobilenum}");
-        if (isValid) {
-      print("Company name :"+widget.loginScreenModel.companyname);
+
+    if (isValid) {
+      print("Company name :" + widget.loginScreenModel.companyname);
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => FleetDetailsForm(loginScreenModel: logindata))));
+          context,
+          MaterialPageRoute(
+              builder: ((context) =>
+                  FleetDetailsForm(loginScreenModel: logindata))));
     }
     _formKey.currentState.save();
   }
@@ -1070,7 +1080,7 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                           _showChoiceDialog(context);
+                                            _showChoiceDialog(context);
                                           },
                                           icon: Icon(
                                             Icons.camera_enhance,
@@ -1201,7 +1211,7 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                                 _showChoiceDialog(context);
+                                            _showChoiceDialog(context);
                                           },
                                           icon: Icon(
                                             Icons.camera_enhance,
@@ -1332,8 +1342,6 @@ class _ContactFormState extends State<ContactForm> {
                                           onPressed: () {
                                             // pickImage();
                                             _showChoiceDialog(context);
-                                            
-                                            
                                           },
                                           icon: Icon(
                                             Icons.camera_enhance,
@@ -1430,7 +1438,7 @@ class _ContactFormState extends State<ContactForm> {
                                         child: TextButton.icon(
                                           onPressed: () {
                                             // pickImage();
-                                             _showChoiceDialog(context);
+                                            _showChoiceDialog(context);
                                           },
                                           icon: Icon(
                                             Icons.camera_enhance,
@@ -1542,10 +1550,6 @@ class _ContactFormState extends State<ContactForm> {
       });
     }
   }
-  
-  basename(String imagePath) {
-    
-  }
-  
- 
+
+  basename(String imagePath) {}
 }

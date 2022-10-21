@@ -15,11 +15,7 @@ import 'package:searchfield/searchfield.dart';
 import 'package:flutter_year_picker/flutter_year_picker.dart';
 
 class FleetDetails extends StatefulWidget {
-
   
-  
-
-
   @override
   State<FleetDetails> createState() => _FleetDetailsState();
 }
@@ -42,6 +38,7 @@ class FleetDetailsForm extends StatefulWidget {
 
   @override
   State<FleetDetailsForm> createState() => _FleetDetailsFormState();
+
 }
 
 class _FleetDetailsFormState extends State<FleetDetailsForm> {

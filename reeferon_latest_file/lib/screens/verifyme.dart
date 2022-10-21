@@ -18,6 +18,7 @@ class VerifyMe extends StatefulWidget {
   //fetching from LoginScreen
   CheckLogin checklogin;
   String mobilenum,otpcode,msgidcode,sts;
+  LoginScreenModel loginscreenmodel;
 
    VerifyMe(
       {Key key, this.mobilenum,this.otpcode,this.msgidcode,this.sts})
@@ -31,7 +32,7 @@ class VerifyMe extends StatefulWidget {
 
 class _VerifyMeState extends State<VerifyMe> 
 {
-
+LoginScreenModel loginscreenmodel;
   OtpFieldController otpController = OtpFieldController();
   String text = "";
 
@@ -39,20 +40,16 @@ class _VerifyMeState extends State<VerifyMe>
 
   FocusNode _focusNode = FocusNode();
 
-  LoginScreenModel loginData;
+   
   
-
   CheckLogin checkLogin;
 
   String Language = 'English';
 
-  void _sumbit() {
-
-      
-
-     
+  void _sumbit() 
+  {
       String registerednum = "${widget.mobilenum}";
-      // print("Mobile Number "+mobilenum);
+      
 
     final isValid = _formKey.currentState.validate();
    
@@ -60,7 +57,7 @@ class _VerifyMeState extends State<VerifyMe>
 
       
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => CompanyDataForm(registerednum: registerednum,loginScreenModel:loginData))));
+          context, MaterialPageRoute(builder: ((context) => CompanyDataForm(registerednum: registerednum,loginScreenModel: loginscreenmodel,))));
     }
     _formKey.currentState.save();
   }
@@ -71,7 +68,7 @@ class _VerifyMeState extends State<VerifyMe>
     print(" OTP CODE: "+widget.otpcode); 
     print(" Msg Id: "+widget.msgidcode); 
     print(" sts: "+widget.sts); 
-
+    print("MobileNum: "+widget.mobilenum);
     super.initState();
   }
   @override
@@ -130,7 +127,7 @@ class _VerifyMeState extends State<VerifyMe>
                           ),
                         ),
                         Text(
-                          "91-$widget.mobilenum",
+                          "91-${widget.mobilenum}",
                           style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(255, 11, 11, 22),

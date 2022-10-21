@@ -9,14 +9,13 @@ import 'package:referon/models/fleetFormDetails.dart';
 import 'package:referon/models/getVehicleModel.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/faq_screen.dart';
-import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:http/http.dart' as http;
 
 class FleetItemWidget extends StatefulWidget {
-
-  LoginScreenModel loginScreenModel;
-  FleetItemWidget({ Key key, this.fLeetDetail,this.index, this.onRemove }) : super(key: key);
+  
+  FleetItemWidget({Key key, this.fLeetDetail, this.index, this.onRemove})
+      : super(key: key);
 
   final index;
 
@@ -28,34 +27,28 @@ class FleetItemWidget extends StatefulWidget {
 
   final state = _FleetItemWidgetState();
 
- 
- 
   @override
   State<FleetItemWidget> createState() {
     return state;
   }
-  
 
   bool isValidated() => state.validate();
 }
 
 class _FleetItemWidgetState extends State<FleetItemWidget> {
-
   final formKey = GlobalKey<FormState>();
-   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode _focusNode = FocusNode();
-  
 
-  _FleetItemWidgetState()
-  {
-      _selectedval = _list[0];
+  _FleetItemWidgetState() {
+    _selectedval = _list[0];
     _selectedval2 = _list[0];
     _selectedval3 = _list[0];
     _selectedval4 = _list[0];
     _selectedval5 = _list[0];
     _selectedval6 = _list[0];
   }
-   String _selectedval = "Select";
+  String _selectedval = "Select";
 
   String _selectedval2 = "Select";
 
@@ -70,7 +63,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
   String vehicleMakeyeardate = "Select Date";
 
   String refervehicleyeardate = "Select Date";
-  
+
   getVehicleModel_List _vehicleModel_List;
 
   final selectedVehicleManufacturer = TextEditingController();
@@ -105,10 +98,11 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
       });
     }
   }
-   String selectVehicle = "";
+
+  String selectVehicle = "";
   String selectVehicleModel = "";
   var selectVehicleMake_year = "";
-  var  selectVehicleCapacity = "";
+  var selectVehicleCapacity = "";
   String selectVehicleSize = "";
   String selectedVehicleReferUnit = "";
   String selectedVehicleReferModel = "";
@@ -323,8 +317,9 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
   ];
   final _list4 = ["Select"];
 
-  final _list5 = ["Select"
-  // , "Carrier", "Thermoking", "Hwasung"
+  final _list5 = [
+    "Select"
+    // , "Carrier", "Thermoking", "Hwasung"
   ];
 
   final _list6 = [
@@ -395,7 +390,6 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
     "2002"
   ];
   final _list8 = [
-    
     "Others"
     // ,
     // "Suraksha",
@@ -408,7 +402,6 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
   ];
   String country_id;
   List<String> country = [
-    
     "America",
     "Brazil",
     "Canada",
@@ -418,9 +411,8 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
     "China",
     "Russia",
     "Germany"
-
   ];
-   
+
   Future FetchVehicleManfList() async {
     var response = await http.get(Uri.parse('${baseUrl}vehiclemanufacturer'));
 
@@ -435,11 +427,9 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
     }
   }
 
-
   Future FetchVehicleModel(selectVehicle) async {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/Vehicle_Models?Vehicle_Manufacturer=" +
-            selectVehicle));
+        "${baseUrl}Vehicle_Models?Vehicle_Manufacturer=" + selectVehicle));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
@@ -452,7 +442,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
     }
   }
 
-Future FetchReeferUnitfList() async {
+  Future FetchReeferUnitfList() async {
     var response = await http.get(Uri.parse('${baseUrl}reeferUnitManufacture'));
 
     if (response.statusCode == 200) {
@@ -468,7 +458,7 @@ Future FetchReeferUnitfList() async {
 
   Future FetchReeferUnitModel(selectedVehicleReferUnit) async {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/reeferUnitModel?unitManufacturer=" +
+        "${baseUrl}reeferUnitModel?unitManufacturer=" +
             selectedVehicleReferUnit));
 
     if (response.statusCode == 200) {
@@ -481,11 +471,10 @@ Future FetchReeferUnitfList() async {
       }
 
       print('Data Vehicle Model : $reeferUnitModelsp');
-
     }
   }
 
-Future FetchContainerMake() async {
+  Future FetchContainerMake() async {
     var response = await http.get(Uri.parse('${baseUrl}ContainerMake'));
 
     if (response.statusCode == 200) {
@@ -504,569 +493,555 @@ Future FetchContainerMake() async {
     super.initState();
     // print("InSide Fleet Details: ${widget.loginScreenModel.registeredmobilenum}");
     // Vehicle Manufacturer
-  
+
     FetchVehicleManfList();
     FetchReeferUnitfList();
     FetchContainerMake();
   }
-   @override  
-   Widget build(BuildContext context) {
-       return Material(
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Form(
-        key: formKey,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/logo.png"),
-                fit: BoxFit.contain,
-                opacity: 500),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    children: [ 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularPercentIndicator(
-                            animation: true,
-                            animationDuration: 5000,
-                            radius: 25,
-                            lineWidth: 8,
-                            percent: 0.5,
-                            progressColor: Color.fromRGBO(180, 211, 67, 30),
-                            backgroundColor: Color.fromRGBO(17, 24, 66, 50),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            center: const Text('50%',
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.black)),
-                          ),
-                          Spacer(),
-                          Text(
-                            "Fleet  Details",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 11, 11, 22),
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                          Spacer(),
-                          Image.asset(
-                            'assets/images/logocircle.png',
-                            width: 70,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                        child: Center(), //Center
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                        ),
-                        child: Column(
+          key: formKey,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/logo.png"),
+                  fit: BoxFit.contain,
+                  opacity: 500),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            CircularPercentIndicator(
+                              animation: true,
+                              animationDuration: 5000,
+                              radius: 25,
+                              lineWidth: 8,
+                              percent: 0.5,
+                              progressColor: Color.fromRGBO(180, 211, 67, 30),
+                              backgroundColor: Color.fromRGBO(17, 24, 66, 50),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              center: const Text('50%',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.black)),
+                            ),
+                            Spacer(),
                             Text(
-                              " Enter Details - ${widget.index+1}",
+                              "Fleet  Details",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 11, 11, 22),
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            SizedBox(
-                              height: 20.0,
-                              child: Center(), //Center
+                            Spacer(),
+                            Image.asset(
+                              'assets/images/logocircle.png',
+                              width: 70,
                             ),
-      
-                            Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0),
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      labelText: ' Vehicle Manufacturer : ',
-                                      labelStyle: TextStyle(
-                                        color: Color.fromRGBO(17, 24, 66, 100),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              width: 0, color: Colors.black),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ))),
-                                  child: DropDownField(
-                                    controller: selectedVehicleManufacturer,
-                                    
-                                    
-                                    hintText: "Select",
-                                    enabled: true,
-                                    items: data,
-                                    
-                                    onValueChanged: (value) async {
-                                      widget.fLeetDetail.vehicleManufacturer = value;
-                                      
-                                      print("Data of Selected Vehicle Name: " +widget.fLeetDetail.vehicleManufacturer);
-                                      
-                                      _list2.clear();
-      
-                                      if(widget.fLeetDetail.vehicleManufacturer == "Others")
-                                      {
-                                        selectedVehicleManufacturer.text = " ";
-                                        _list2.add("Others");
-                                      }
-      
-                                      FetchVehicleModel(widget.fLeetDetail.vehicleManufacturer);
-      
-                                      setState(() async {
-                                        
-                                        print(widget.fLeetDetail.vehicleManufacturer);
-                                      });
-                                    },
-                                    
-                                  ),
-                                )),
-      
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0),
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      labelText: 'Vehicle Model : ',
-                                      labelStyle: TextStyle(
-                                        color: Color.fromRGBO(17, 24, 66, 100),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              width: 0, color: Colors.black),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ))),
-                                  child: DropDownField(
-                                    controller: selectedVehicleModel,
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                          child: Center(), //Center
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                " Enter Details - ${widget.index + 1}",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 11, 11, 22),
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                                child: Center(), //Center
+                              ),
 
-                                    hintText: "Select",
-                                    enabled: true,
-                                    items: _list2,
-                                    onValueChanged: (value) {
-                                      widget.fLeetDetail.vehicleModel = value;
-      
-                                       if(widget.fLeetDetail.vehicleModel == "Others")
-                                      {
-                                        selectedVehicleModel.text = " ";
-                                    
-                                      }
-                                      setState(() {
-                                        widget.fLeetDetail.vehicleModel = value;
-                                        print("Data From Model :"+widget.fLeetDetail.vehicleModel);
-                                      });
-                                    },
-                                  ),
-                                )),
-      
-                            // SizedBox(
-                            //             width: 400,
-                            //             height: 55,
-                            //              child: TextField(
-      
-                            //               keyboardType: TextInputType.name,
-                            //               textAlign: TextAlign.center,
-      
-                            //                 decoration: InputDecoration(
-                            //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
-                            //                   iconColor:  Color.fromRGBO(17,24,66,100),
-                            //                 labelText: 'Vehicle Manufacturer :',
-                            //                 labelStyle: TextStyle(
-                            //                   color: Colors.black
-                            //                 ),
-      
-                            //                 enabledBorder: OutlineInputBorder(
-                            //                 borderSide: const BorderSide(width: 0, color: Colors.black),
-                            //                 borderRadius: BorderRadius.circular(15),
-      
-                            //                                ),
-                            //               focusedBorder: OutlineInputBorder(
-                            //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
-                            //               borderRadius: BorderRadius.circular(15),
-                            //                                )),
-                            //                                style: TextStyle(fontSize: 15),
-                            //                            ),
-                            //            ),
-                            // SizedBox(height: 10,),
-                            // SizedBox(
-                            //             width: 400,
-                            //             height: 55,
-                            //              child: TextField(
-      
-                            //               keyboardType: TextInputType.name,
-                            //               textAlign: TextAlign.center,
-      
-                            //                 decoration: InputDecoration(
-                            //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
-                            //                   iconColor:  Color.fromRGBO(17,24,66,100),
-                            //                 labelText: 'Ac Mainetance :',
-                            //                 labelStyle: TextStyle(
-                            //                   color: Colors.black
-                            //                 ),
-      
-                            //                 enabledBorder: OutlineInputBorder(
-                            //                 borderSide: const BorderSide(width: 0, color: Colors.black),
-                            //                 borderRadius: BorderRadius.circular(15),
-      
-                            //                                ),
-                            //               focusedBorder: OutlineInputBorder(
-                            //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
-                            //               borderRadius: BorderRadius.circular(15),
-                            //                                )),
-                            //                                style: TextStyle(fontSize: 15),
-                            //                            ),
-                            //            ),
-                            //             SizedBox(height: 10,),
-                            //          Padding(
-                            //           padding: EdgeInsets.only(left:5, right:5),
-      
-                            //           child: DropdownButtonFormField(
-      
-                            //             decoration:   InputDecoration(
-      
-                            //             filled: true,
-                            //              labelText: 'Reefer OEM : ',
-                            //              labelStyle: TextStyle(
-                            //               color: Color.fromRGBO(17,24,66,100),
-      
-                            //              ),
-                            //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
-                            //             Radius.circular(10.0),
-                            //   ))
-                            // ),
-                            //             isExpanded: true,
-      
-                            //             value: _selectedval4,
-                            //             items: _list4.map((e) =>
-                            //             DropdownMenuItem(child: Text(e),value: e,)
-                            //            ).toList()
-                            //           , onChanged: ((value) {
-                            //             setState(() {
-                            //               _selectedval4 = value as String;
-                            //             });
-      
-                            //           })),
-                            //         ),
-                            //         SizedBox(height: 10,),
-                            //          Padding(
-                            //           padding: EdgeInsets.only(left:5, right:5),
-      
-                            //           child: DropdownButtonFormField(
-      
-                            //             decoration:   InputDecoration(
-      
-                            //             filled: true,
-                            //              labelText: 'Reefer Make : ',
-                            //              labelStyle: TextStyle(
-                            //               color: Color.fromRGBO(17,24,66,100),
-      
-                            //              ),
-                            //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
-                            //             Radius.circular(10.0),
-                            //   ))
-                            // ),
-                            //             isExpanded: true,
-      
-                            //             value: _selectedval,
-                            //             items: _list.map((e) =>
-                            //             DropdownMenuItem(child: Text(e),value: e,)
-                            //            ).toList()
-                            //           , onChanged: ((value) {
-                            //             setState(() {
-                            //               _selectedval = value as String;
-                            //             });
-      
-                            //           })),
-                            //         ),
-      
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 400,
-                              height: 75,
-                              child: TextFormField(
-                                controller: selectedVehicleMake_year =
-                                    TextEditingController(
-                                        text: vehicleMakeyeardate),
-                                         onChanged: (value) => widget.fLeetDetail.vehicleMAkeYear = value ,
-                                         onSaved: (value) => widget.fLeetDetail.vehicleMAkeYear   = value ,
-                                readOnly: true,
-                                onTap: () {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      final Size size =
-                                          MediaQuery.of(context).size;
-                                      return AlertDialog(
-                                        title: Column(
-                                          children: const [
-                                            Text('Select a Year'),
-                                            Divider(
-                                              thickness: 1,
-                                            )
-                                          ],
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: InputDecorator(
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        labelText: ' Vehicle Manufacturer : ',
+                                        labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(17, 24, 66, 100),
                                         ),
-                                        contentPadding: const EdgeInsets.all(10),
-                                        content: SizedBox(
-                                          height: size.height / 3,
-                                          width: size.width,
-                                          child: GridView.count(
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            crossAxisCount: 3,
-                                            children: [
-                                              ...List.generate(
-                                                123,
-                                                (index) => InkWell(
-                                                  onTap: () {
-                                                    log("Selected Year ==> ${(2022 - index).toString()}");
-      
-                                                    setState(() {
-                                                      vehicleMakeyeardate =
-                                                          " ${(2022 - index).toString()}";
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 8.0,
-                                                        vertical: 0),
-                                                    child: Chip(
-                                                      label: Container(
-                                                        padding:
-                                                            const EdgeInsets.all(
-                                                                5),
-                                                        child: Text(
-                                                          (2022 - index)
-                                                              .toString(),
+                                        border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                width: 0, color: Colors.black),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ))),
+                                    child: DropDownField(
+                                      controller: selectedVehicleManufacturer,
+                                      hintText: "Select",
+                                      enabled: true,
+                                      items: data,
+                                      onValueChanged: (value) async {
+                                        widget.fLeetDetail.vehicleManufacturer =
+                                            value;
+
+                                        print(
+                                            "Data of Selected Vehicle Name: " +
+                                                widget.fLeetDetail
+                                                    .vehicleManufacturer);
+
+                                        _list2.clear();
+
+                                        if (widget.fLeetDetail
+                                                .vehicleManufacturer ==
+                                            "Others") {
+                                          selectedVehicleManufacturer.text =
+                                              " ";
+                                          _list2.add("Others");
+                                        }
+
+                                        FetchVehicleModel(widget
+                                            .fLeetDetail.vehicleManufacturer);
+
+                                        setState(() async {
+                                          print(widget
+                                              .fLeetDetail.vehicleManufacturer);
+                                        });
+                                      },
+                                    ),
+                                  )),
+
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: InputDecorator(
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        labelText: 'Vehicle Model : ',
+                                        labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(17, 24, 66, 100),
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                width: 0, color: Colors.black),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ))),
+                                    child: DropDownField(
+                                      controller: selectedVehicleModel,
+                                      hintText: "Select",
+                                      enabled: true,
+                                      items: _list2,
+                                      onValueChanged: (value) {
+                                        widget.fLeetDetail.vehicleModel = value;
+
+                                        if (widget.fLeetDetail.vehicleModel ==
+                                            "Others") {
+                                          selectedVehicleModel.text = " ";
+                                        }
+                                        setState(() {
+                                          widget.fLeetDetail.vehicleModel =
+                                              value;
+                                          print("Data From Model :" +
+                                              widget.fLeetDetail.vehicleModel);
+                                        });
+                                      },
+                                    ),
+                                  )),
+
+                              // SizedBox(
+                              //             width: 400,
+                              //             height: 55,
+                              //              child: TextField(
+
+                              //               keyboardType: TextInputType.name,
+                              //               textAlign: TextAlign.center,
+
+                              //                 decoration: InputDecoration(
+                              //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
+                              //                   iconColor:  Color.fromRGBO(17,24,66,100),
+                              //                 labelText: 'Vehicle Manufacturer :',
+                              //                 labelStyle: TextStyle(
+                              //                   color: Colors.black
+                              //                 ),
+
+                              //                 enabledBorder: OutlineInputBorder(
+                              //                 borderSide: const BorderSide(width: 0, color: Colors.black),
+                              //                 borderRadius: BorderRadius.circular(15),
+
+                              //                                ),
+                              //               focusedBorder: OutlineInputBorder(
+                              //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
+                              //               borderRadius: BorderRadius.circular(15),
+                              //                                )),
+                              //                                style: TextStyle(fontSize: 15),
+                              //                            ),
+                              //            ),
+                              // SizedBox(height: 10,),
+                              // SizedBox(
+                              //             width: 400,
+                              //             height: 55,
+                              //              child: TextField(
+
+                              //               keyboardType: TextInputType.name,
+                              //               textAlign: TextAlign.center,
+
+                              //                 decoration: InputDecoration(
+                              //                   prefix: Icon(Icons.precision_manufacturing,size: 20,),
+                              //                   iconColor:  Color.fromRGBO(17,24,66,100),
+                              //                 labelText: 'Ac Mainetance :',
+                              //                 labelStyle: TextStyle(
+                              //                   color: Colors.black
+                              //                 ),
+
+                              //                 enabledBorder: OutlineInputBorder(
+                              //                 borderSide: const BorderSide(width: 0, color: Colors.black),
+                              //                 borderRadius: BorderRadius.circular(15),
+
+                              //                                ),
+                              //               focusedBorder: OutlineInputBorder(
+                              //               borderSide: const BorderSide(width: 0, color: Color.fromARGB(255, 5, 10, 22)),
+                              //               borderRadius: BorderRadius.circular(15),
+                              //                                )),
+                              //                                style: TextStyle(fontSize: 15),
+                              //                            ),
+                              //            ),
+                              //             SizedBox(height: 10,),
+                              //          Padding(
+                              //           padding: EdgeInsets.only(left:5, right:5),
+
+                              //           child: DropdownButtonFormField(
+
+                              //             decoration:   InputDecoration(
+
+                              //             filled: true,
+                              //              labelText: 'Reefer OEM : ',
+                              //              labelStyle: TextStyle(
+                              //               color: Color.fromRGBO(17,24,66,100),
+
+                              //              ),
+                              //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
+                              //             Radius.circular(10.0),
+                              //   ))
+                              // ),
+                              //             isExpanded: true,
+
+                              //             value: _selectedval4,
+                              //             items: _list4.map((e) =>
+                              //             DropdownMenuItem(child: Text(e),value: e,)
+                              //            ).toList()
+                              //           , onChanged: ((value) {
+                              //             setState(() {
+                              //               _selectedval4 = value as String;
+                              //             });
+
+                              //           })),
+                              //         ),
+                              //         SizedBox(height: 10,),
+                              //          Padding(
+                              //           padding: EdgeInsets.only(left:5, right:5),
+
+                              //           child: DropdownButtonFormField(
+
+                              //             decoration:   InputDecoration(
+
+                              //             filled: true,
+                              //              labelText: 'Reefer Make : ',
+                              //              labelStyle: TextStyle(
+                              //               color: Color.fromRGBO(17,24,66,100),
+
+                              //              ),
+                              //             border: OutlineInputBorder(borderSide: const BorderSide(width: 0, color: Colors.black),borderRadius: BorderRadius.all(
+                              //             Radius.circular(10.0),
+                              //   ))
+                              // ),
+                              //             isExpanded: true,
+
+                              //             value: _selectedval,
+                              //             items: _list.map((e) =>
+                              //             DropdownMenuItem(child: Text(e),value: e,)
+                              //            ).toList()
+                              //           , onChanged: ((value) {
+                              //             setState(() {
+                              //               _selectedval = value as String;
+                              //             });
+
+                              //           })),
+                              //         ),
+
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                width: 400,
+                                height: 75,
+                                child: TextFormField(
+                                  controller: selectedVehicleMake_year =
+                                      TextEditingController(
+                                          text: vehicleMakeyeardate),
+                                  onChanged: (value) => widget
+                                      .fLeetDetail.vehicleMAkeYear = value,
+                                  onSaved: (value) => widget
+                                      .fLeetDetail.vehicleMAkeYear = value,
+                                  readOnly: true,
+                                  onTap: () {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        final Size size =
+                                            MediaQuery.of(context).size;
+                                        return AlertDialog(
+                                          title: Column(
+                                            children: const [
+                                              Text('Select a Year'),
+                                              Divider(
+                                                thickness: 1,
+                                              )
+                                            ],
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
+                                          content: SizedBox(
+                                            height: size.height / 3,
+                                            width: size.width,
+                                            child: GridView.count(
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              crossAxisCount: 3,
+                                              children: [
+                                                ...List.generate(
+                                                  123,
+                                                  (index) => InkWell(
+                                                    onTap: () {
+                                                      log("Selected Year ==> ${(2022 - index).toString()}");
+
+                                                      setState(() {
+                                                        vehicleMakeyeardate =
+                                                            " ${(2022 - index).toString()}";
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 8.0,
+                                                          vertical: 0),
+                                                      child: Chip(
+                                                        label: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          child: Text(
+                                                            (2022 - index)
+                                                                .toString(),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    prefix: Icon(
-                                      Icons.calendar_month,
-                                      size: 20,
-                                    ),
-                                    hintText: (_date.toString()),
-                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                    labelText: 'Vehicle Make Year :',
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: Color.fromARGB(255, 5, 10, 22)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    )),
-                                style: TextStyle(fontSize: 15),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefix: Icon(
+                                        Icons.calendar_month,
+                                        size: 20,
+                                      ),
+                                      hintText: (_date.toString()),
+                                      iconColor:
+                                          Color.fromRGBO(17, 24, 66, 100),
+                                      labelText: 'Vehicle Make Year :',
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0,
+                                            color:
+                                                Color.fromARGB(255, 5, 10, 22)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               ),
-                            ),
-      
-                            SizedBox(
-                              height: 10,
-                            ),
-                            // Padding(
-                            //     padding: EdgeInsets.only(left: 0, right: 0),
-                            //     child: InputDecorator(
-                            //       decoration: InputDecoration(
-                            //           filled: true,
-                            //           labelText: 'Vehicle Capacity : ',
-                            //           labelStyle: TextStyle(
-                            //             color: Color.fromRGBO(17, 24, 66, 100),
-                            //           ),
-                            //           border: OutlineInputBorder(
-                            //               borderSide: const BorderSide(
-                            //                   width: 0, color: Colors.black),
-                            //               borderRadius: BorderRadius.all(
-                            //                 Radius.circular(10.0),
-                            //               ))),
-                            //       child: DropDownField(
-                            //         controller: selectedVehicleCapacity,
-                            //         hintText: "Select",
-                            //         enabled: true,
-                            //         items: _list4,
-                            //         onValueChanged: (value) {
-                            //           setState(() {
-                            //             selectVehicleCapacity = value;
-                            //             print(selectVehicleCapacity);
-                            //           });
-                            //         },
-                            //       ),
-                            //     )),
-                            SizedBox(
-                              width: 400,
-                              height: 75,
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller:selectedVehicleCapacity,
-                                onChanged: (value)=>widget.fLeetDetail.vehicleCapMt = value,
-                                onSaved:(value) => widget.fLeetDetail.vehicleCapMt = value,
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    prefix: Icon(
-                                      Icons.line_weight,
-                                      size: 20,
-                                    ),
-                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                    labelText: 'Vehicles Capacity in MT :',
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: Color.fromARGB(255, 5, 10, 22)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    )),
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            // Padding(
-                            //     padding: EdgeInsets.only(left: 0, right: 0),
-                            //     child: InputDecorator(
-                            //       decoration: InputDecoration(
-                            //           filled: true,
-                            //           labelText: 'Vehicle Size : ',
-                            //           labelStyle: TextStyle(
-                            //             color: Color.fromRGBO(17, 24, 66, 100),
-                            //           ),
-                            //           border: OutlineInputBorder(
-                            //               borderSide: const BorderSide(
-                            //                   width: 0, color: Colors.black),
-                            //               borderRadius: BorderRadius.all(
-                            //                 Radius.circular(10.0),
-                            //               ))),
-                            //       child: DropDownField(
-                            //         controller: selectedVehicleSize,
-                            //         hintText: "Select",
-                            //         enabled: true,
-                            //         items: _list4,
-                            //         onValueChanged: (value) {
-                            //           setState(() {
-                            //             selectVehicleSize = value;
-                            //             print(selectVehicleSize);
-                            //           });
-                            //         },
-                            //       ),
-                            //     )),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black, width: 1),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Container Inner Dimensions in Feet :",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 18),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 100,
-                                        height: 75,
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          controller: length,
-                                          onChanged: (value) => widget.fLeetDetail.length = value,
-                                          onSaved: (value) => widget.fLeetDetail.length = value,
 
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                              labelText: 'Length :',
-                                              labelStyle:
-                                                  TextStyle(color: Colors.black),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    width: 0,
-                                                    color: Colors.black),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    width: 0,
-                                                    color: Color.fromARGB(
-                                                        255, 5, 10, 22)),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              )),
-                                          style: TextStyle(fontSize: 15),
-                                        ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              // Padding(
+                              //     padding: EdgeInsets.only(left: 0, right: 0),
+                              //     child: InputDecorator(
+                              //       decoration: InputDecoration(
+                              //           filled: true,
+                              //           labelText: 'Vehicle Capacity : ',
+                              //           labelStyle: TextStyle(
+                              //             color: Color.fromRGBO(17, 24, 66, 100),
+                              //           ),
+                              //           border: OutlineInputBorder(
+                              //               borderSide: const BorderSide(
+                              //                   width: 0, color: Colors.black),
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(10.0),
+                              //               ))),
+                              //       child: DropDownField(
+                              //         controller: selectedVehicleCapacity,
+                              //         hintText: "Select",
+                              //         enabled: true,
+                              //         items: _list4,
+                              //         onValueChanged: (value) {
+                              //           setState(() {
+                              //             selectVehicleCapacity = value;
+                              //             print(selectVehicleCapacity);
+                              //           });
+                              //         },
+                              //       ),
+                              //     )),
+                              SizedBox(
+                                width: 400,
+                                height: 75,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: selectedVehicleCapacity,
+                                  onChanged: (value) =>
+                                      widget.fLeetDetail.vehicleCapMt = value,
+                                  onSaved: (value) =>
+                                      widget.fLeetDetail.vehicleCapMt = value,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefix: Icon(
+                                        Icons.line_weight,
+                                        size: 20,
                                       ),
-                                      SizedBox(
-                                        width: 10,
+                                      iconColor:
+                                          Color.fromRGBO(17, 24, 66, 100),
+                                      labelText: 'Vehicles Capacity in MT :',
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: SizedBox(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0,
+                                            color:
+                                                Color.fromARGB(255, 5, 10, 22)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              // Padding(
+                              //     padding: EdgeInsets.only(left: 0, right: 0),
+                              //     child: InputDecorator(
+                              //       decoration: InputDecoration(
+                              //           filled: true,
+                              //           labelText: 'Vehicle Size : ',
+                              //           labelStyle: TextStyle(
+                              //             color: Color.fromRGBO(17, 24, 66, 100),
+                              //           ),
+                              //           border: OutlineInputBorder(
+                              //               borderSide: const BorderSide(
+                              //                   width: 0, color: Colors.black),
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(10.0),
+                              //               ))),
+                              //       child: DropDownField(
+                              //         controller: selectedVehicleSize,
+                              //         hintText: "Select",
+                              //         enabled: true,
+                              //         items: _list4,
+                              //         onValueChanged: (value) {
+                              //           setState(() {
+                              //             selectVehicleSize = value;
+                              //             print(selectVehicleSize);
+                              //           });
+                              //         },
+                              //       ),
+                              //     )),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Container Inner Dimensions in Feet :",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        SizedBox(
                                           width: 100,
                                           height: 75,
                                           child: TextFormField(
                                             keyboardType: TextInputType.number,
-                                            controller: width,
-                                            onChanged: (value) => widget.fLeetDetail.width = value ,
-                                            onSaved: (value) => widget.fLeetDetail.width = value,
+                                            controller: length,
+                                            onChanged: (value) => widget
+                                                .fLeetDetail.length = value,
+                                            onSaved: (value) => widget
+                                                .fLeetDetail.length = value,
                                             textAlign: TextAlign.center,
                                             decoration: InputDecoration(
-                                                labelText: 'Width :',
+                                                labelText: 'Length :',
                                                 labelStyle: TextStyle(
                                                     color: Colors.black),
-                                                enabledBorder: OutlineInputBorder(
+                                                enabledBorder:
+                                                    OutlineInputBorder(
                                                   borderSide: const BorderSide(
                                                       width: 0,
                                                       color: Colors.black),
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                 ),
-                                                focusedBorder: OutlineInputBorder(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
                                                   borderSide: const BorderSide(
                                                       width: 0,
                                                       color: Color.fromARGB(
@@ -1077,470 +1052,543 @@ Future FetchContainerMake() async {
                                             style: TextStyle(fontSize: 15),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      SizedBox(
-                                        width: 100,
-                                        height: 75,
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          controller:height,
-                                          onChanged:(value) => widget.fLeetDetail.height = value ,
-                                          onSaved:(value) => widget.fLeetDetail.height = value ,
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                              labelText: 'Height :',
-                                              labelStyle:
-                                                  TextStyle(color: Colors.black),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    width: 0,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(10.0),
+                                          child: SizedBox(
+                                            width: 100,
+                                            height: 75,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: width,
+                                              onChanged: (value) => widget
+                                                  .fLeetDetail.width = value,
+                                              onSaved: (value) => widget
+                                                  .fLeetDetail.width = value,
+                                              textAlign: TextAlign.center,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Width :',
+                                                  labelStyle: TextStyle(
+                                                      color: Colors.black),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            width: 0,
+                                                            color:
+                                                                Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            width: 0,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    5,
+                                                                    10,
+                                                                    22)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  )),
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        SizedBox(
+                                          width: 100,
+                                          height: 75,
+                                          child: TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            controller: height,
+                                            onChanged: (value) => widget
+                                                .fLeetDetail.height = value,
+                                            onSaved: (value) => widget
+                                                .fLeetDetail.height = value,
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                                labelText: 'Height :',
+                                                labelStyle: TextStyle(
                                                     color: Colors.black),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    width: 0,
-                                                    color: Color.fromARGB(
-                                                        255, 5, 10, 22)),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              )),
-                                          style: TextStyle(fontSize: 15),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      width: 0,
+                                                      color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      width: 0,
+                                                      color: Color.fromARGB(
+                                                          255, 5, 10, 22)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                )),
+                                            style: TextStyle(fontSize: 15),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0),
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      labelText: 'Reefer Unit Manufacturer :',
-                                      labelStyle: TextStyle(
-                                        color: Color.fromRGBO(17, 24, 66, 100),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              width: 0, color: Colors.black),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ))),
-                                  child: DropDownField(
-                                    controller: selectedReeferUnitManufacturer,
-                                     
-                                    hintText: "Select",
-                                    enabled: true,
-                                    items: reeferunitsp,
-                                    onValueChanged: (value)
-                                     {
-
-                                      widget.fLeetDetail.reeferUnitManufacturer= value;
-
-                                      reeferUnitModelsp.clear();
-
-                                      if(widget.fLeetDetail.reeferUnitManufacturer == "Others")
-                                      {
-                                        selectedReeferUnitManufacturer.text =" ";
-                                        reeferUnitModelsp.add("Others");
-                                      }
-
-                                      FetchReeferUnitModel(widget.fLeetDetail.reeferUnitManufacturer);
-                                      
-                                      setState(() {
-                                        
-                                        print(widget.fLeetDetail.reeferUnitManufacturer = value);
-                                      });
-                                    },
-                                  ),
-                                )),
-      
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0),
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      labelText: 'Reefer Unit Model :',
-                                      labelStyle: TextStyle(
-                                        color: Color.fromRGBO(17, 24, 66, 100),
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              width: 0, color: Colors.black),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ))),
-                                  child: DropDownField(
-                                    controller: selectedReeferUnitModel,
-                                    hintText: "Select",
-                                    enabled: true,
-                                    items: reeferUnitModelsp,
-                                    onValueChanged: (value) {
-
-                                      widget.fLeetDetail.reeferUnitModel = value;
-                                      
-                                      if( widget.fLeetDetail.reeferUnitModel == "Others")
-                                      {
-                                        selectedReeferUnitModel.text= " ";
-                                      }
-                                      setState(() {
-                                         widget.fLeetDetail.reeferUnitModel = value;
-                                        
-                                      });
-                                    },
-                                  ),
-                                )),
-                            SizedBox( 
-                              height: 10,
-                            ),
-                            SizedBox(
-                              width: 400,
-                              height: 75,
-                              child: TextFormField(
-                                controller: selectedReeferMakeYear =
-                                    TextEditingController(
-                                        text: refervehicleyeardate),
-                                        onChanged: (value) => widget.fLeetDetail.reeferMakeYear = value ,
-                                        onSaved:  (value) => widget.fLeetDetail.reeferMakeYear = value ,
-
-                                readOnly: true,
-                                onTap: () {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      final Size size =
-                                          MediaQuery.of(context).size;
-                                      return AlertDialog(
-                                        title: Column(
-                                          children: const [
-                                            Text('Select a Year'),
-                                            Divider(
-                                              thickness: 1,
-                                            )
-                                          ],
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: InputDecorator(
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        labelText: 'Reefer Unit Manufacturer :',
+                                        labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(17, 24, 66, 100),
                                         ),
-                                        contentPadding: const EdgeInsets.all(10),
-                                        content: SizedBox(
-                                          height: size.height / 3,
-                                          width: size.width,
-                                          child: GridView.count(
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            crossAxisCount: 3,
-                                            children: [
-                                              ...List.generate(
-                                                123,
-                                                (index) => InkWell(
-                                                  onTap: () {
-                                                    log("Selected Year ==> ${(2022 - index).toString()}");
-      
-                                                    setState(() {
-                                                      refervehicleyeardate =
-                                                          " ${(2022 - index).toString()}";
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 8.0,
-                                                        vertical: 0),
-                                                    child: Chip(
-                                                      label: Container(
-                                                        padding:
-                                                            const EdgeInsets.all(
-                                                                5),
-                                                        child: Text(
-                                                          (2022 - index)
-                                                              .toString(),
+                                        border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                width: 0, color: Colors.black),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ))),
+                                    child: DropDownField(
+                                      controller:
+                                          selectedReeferUnitManufacturer,
+                                      hintText: "Select",
+                                      enabled: true,
+                                      items: reeferunitsp,
+                                      onValueChanged: (value) {
+                                        widget.fLeetDetail
+                                            .reeferUnitManufacturer = value;
+
+                                        reeferUnitModelsp.clear();
+
+                                        if (widget.fLeetDetail
+                                                .reeferUnitManufacturer ==
+                                            "Others") {
+                                          selectedReeferUnitManufacturer.text =
+                                              " ";
+                                          reeferUnitModelsp.add("Others");
+                                        }
+
+                                        FetchReeferUnitModel(widget.fLeetDetail
+                                            .reeferUnitManufacturer);
+
+                                        setState(() {
+                                          print(widget.fLeetDetail
+                                              .reeferUnitManufacturer = value);
+                                        });
+                                      },
+                                    ),
+                                  )),
+
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: InputDecorator(
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        labelText: 'Reefer Unit Model :',
+                                        labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(17, 24, 66, 100),
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                width: 0, color: Colors.black),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ))),
+                                    child: DropDownField(
+                                      controller: selectedReeferUnitModel,
+                                      hintText: "Select",
+                                      enabled: true,
+                                      items: reeferUnitModelsp,
+                                      onValueChanged: (value) {
+                                        widget.fLeetDetail.reeferUnitModel =
+                                            value;
+
+                                        if (widget
+                                                .fLeetDetail.reeferUnitModel ==
+                                            "Others") {
+                                          selectedReeferUnitModel.text = " ";
+                                        }
+                                        setState(() {
+                                          widget.fLeetDetail.reeferUnitModel =
+                                              value;
+                                        });
+                                      },
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                width: 400,
+                                height: 75,
+                                child: TextFormField(
+                                  controller: selectedReeferMakeYear =
+                                      TextEditingController(
+                                          text: refervehicleyeardate),
+                                  onChanged: (value) =>
+                                      widget.fLeetDetail.reeferMakeYear = value,
+                                  onSaved: (value) =>
+                                      widget.fLeetDetail.reeferMakeYear = value,
+                                  readOnly: true,
+                                  onTap: () {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        final Size size =
+                                            MediaQuery.of(context).size;
+                                        return AlertDialog(
+                                          title: Column(
+                                            children: const [
+                                              Text('Select a Year'),
+                                              Divider(
+                                                thickness: 1,
+                                              )
+                                            ],
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
+                                          content: SizedBox(
+                                            height: size.height / 3,
+                                            width: size.width,
+                                            child: GridView.count(
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              crossAxisCount: 3,
+                                              children: [
+                                                ...List.generate(
+                                                  123,
+                                                  (index) => InkWell(
+                                                    onTap: () {
+                                                      log("Selected Year ==> ${(2022 - index).toString()}");
+
+                                                      setState(() {
+                                                        refervehicleyeardate =
+                                                            " ${(2022 - index).toString()}";
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 8.0,
+                                                          vertical: 0),
+                                                      child: Chip(
+                                                        label: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          child: Text(
+                                                            (2022 - index)
+                                                                .toString(),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    prefix: Icon(
-                                      Icons.calendar_month,
-                                      size: 20,
-                                    ),
-                                    hintText: (_date.toString()),
-                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                    labelText: 'Reefer Make Year :',
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: Color.fromARGB(255, 5, 10, 22)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    )),
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0),
-                                child: InputDecorator(
+                                        );
+                                      },
+                                    );
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
                                   decoration: InputDecoration(
-                                      filled: true,
-                                      labelText: 'Container Make :',
-                                      labelStyle: TextStyle(
-                                        color: Color.fromRGBO(17, 24, 66, 100),
+                                      prefix: Icon(
+                                        Icons.calendar_month,
+                                        size: 20,
                                       ),
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              width: 0, color: Colors.black),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ))),
-                                  child: DropDownField(
-                                    controller: selectedContainerMake,
-
-                                    hintText: "Select",
-                                    enabled: true,
-                                    items: _list8,
-                                    onValueChanged: (value) {
-
-                                      widget.fLeetDetail.containerMake = value;
-                                      if( widget.fLeetDetail.containerMake == "Others")
-                                      {
-                                        selectedContainerMake.text = " ";
-                                      }
-                                      setState(()
-                                       {
-                                        widget.fLeetDetail.containerMake = value;
-                                        print(widget.fLeetDetail.containerMake);
-                                      });
-                                    },
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 400,
-                              height: 65,
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller:_Edt_No_of_Vehicles,
-
-                                onChanged: (value) => widget.fLeetDetail.vehicleCount = value,
-                                onSaved: (value) => widget.fLeetDetail.vehicleCount = value,
-
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    prefix: Icon(
-                                      Icons.numbers,
-                                      size: 20,
-                                    ),
-                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                    labelText: 'No.of Vehicles :',
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: Color.fromARGB(255, 5, 10, 22)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    )),
-                                style: TextStyle(fontSize: 15),
+                                      hintText: (_date.toString()),
+                                      iconColor:
+                                          Color.fromRGBO(17, 24, 66, 100),
+                                      labelText: 'Reefer Make Year :',
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0,
+                                            color:
+                                                Color.fromARGB(255, 5, 10, 22)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            SizedBox(
-                              width: 400,
-                              height: 65,
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                controller:_Edt_VehicleNumber,
-
-                                onChanged: (value) =>widget.fLeetDetail.vehicleNo = value ,
-                                onSaved: (value) => widget.fLeetDetail.vehicleNo = value,
-
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    prefix: Icon(
-                                      Icons.numbers,
-                                      size: 20,
-                                    ),
-                                    iconColor: Color.fromRGBO(17, 24, 66, 100),
-                                    labelText: 'Vehicle Number :',
-                                    hintText: ' Example: MH 01 CS 7859 , MH 01 TL 1234 ',
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: Color.fromARGB(255, 5, 10, 22)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    )),
-                                style: TextStyle(fontSize: 15),
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            // SizedBox(
-                            //   height: 20.0,
-                            // ),
-                            // ButtonTheme(
-                            //   child: Padding(
-                            //     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            //     child: ElevatedButtonTheme(
-                            //       data:  ElevatedButtonThemeData(
-                            //         style: ElevatedButton.styleFrom(
-                            //           minimumSize: Size(120.0, 50),
-                            //           primary: Color.fromRGBO(17, 24, 66,
-                            //               40), // Sets color for all the descendent ElevatedButtons
-                            //           shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.all(
-                            //                   Radius.circular(6.0))),
-                            //         ),
-                            //       ),
-                            //       child: ElevatedButton(
-                            //         child: Text(' +  AddMore '),
-                            //         onPressed: () {
-                            //           final text = 'Fleet Details Data Saved....!'; 
-                            //             final snackBar = SnackBar(content: Text(text));
-      
-                            //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            //         },
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                          ],
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: InputDecorator(
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        labelText: 'Container Make :',
+                                        labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(17, 24, 66, 100),
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                width: 0, color: Colors.black),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ))),
+                                    child: DropDownField(
+                                      controller: selectedContainerMake,
+                                      hintText: "Select",
+                                      enabled: true,
+                                      items: _list8,
+                                      onValueChanged: (value) {
+                                        widget.fLeetDetail.containerMake =
+                                            value;
+                                        if (widget.fLeetDetail.containerMake ==
+                                            "Others") {
+                                          selectedContainerMake.text = " ";
+                                        }
+                                        setState(() {
+                                          widget.fLeetDetail.containerMake =
+                                              value;
+                                          print(
+                                              widget.fLeetDetail.containerMake);
+                                        });
+                                      },
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                width: 400,
+                                height: 65,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: _Edt_No_of_Vehicles,
+                                  onChanged: (value) =>
+                                      widget.fLeetDetail.vehicleCount = value,
+                                  onSaved: (value) =>
+                                      widget.fLeetDetail.vehicleCount = value,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefix: Icon(
+                                        Icons.numbers,
+                                        size: 20,
+                                      ),
+                                      iconColor:
+                                          Color.fromRGBO(17, 24, 66, 100),
+                                      labelText: 'No.of Vehicles :',
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0,
+                                            color:
+                                                Color.fromARGB(255, 5, 10, 22)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              SizedBox(
+                                width: 400,
+                                height: 65,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  controller: _Edt_VehicleNumber,
+                                  onChanged: (value) =>
+                                      widget.fLeetDetail.vehicleNo = value,
+                                  onSaved: (value) =>
+                                      widget.fLeetDetail.vehicleNo = value,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefix: Icon(
+                                        Icons.numbers,
+                                        size: 20,
+                                      ),
+                                      iconColor:
+                                          Color.fromRGBO(17, 24, 66, 100),
+                                      labelText: 'Vehicle Number :',
+                                      hintText:
+                                          ' Example: MH 01 CS 7859 , MH 01 TL 1234 ',
+                                      labelStyle:
+                                          TextStyle(color: Colors.black),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0, color: Colors.black),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            width: 0,
+                                            color:
+                                                Color.fromARGB(255, 5, 10, 22)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              // SizedBox(
+                              //   height: 20.0,
+                              // ),
+                              // ButtonTheme(
+                              //   child: Padding(
+                              //     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              //     child: ElevatedButtonTheme(
+                              //       data:  ElevatedButtonThemeData(
+                              //         style: ElevatedButton.styleFrom(
+                              //           minimumSize: Size(120.0, 50),
+                              //           primary: Color.fromRGBO(17, 24, 66,
+                              //               40), // Sets color for all the descendent ElevatedButtons
+                              //           shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.all(
+                              //                   Radius.circular(6.0))),
+                              //         ),
+                              //       ),
+                              //       child: ElevatedButton(
+                              //         child: Text(' +  AddMore '),
+                              //         onPressed: () {
+                              //           final text = 'Fleet Details Data Saved....!';
+                              //             final snackBar = SnackBar(content: Text(text));
+
+                              //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              //         },
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      // Text(
-                      //   "--------------------OR--------------------",
-                      //   style: TextStyle(
-                      //     fontSize: 18,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: Color.fromARGB(255, 11, 11, 22),
-                      //     fontStyle: FontStyle.normal,
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 20.0,
-                      // ),
-                      // new Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       flex: 1,
-                      //       child: Padding(
-                      //         padding: EdgeInsets.only(left: 5, right: 5),
-                      //         child: SizedBox(
-                      //           child: Padding(
-                      //             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      //             child: ElevatedButtonTheme(
-                      //               data: ElevatedButtonThemeData(
-                      //                 style: ElevatedButton.styleFrom(
-                      //                   minimumSize: Size(120.0, 60),
-                      //                   primary: Color.fromRGBO(17, 24, 66,
-                      //                       40), // Sets color for all the descendent ElevatedButtons
-                      //                   shape: RoundedRectangleBorder(
-                      //                       borderRadius: BorderRadius.all(
-                      //                           Radius.circular(6.0))),
-                      //                 ),
-                      //               ),
-                      //               child: ElevatedButton(
-                      //                 child: Text(' Upload With Excel '),
-                      //                 onPressed: () {
-                      //                   Navigator.push(
-                      //                       context,
-                      //                       MaterialPageRoute(
-                      //                           builder: ((context) =>
-                      //                               FleetDetails())));
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //       flex: 1,
-                      //       child: Padding(
-                      //         padding: EdgeInsets.only(left: 5, right: 5),
-                      //         child: SizedBox(
-                      //           child: ButtonTheme(
-                      //             child: Padding(
-                      //               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      //               child: ElevatedButtonTheme(
-                      //                 data: ElevatedButtonThemeData(
-                      //                   style: ElevatedButton.styleFrom(
-                      //                     minimumSize: Size(120.0, 60),
-                      //                     primary: Color.fromRGBO(17, 24, 66,
-                      //                         40), // Sets color for all the descendent ElevatedButtons
-                      //                     shape: RoundedRectangleBorder(
-                      //                         borderRadius: BorderRadius.all(
-                      //                             Radius.circular(6.0))),
-                      //                   ),
-                      //                 ),
-                      //                 child: ElevatedButton(
-                      //                   child: Text(' Next '),
-                      //                   onPressed: () {
-                      //                     // Navigator.push(
-                      //                     //     context,
-                      //                     //     MaterialPageRoute(
-                      //                     //         builder: ((context) => _submit())));
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        // Text(
+                        //   "--------------------OR--------------------",
+                        //   style: TextStyle(
+                        //     fontSize: 18,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Color.fromARGB(255, 11, 11, 22),
+                        //     fontStyle: FontStyle.normal,
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 20.0,
+                        // ),
+                        // new Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       flex: 1,
+                        //       child: Padding(
+                        //         padding: EdgeInsets.only(left: 5, right: 5),
+                        //         child: SizedBox(
+                        //           child: Padding(
+                        //             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        //             child: ElevatedButtonTheme(
+                        //               data: ElevatedButtonThemeData(
+                        //                 style: ElevatedButton.styleFrom(
+                        //                   minimumSize: Size(120.0, 60),
+                        //                   primary: Color.fromRGBO(17, 24, 66,
+                        //                       40), // Sets color for all the descendent ElevatedButtons
+                        //                   shape: RoundedRectangleBorder(
+                        //                       borderRadius: BorderRadius.all(
+                        //                           Radius.circular(6.0))),
+                        //                 ),
+                        //               ),
+                        //               child: ElevatedButton(
+                        //                 child: Text(' Upload With Excel '),
+                        //                 onPressed: () {
+                        //                   Navigator.push(
+                        //                       context,
+                        //                       MaterialPageRoute(
+                        //                           builder: ((context) =>
+                        //                               FleetDetails())));
+                        //                 },
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Expanded(
+                        //       flex: 1,
+                        //       child: Padding(
+                        //         padding: EdgeInsets.only(left: 5, right: 5),
+                        //         child: SizedBox(
+                        //           child: ButtonTheme(
+                        //             child: Padding(
+                        //               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        //               child: ElevatedButtonTheme(
+                        //                 data: ElevatedButtonThemeData(
+                        //                   style: ElevatedButton.styleFrom(
+                        //                     minimumSize: Size(120.0, 60),
+                        //                     primary: Color.fromRGBO(17, 24, 66,
+                        //                         40), // Sets color for all the descendent ElevatedButtons
+                        //                     shape: RoundedRectangleBorder(
+                        //                         borderRadius: BorderRadius.all(
+                        //                             Radius.circular(6.0))),
+                        //                   ),
+                        //                 ),
+                        //                 child: ElevatedButton(
+                        //                   child: Text(' Next '),
+                        //                   onPressed: () {
+                        //                     // Navigator.push(
+                        //                     //     context,
+                        //                     //     MaterialPageRoute(
+                        //                     //         builder: ((context) => _submit())));
 
-                      //                     // for(int i = 0;i<fleetform)
-                      //                     _submit();
-                      //                   },
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
+                        //                     // for(int i = 0;i<fleetform)
+                        //                     _submit();
+                        //                   },
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -1548,76 +1596,71 @@ Future FetchContainerMake() async {
           ),
         ),
       ),
-      
-      ),
     );
   }
-  _submit() 
-  {
+  // _submit()
+  // {
 
+  //     final isValid = formKey.currentState.validate();
+  //      LoginScreenModel logindata = widget.loginScreenModel;
+  //      logindata = LoginScreenModel(
 
-      final isValid = formKey.currentState.validate();
-       LoginScreenModel logindata = widget.loginScreenModel;
-       logindata = LoginScreenModel(
+  //   // contact: widget.loginScreenModel.contact,
 
-    // contact: widget.loginScreenModel.contact,
+  //   companyName: widget.loginScreenModel.companyName,
+  //   companyType: widget.loginScreenModel.companyType,
+  //   businessType: widget.loginScreenModel.businessType,
+  //   address1: widget.loginScreenModel.address1,
+  //   address2: widget.loginScreenModel.address2,
+  //   pincode: widget.loginScreenModel.pincode,
+  //   city: widget.loginScreenModel.city,
+  //   stateName: widget.loginScreenModel.stateName,
+  //   countryName: widget.loginScreenModel.countryName,
 
+  //   firstName: widget.loginScreenModel.firstName,
+  //   lastName:  widget.loginScreenModel.lastName,
+  //   contact: widget.loginScreenModel.contact,
+  //   altcontact :  widget.loginScreenModel.altcontact,
+  //   emailid:  widget.loginScreenModel.emailid,
+  //   designation:  widget.loginScreenModel.designation,
+  //   panNo:  widget.loginScreenModel.panNo,
+  //   panImg:  widget.loginScreenModel.panImg,
+  //   cancelChequeNo: widget.loginScreenModel.cancelChequeNo,
+  //   cancelChequeImg: widget.loginScreenModel.cancelChequeImg,
+  //   gstNo : widget.loginScreenModel.gstNo,
+  //   gstImg : widget.loginScreenModel.gstImg,
+  //   fssaiLicNo:  widget.loginScreenModel.fssaiLicNo,
+  //   fssaiImg: widget.loginScreenModel.fssaiImg,
+  //   businessCard: widget.loginScreenModel.businessCard,
+  //   businessImg: widget.loginScreenModel.businessImg,
+  //   otherDoc:  widget.loginScreenModel.otherDoc,
+  //   otherDocImg: widget.loginScreenModel.otherDocImg,
 
-    companyName: widget.loginScreenModel.companyName,
-    companyType: widget.loginScreenModel.companyType,
-    businessType: widget.loginScreenModel.businessType,
-    address1: widget.loginScreenModel.address1,
-    address2: widget.loginScreenModel.address2,
-    pincode: widget.loginScreenModel.pincode,
-    city: widget.loginScreenModel.city,
-    stateName: widget.loginScreenModel.stateName,
-    countryName: widget.loginScreenModel.countryName,
+  //   // vehiclemanufacturer:selectedVehicleManufacturer.text,
+  //   // vehiclemodel: selectedVehicleModel.text,
+  //   // vehiclemakeyear: vehicleMakeyeardate,
+  //   // vehiclecapactity:selectedVehicleCapacity.text,
+  //   // length:length.text,
+  //   // width:width.text,
+  //   // height:height.text,
+  //   // reeferunitmanufacture: selectedReeferUnitManufacturer.text,
+  //   // reeferunitmodel: selectedReeferUnitModel.text,
+  //   // reefermakeyear: selectedReeferMakeYear.text,
+  //   // containermake: selectedContainerMake.text,
+  //   // no_of_vehicles:_Edt_No_of_Vehicles.text,
+  //   // vehiclenum:_Edt_VehicleNumber.text
 
+  //   );
 
-    firstName: widget.loginScreenModel.firstName,
-    lastName:  widget.loginScreenModel.lastName,
-    contact: widget.loginScreenModel.contact,
-    altcontact :  widget.loginScreenModel.altcontact,
-    emailid:  widget.loginScreenModel.emailid,
-    designation:  widget.loginScreenModel.designation,
-    panNo:  widget.loginScreenModel.panNo,
-    panImg:  widget.loginScreenModel.panImg,
-    cancelChequeNo: widget.loginScreenModel.cancelChequeNo,
-    cancelChequeImg: widget.loginScreenModel.cancelChequeImg,
-    gstNo : widget.loginScreenModel.gstNo,
-    gstImg : widget.loginScreenModel.gstImg,
-    fssaiLicNo:  widget.loginScreenModel.fssaiLicNo,
-    fssaiImg: widget.loginScreenModel.fssaiImg,
-    businessCard: widget.loginScreenModel.businessCard,
-    businessImg: widget.loginScreenModel.businessImg,
-    otherDoc:  widget.loginScreenModel.otherDoc,
-    otherDocImg: widget.loginScreenModel.otherDocImg,
+  //   if(isValid)
+  //   {
 
-    // vehiclemanufacturer:selectedVehicleManufacturer.text,
-    // vehiclemodel: selectedVehicleModel.text,
-    // vehiclemakeyear: vehicleMakeyeardate,
-    // vehiclecapactity:selectedVehicleCapacity.text,
-    // length:length.text,
-    // width:width.text,
-    // height:height.text,
-    // reeferunitmanufacture: selectedReeferUnitManufacturer.text,
-    // reeferunitmodel: selectedReeferUnitModel.text,
-    // reefermakeyear: selectedReeferMakeYear.text,
-    // containermake: selectedContainerMake.text,
-    // no_of_vehicles:_Edt_No_of_Vehicles.text,
-    // vehiclenum:_Edt_VehicleNumber.text
-    
+  //     Navigator.push(
+  //         context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
+  //   }
 
-    );
-    
-    // if(isValid)
-    // {
-      
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: ((context) => FaqDetails(loginScreenModel: logindata))));
-    // }
+  // }
 
-  }
   bool validate() {
     //Validate Form Fields
     bool validate = formKey.currentState.validate();

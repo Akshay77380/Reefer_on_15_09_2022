@@ -10,6 +10,7 @@ import 'package:referon/screens/company_details_screen.dart';
 import 'package:referon/screens/home_screen.dart';
 import 'package:referon/screens/verifyme.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:referon/utils/Common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen>
   Future getOTP(str_mobilenumber) async
   {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/loginWithOtp?mobile=" +
+      "${baseUrl}loginWithOtp?mobile=" +
             str_mobilenumber));
 
       if (response.statusCode == 200) {
@@ -47,8 +48,6 @@ class _LoginScreenState extends State<LoginScreen>
          msgid =  (' ${dataList[0]['MsgId']}');
          sts =  (' ${dataList[0]['status']}');
         
-
-
          print("OTP"+otp+"msgid"+msgid+"status"+sts);
      
 

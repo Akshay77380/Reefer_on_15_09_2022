@@ -20,7 +20,8 @@ List<FLeetDetail> forms;
 }
 
 class _MultiFaqScreenState extends State<MultiFaqScreen> {
-
+LoginScreenModel loginScreenModel;
+List<FLeetDetail> forms;
 
 
   List<FaqDetails>  faqdetails = List.empty(growable: true);
@@ -31,7 +32,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
   void initState() {
 
     
-    print("In MultiFaq:$widget.forms");
+    print("In MultiFaq: $forms");
 
     super.initState();
   }

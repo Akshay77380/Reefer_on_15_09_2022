@@ -9,9 +9,10 @@ import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/empty_state.dart';
 import 'package:referon/screens/faq_screen.dart';
 import 'package:referon/screens/fleet_item_widget.dart';
+import 'package:referon/screens/login_screen.dart';
 import 'package:referon/screens/multi_faq_screen.dart';
 import 'package:referon/screens/multi_fleet_screen.dart';
-import 'fleet_details_screen.dart';
+
 
 class MultiFleetScreen extends StatefulWidget {
 
@@ -20,7 +21,7 @@ LoginScreenModel loginScreenModel;
 List<FLeetDetail> forms;
 
   MultiFleetScreen({Key key, this.loginScreenModel,this.forms}) : super(key: key);
-
+    
 
   @override
   State<StatefulWidget> createState() {
@@ -29,14 +30,20 @@ List<FLeetDetail> forms;
 }
 
 class _MultiFleetScreenState extends State<MultiFleetScreen> {
-  LoginScreenModel loginScreenModel;
-  List<FLeetDetail> forms;
+
+LoginScreenModel loginData2 = LoginScreenModel();
+List<FLeetDetail> forms;  
+
+ 
 
   @override
   void initState() {
     // TODO: implement initState
     
-     print(" InSide  Mullti Fleet Details: ${widget.loginScreenModel}");
+    loginData2 = widget.loginScreenModel;
+
+     print(" InSide  Multi Fleet Details: ${widget.loginScreenModel.address1}");
+
     super.initState();
   }
 
@@ -103,8 +110,11 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
    {
     bool allValid = true;
 
+
     fleetitemwidget
         .forEach((element) => allValid = (allValid && element.isValidated()));
+
+      
     
     if (allValid) {
       
@@ -115,7 +125,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen> {
       
     } 
 
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen(loginScreenModel:loginScreenModel, forms:forms))));
+      // Navigator.push(context, MaterialPageRoute(builder: ((context) => MultiFaqScreen(loginScreenModel:, forms:forms))));
   
   
    }

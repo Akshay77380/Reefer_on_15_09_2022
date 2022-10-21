@@ -11,12 +11,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:referon/models/login_model.dart';
 import 'package:referon/screens/company_details_screen.dart';
-import 'package:referon/screens/fleet_details_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:referon/screens/multi_fleet_screen.dart';
+
+import '../utils/Common.dart';
 
 
 class ContactDetails extends StatefulWidget
@@ -464,7 +465,7 @@ Future getChequeCameraImage() async {
   
   Future getCheckPanNumber(str_pancardno) async {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/userPanDetails?panNo=" +
+        "${baseUrl}userPanDetails?panNo=" +
             str_pancardno));
 
     if (response.statusCode == 200) {
@@ -505,7 +506,7 @@ Future getChequeCameraImage() async {
 
   Future getGstNumber(str_gstcardno) async {
     var response = await http.get(Uri.parse(
-        "http://neotech.v-cloud.in/referonapi/userGstDetails?gstin_number=" +
+        "${baseUrl}userGstDetails?gstin_number=" +
             str_gstcardno));
 
     if (response.statusCode == 200) {
@@ -732,22 +733,12 @@ Future getChequeCameraImage() async {
   // }
 
   void _sumbit() {
-  final _Edt_firstname = TextEditingController();
-  final _Edt_lastname = TextEditingController();
-  final _Edt_contactnumber = TextEditingController();
-  final _Edt_alternatenumber = TextEditingController();
-  final _Edt_emailid = TextEditingController();
-  final _Edt_pancardno = TextEditingController();
-  final _Edt_cancelchequeno = TextEditingController();
-  final _Edt_gstno = TextEditingController();
-  final _Edt_fssailincenseno = TextEditingController();
-  final _Edt_businesscardno = TextEditingController();
-  final _Edt_otherscard = TextEditingController();
-  String _errorMessage = '';
+  
 
     final isValid = _formKey.currentState.validate();
-    LoginScreenModel logindata = widget.loginScreenModel;
 
+    LoginScreenModel logindata = widget.loginScreenModel;
+    
     logindata = LoginScreenModel(
         
         companyName: widget.loginScreenModel.companyName,
@@ -759,6 +750,7 @@ Future getChequeCameraImage() async {
         city: widget.loginScreenModel.city,
         stateName: widget.loginScreenModel.stateName,
         countryName: widget.loginScreenModel.countryName,
+        
         firstName: _Edt_firstname.text,
         lastName: _Edt_lastname.text,
         contact: _Edt_contactnumber.text,
@@ -778,8 +770,10 @@ Future getChequeCameraImage() async {
         otherDoc: _Edt_otherscard.text,
         otherDocImg: others_doc_path.toString());
 
+    print(" First Name ${logindata.firstName}");
+    
     if (isValid) {
-      print(" OnClick Company name :" + widget.loginScreenModel.companyName);
+      print(" OnClick First name :" + widget.loginScreenModel.companyName);
       Navigator.push(
           context,
           MaterialPageRoute(
