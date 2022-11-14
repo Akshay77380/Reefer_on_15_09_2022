@@ -36,59 +36,57 @@ class _LoginScreenState extends State<LoginScreen>
 
   String  otp,msgid,sts;
 
-  Future getOTP(str_mobilenumber) async
-  {
-    var response = await http.get(Uri.parse(
-      "${baseUrl}loginWithOtp?mobile=" +
-            str_mobilenumber));
+  // Future getOTP(str_mobilenumber) async
+  // {
+  //   var response = await http.get(Uri.parse(
+  //     "${baseUrl}loginWithOtp?mobile=" +
+  //           str_mobilenumber));
 
-      if (response.statusCode == 200) {
-            final jsonResponse = jsonDecode(response.body);
-            final dataList = jsonResponse['Data'] as List;
+  //     if (response.statusCode == 200) {
+  //           final jsonResponse = jsonDecode(response.body);
+  //           final dataList = jsonResponse['Data'] as List;
 
-         otp =  ('${dataList[0]['OTP']}');
-         msgid =  ('${dataList[0]['MsgId']}');
-         sts =  ('${dataList[0]['status']}');
+  //        otp =  ('${dataList[0]['OTP']}');
+  //        msgid =  ('${dataList[0]['MsgId']}');
+  //        sts =  ('${dataList[0]['status']}');
         
-         print("OTP"+otp+"msgid"+msgid+"status"+sts);
+  //        print("OTP"+otp+"msgid"+msgid+"status"+sts);
      
 
-    } 
-    else
-    {
-      //  Fluttertoast.showToast(
-      //   msg: "Failed to get OTP Please Retry Again !!!",
-      //   toastLength: Toast.LENGTH_SHORT,
-      //   gravity: ToastGravity.CENTER,
-      //   timeInSecForIosWeb: 1,
-      //   backgroundColor: Colors.green,
-      //   textColor: Colors.white,
-      //   fontSize: 16.0
-      //  );
-      // throw Exception('Failed to  get OTP Code');
-    }
+  //   } 
+  //   else
+  //   {
+  //     //  Fluttertoast.showToast(
+  //     //   msg: "Failed to get OTP Please Retry Again !!!",
+  //     //   toastLength: Toast.LENGTH_SHORT,
+  //     //   gravity: ToastGravity.CENTER,
+  //     //   timeInSecForIosWeb: 1,
+  //     //   backgroundColor: Colors.red,
+  //     //   textColor: Colors.white,
+  //     //   fontSize: 16.0
+  //     //  );
+  //     // throw Exception('Failed to  get OTP Code');
+  //   }
 
 
-  }
+  // }
   void _sumbit()
   {
     final isValid = _formKey.currentState.validate();
     if (isValid) 
     {
       
-      // CheckLogin checklogin = CheckLogin(
-      //     otp:otp,
-      //     msgid: msgid,
-      //     sts: sts
-      // );
-      Navigator.push(
+              Navigator.push(
           context, MaterialPageRoute(builder: ((context) => VerifyMe(
           mobilenum: str_mobilenumber, 
-          otpcode: otp,
-          msgidcode: msgid,
-          sts: sts,
+          // otpcode: otp,
+          // msgidcode: msgid,
+          // sts: sts,
 
           ))));
+             
+    
+      
     }
     _formKey.currentState.save();
   }
@@ -161,7 +159,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 onChanged: (value) {
                                     setState(() {
                                       str_mobilenumber = value;
-                                      getOTP(str_mobilenumber);
+                                      // getOTP(str_mobilenumber);
+                                        
                                     });
                                       
 
@@ -174,8 +173,14 @@ class _LoginScreenState extends State<LoginScreen>
                                   RegExp regExp = new RegExp(patttern);
                                   if (value.length == 0) {
                                     return 'Please enter mobile number';
-                                  } else if (!regExp.hasMatch(value)) {
+                                  }
+                                  else if (!regExp.hasMatch(value)) 
+                                  {
                                     return 'Please enter valid mobile number';
+                                  }
+                                  else if (regExp.hasMatch(value))
+                                  {
+                                    
                                   }
                                   // return value!.length == 10 ? 'Not a Valid Number' : null;
                                   return null;

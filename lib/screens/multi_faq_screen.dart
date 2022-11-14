@@ -83,7 +83,7 @@ class _MultiFaqScreenState extends State<MultiFaqScreen> {
                 itemBuilder: (_, index) {
                   return faqdetails_data[index];
                 })
-            : Center(child: Text("To Add Fleet Form Click on New Fleet Form")),
+            : Center(child: Text("To Add Fleet Form Click on New Fleet Form",style: TextStyle(fontSize: 20),)),
       ),
     );
   }

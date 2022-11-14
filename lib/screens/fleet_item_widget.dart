@@ -1242,7 +1242,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
                               ),
                               SizedBox(
                                 width: 400,
-                                height: 75,
+                                height: 75,  
                                 child: TextFormField(
                                   controller: selectedReeferMakeYear =
                                       TextEditingController(
@@ -1250,7 +1250,7 @@ class _FleetItemWidgetState extends State<FleetItemWidget> {
                                   onChanged: (value) =>
                                       widget.fLeetDetail.reeferMakeYear = value,
                                   onSaved: (value) =>
-                                      widget.fLeetDetail.reeferMakeYear = value,
+                                      widget.fLeetDetail.reeferMakeYear = value,  
                                   readOnly: true,
                                   onTap: () {
                                     return showDialog(

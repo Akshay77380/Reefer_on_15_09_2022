@@ -107,12 +107,12 @@ class _MultiFleetScreenState extends State<MultiFleetScreen>
                 itemBuilder: (_, index) {
                   return fleetitemwidget[index];
                 })
-            : Center(child: Text("To Add Fleet Form Click on New Fleet Form")),
+            : Center(child: Text("To Add Fleet Form Click on New Fleet Form",style: TextStyle(fontSize: 20),)),
       ),
-    );
+    );      
   }
 
-  onSave()
+  onSave()                                                                                                                                                                                                    
    {
     var isValid = _formKey.currentState.validate();
     LoginScreenModel  logindata_multi = LoginScreenModel();
@@ -122,7 +122,7 @@ class _MultiFleetScreenState extends State<MultiFleetScreen>
     for (var element in fleetitemwidget) 
     {
       isValid = (isValid);
-    }
+    }  
 
     
       

@@ -20,15 +20,17 @@ import 'package:otp_autofill/otp_autofill.dart';
 import 'package:referon/utils/Common.dart';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 import 'package:http/http.dart' as http;
+import 'package:otp_text_field/otp_text_field.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyMe extends StatefulWidget {
   //fetching from LoginScreen
   CheckLogin checklogin;
-  String mobilenum, otpcode, msgidcode, sts;
+  String mobilenum;
+  //  otpcode, msgidcode, sts;
   LoginScreenModel loginscreenmodel;
 
-  VerifyMe({Key key, this.mobilenum, this.otpcode, this.msgidcode, this.sts})
-      : super(key: key);
+  VerifyMe({Key key, this.mobilenum}) : super(key: key);
 
   @override
   State<VerifyMe> createState() => _VerifyMeState();
@@ -39,14 +41,18 @@ class _VerifyMeState extends State<VerifyMe> {
   int _otpCodeLength = 4;
   bool _isLoadingButton = false;
   bool _enableButton = false;
+
   String _otpCode = "";
   String _otpCode2 = "";
   String _msgidCode = "";
+
   var sts;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final intRegex = RegExp(r'\d+', multiLine: true);
   TextEditingController textEditingController =
       new TextEditingController(text: "");
+
+  OtpFieldController otpbox = OtpFieldController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -78,16 +84,45 @@ class _VerifyMeState extends State<VerifyMe> {
   @override
   void initState() {
     super.initState();
-    print(" OTP CODE: " + widget.otpcode);
-    print(" Msg Id: " + widget.msgidcode);
-    print(" sts: " + widget.sts);
+    // print(" OTP CODE: " + widget.otpcode);
+    // print(" Msg Id: " + widget.msgidcode);
+    // print(" sts: " + widget.sts);
     print("MobileNum: " + widget.mobilenum);
 
-    _msgidCode = widget.msgidcode;
-    _otpCode2 = widget.otpcode;
+    // _msgidCode = widget.msgidcode;
+    // _otpCode2 = widget.otpcode;
 
-    _getSignatureCode();
-    _startListeningSms();
+    // _getSignatureCode();
+    // _startListeningSms();
+
+    getOTP(widget.mobilenum);
+  }
+
+  Future getOTP(str_mobilenumber) async {
+    var response = await http
+        .get(Uri.parse("${baseUrl}loginWithOtp?mobile=" + str_mobilenumber));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final dataList = jsonResponse['Data'] as List;
+
+      _otpCode2 = ('${dataList[0]['OTP']}');
+      _msgidCode = ('${dataList[0]['MsgId']}');
+      sts = ('${dataList[0]['status']}');
+
+      print("OTP" + _otpCode2 + "msgid" + _msgidCode + "status" + sts);
+    } else {
+      //  Fluttertoast.showToast(
+      //   msg: "Failed to get OTP Please Retry Again !!!",
+      //   toastLength: Toast.LENGTH_SHORT,
+      //   gravity: ToastGravity.CENTER,
+      //   timeInSecForIosWeb: 1,
+      //   backgroundColor: Colors.red,
+      //   textColor: Colors.white,
+      //   fontSize: 16.0
+      //  );
+      // throw Exception('Failed to  get OTP Code');
+    }
   }
 
   Future getVerifyOTP(String _otpCode2, String _msgidCode) async {
@@ -109,10 +144,11 @@ class _VerifyMeState extends State<VerifyMe> {
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 16.0);
+
         _sumbit();
-        
-      } else {
-          Fluttertoast.showToast(
+      } 
+      else if (sts == 0){
+        Fluttertoast.showToast(
             msg: "Please Enter Valid OTP Login Failed ",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -121,7 +157,8 @@ class _VerifyMeState extends State<VerifyMe> {
             textColor: Colors.white,
             fontSize: 16.0);
       }
-    } else {
+    }
+     else {
       print('Code: ${response.statusCode}');
     }
   }
@@ -207,33 +244,50 @@ class _VerifyMeState extends State<VerifyMe> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 20),
-                          child: TextFieldPin(
-                              textController: textEditingController =
-                                  TextEditingController(text: widget.otpcode),
-                              autoFocus: true,
-                              codeLength: _otpCodeLength,
-                              alignment: MainAxisAlignment.center,
-                              defaultBoxSize: 46.0,
-                              margin: 10,
-                              selectedBoxSize: 46.0,
-                              textStyle: TextStyle(fontSize: 16),
-                              defaultDecoration: _pinPutDecoration.copyWith(
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.6))),
-                              selectedDecoration: _pinPutDecoration,
-                              onChange: (code) {
-                                _otpCode2 = textEditingController.text;
-                                _onOtpCallBack(code, false);
-                              }),
+                          
+                          child: OTPTextField(
+                            // textController: textEditingController =
+                            //     TextEditingController(text: _otpCode),
+                            // autoFocus: true,
+                            // codeLength: _otpCodeLength,
+                            // alignment: MainAxisAlignment.center,
+                            // defaultBoxSize: 46.0,
+                            // margin: 10,
+                            // selectedBoxSize: 46.0,
+                            // textStyle: TextStyle(fontSize: 16),
+                            // defaultDecoration: _pinPutDecoration.copyWith(
+                            //     border: Border.all(
+                            //         color: Theme.of(context)
+                            //             .primaryColor
+                            //             .withOpacity(0.6))),
+                            // selectedDecoration: _pinPutDecoration,
+
+                            // onChange: (code) {
+                            //   _otpCode2 = textEditingController.text;
+                            //   _onOtpCallBack(code, false);
+                            // }
+                            width: MediaQuery.of(context).size.width,
+                            fieldWidth: 50,
+                            style: TextStyle(fontSize: 17),
+                            textFieldAlignment: MainAxisAlignment.spaceAround,
+                            fieldStyle: FieldStyle.box,
+                            onChanged: (value) => {
+                              _otpCode = value,
+                              print("printing Editing Text Value " + _otpCode),
+                            },
+                            onCompleted: (_otpCode) {
+                              print("Entered OTP Code: $_otpCode");
+                            },
+                          ),
+                          
                         ),
+                        
                         SizedBox(
                           height: 10.0,
                           child: Center(), //Center
                         ),
                         Text(
-                          "OTP Expires in 00:20 seconds",
+                          "OTP Expires in 2:00 min",
                           style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(255, 11, 11, 22),
@@ -262,9 +316,10 @@ class _VerifyMeState extends State<VerifyMe> {
                               child: ElevatedButton(
                                 child: Text('Confirm'),
                                 onPressed: () {
-                                  print("otppp :$_otpCode2 && $_msgidCode");
+                                  print("otppp :$_otpCode && $_msgidCode");
 
-                                  getVerifyOTP(_otpCode2, _msgidCode);
+                                  getVerifyOTP(_otpCode, _msgidCode);
+
                                   // // showModalBottomSheet
                                   // // (
                                   // //     context: context,
@@ -440,26 +495,26 @@ class _VerifyMeState extends State<VerifyMe> {
                             Expanded(
                               // optional flex property if flex is 1 because the default flex is 1
                               flex: 1,
-                              child: Text(
-                                "Change Number",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
+                              child: TextButton(onPressed: (){
+                            Navigator.pop(context);
+                        }, child: Text("Change Number",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Colors.black),))
                             ),
                             Expanded(
                               // optional flex property if flex is 1 because the default flex is 1
                               flex: 1,
-                              child: Text(
-                                " Resend OTP",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 11, 11, 22),
-                                  fontStyle: FontStyle.normal,
-                                ),
-                              ),
+                              child: TextButton(onPressed: (){
+                                 getOTP(widget.mobilenum);
+                        }, child: Text("Resend OTP",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Colors.black),))
                             ),
                           ],
                         ),

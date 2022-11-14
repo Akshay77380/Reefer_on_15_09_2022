@@ -16,13 +16,11 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:referon/screens/multi_fleet_screen.dart';
-
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import '../utils/Common.dart';
 
-
-class ContactDetails extends StatefulWidget
- {
-     var str_mobilenum,
+class ContactDetails extends StatefulWidget {
+  var str_mobilenum,
       str_companyname,
       str_companytype,
       str_businesstype,
@@ -68,14 +66,16 @@ class ContactForm extends StatefulWidget {
   LoginScreenModel loginScreenModel;
   var mobilenum;
 
-  ContactForm({Key key, this.loginScreenModel,this.mobilenum}) : super(key: key);
- 
+  ContactForm({Key key, this.loginScreenModel, this.mobilenum})
+      : super(key: key);
+
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
-  
+  BuildContext dialogContext;
+
   String regnum;
   final _Edt_firstname = TextEditingController();
   final _Edt_lastname = TextEditingController();
@@ -96,6 +96,10 @@ class _ContactFormState extends State<ContactForm> {
   var pancard_sts = "";
   var gstcard_sts = "";
 
+  String str_suffix = "verify";
+
+  var _isLoading = false;
+
   bool click = true;
   bool click2 = true;
   bool click3 = true;
@@ -103,7 +107,12 @@ class _ContactFormState extends State<ContactForm> {
   bool click5 = true;
   bool click6 = true;
 
-  File _image,_image_cancel_chq,_image_gstno,_image_fssai,_image_business,_image_others;
+  File _image,
+      _image_cancel_chq,
+      _image_gstno,
+      _image_fssai,
+      _image_business,
+      _image_others;
   final picker = ImagePicker();
 
   String buttonText = 'Upload';
@@ -113,8 +122,12 @@ class _ContactFormState extends State<ContactForm> {
   String btn_businessText = 'Upload';
   String btn_othersText = 'Upload';
 
-  String pancardimgpath,cancelchequeimgpath,gst_number_img_path,fssai_license_img_path,busiess_card_img_path,others_doc_path;
-
+  String pancardimgpath,
+      cancelchequeimgpath,
+      gst_number_img_path,
+      fssai_license_img_path,
+      busiess_card_img_path,
+      others_doc_path;
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -125,7 +138,7 @@ class _ContactFormState extends State<ContactForm> {
   void initState() {
     regnum = widget.mobilenum;
     // print("Data in Contact Screen "+loginData.city);
-  
+
     super.initState();
   }
 
@@ -140,24 +153,17 @@ class _ContactFormState extends State<ContactForm> {
 
       pancardimgpath = _image.path;
 
-
-      if(pancardimgpath != null)
-      {
+      if (pancardimgpath != null) {
         buttonText = "Uploaded";
-        click  = !click;
-
-      }
-      else
-      {
+        click = !click;
+      } else {
         buttonText = "Upload";
-        click  = click;
+        click = click;
       }
-
     });
-      Navigator.pop(context);
-
-    
+    Navigator.pop(context);
   }
+
   Future getGalleryImage() async {
     final image = await picker.getImage(source: ImageSource.gallery);
 
@@ -168,25 +174,18 @@ class _ContactFormState extends State<ContactForm> {
 
       pancardimgpath = _image.path;
 
-
-      if(pancardimgpath != null)
-      {
+      if (pancardimgpath != null) {
         buttonText = "Uploaded";
-        click  = !click;
-
-      }
-      else
-      {
+        click = !click;
+      } else {
         buttonText = "Upload";
-        click  = click;
+        click = click;
       }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
 
-
-Future getChequeCameraImage() async {
+  Future getChequeCameraImage() async {
     // ignore: deprecated_member_use
     final image2 = await picker.getImage(source: ImageSource.camera);
 
@@ -197,22 +196,17 @@ Future getChequeCameraImage() async {
 
       cancelchequeimgpath = _image_cancel_chq.path;
 
-
-      if(cancelchequeimgpath != null)
-      {
+      if (cancelchequeimgpath != null) {
         btn_cancelChqText = "Uploaded";
-        click2  = !click2;
-
+        click2 = !click2;
+      } else {
+        btn_cancelChqText = "Upload";
+        click2 = click2;
       }
-      else
-      {
-        btn_cancelChqText  = "Upload";
-        click2  = click2;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getChequegalleryImage() async {
     // ignore: deprecated_member_use
     final image2 = await picker.getImage(source: ImageSource.gallery);
@@ -222,24 +216,17 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_cancel_chq.toString());
 
-       cancelchequeimgpath = _image_cancel_chq.path;
+      cancelchequeimgpath = _image_cancel_chq.path;
 
-
-      if(cancelchequeimgpath != null)
-      {
+      if (cancelchequeimgpath != null) {
         btn_cancelChqText = "Uploaded";
-        click2  = !click2;
-
+        click2 = !click2;
+      } else {
+        btn_cancelChqText = "Upload";
+        click2 = click2;
       }
-      else
-      {
-        btn_cancelChqText  = "Upload";
-        click2  = click2;
-      }
-
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   Future getGstCameraImage() async {
@@ -251,24 +238,19 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_gstno.toString());
 
-       gst_number_img_path = _image_gstno.path;
+      gst_number_img_path = _image_gstno.path;
 
-
-      if(gst_number_img_path!= null)
-      {
-        btn_gstnoText =  "Uploaded";
-        click3  = !click3;
-
+      if (gst_number_img_path != null) {
+        btn_gstnoText = "Uploaded";
+        click3 = !click3;
+      } else {
+        btn_gstnoText = "Upload";
+        click3 = click3;
       }
-      else
-      {
-        btn_gstnoText  = "Upload";
-        click3  = click3;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getGstGalleryImage() async {
     // ignore: deprecated_member_use
     final image3 = await picker.getImage(source: ImageSource.gallery);
@@ -278,24 +260,19 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_gstno.toString());
 
-       gst_number_img_path = _image_gstno.path;
+      gst_number_img_path = _image_gstno.path;
 
-
-      if(gst_number_img_path!= null)
-      {
-        btn_gstnoText =  "Uploaded";
-        click3  = !click3;
-
+      if (gst_number_img_path != null) {
+        btn_gstnoText = "Uploaded";
+        click3 = !click3;
+      } else {
+        btn_gstnoText = "Upload";
+        click3 = click3;
       }
-      else
-      {
-        btn_gstnoText  = "Upload";
-        click3  = click3;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getFssaiLicCameraImage() async {
     // ignore: deprecated_member_use
     final image4 = await picker.getImage(source: ImageSource.camera);
@@ -307,22 +284,17 @@ Future getChequeCameraImage() async {
 
       fssai_license_img_path = _image_fssai.path;
 
-
-      if(fssai_license_img_path!= null)
-      {
-        btn_fssaiLicText =   "Uploaded";
-        click4  = !click4;
-
+      if (fssai_license_img_path != null) {
+        btn_fssaiLicText = "Uploaded";
+        click4 = !click4;
+      } else {
+        btn_fssaiLicText = "Upload";
+        click4 = click4;
       }
-      else
-      {
-        btn_fssaiLicText  = "Upload";
-        click4  = click4;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getFssaiLicGalleryImage() async {
     // ignore: deprecated_member_use
     final image4 = await picker.getImage(source: ImageSource.gallery);
@@ -334,22 +306,17 @@ Future getChequeCameraImage() async {
 
       fssai_license_img_path = _image_fssai.path;
 
-
-      if(fssai_license_img_path!= null)
-      {
-        btn_fssaiLicText =   "Uploaded";
-        click4  = !click4;
-
+      if (fssai_license_img_path != null) {
+        btn_fssaiLicText = "Uploaded";
+        click4 = !click4;
+      } else {
+        btn_fssaiLicText = "Upload";
+        click4 = click4;
       }
-      else
-      {
-        btn_fssaiLicText  = "Upload";
-        click4  = click4;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getBusinesCardCameraImage() async {
     // ignore: deprecated_member_use
     final image5 = await picker.getImage(source: ImageSource.camera);
@@ -359,24 +326,19 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_business.toString());
 
-       busiess_card_img_path = _image_business.path;
+      busiess_card_img_path = _image_business.path;
 
-
-      if(busiess_card_img_path!= null)
-      {
-        btn_businessText =   "Uploaded";
-        click5  = !click5;
-
+      if (busiess_card_img_path != null) {
+        btn_businessText = "Uploaded";
+        click5 = !click5;
+      } else {
+        btn_businessText = "Upload";
+        click5 = click5;
       }
-      else
-      {
-        btn_businessText  = "Upload";
-        click5  = click5;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getBusinesCardGalleryImage() async {
     // ignore: deprecated_member_use
     final image5 = await picker.getImage(source: ImageSource.gallery);
@@ -386,24 +348,19 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_business.toString());
 
-       busiess_card_img_path = _image_business.path;
+      busiess_card_img_path = _image_business.path;
 
-
-      if(busiess_card_img_path!= null)
-      {
-        btn_businessText =   "Uploaded";
-        click5  = !click5;
-
+      if (busiess_card_img_path != null) {
+        btn_businessText = "Uploaded";
+        click5 = !click5;
+      } else {
+        btn_businessText = "Upload";
+        click5 = click5;
       }
-      else
-      {
-        btn_businessText  = "Upload";
-        click5  = click5;
-      }
-      
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
+
   Future getOthersDocCameraImage() async {
     // ignore: deprecated_member_use
     final image5 = await picker.getImage(source: ImageSource.camera);
@@ -413,62 +370,45 @@ Future getChequeCameraImage() async {
 
       print("image data " + _image_others.toString());
 
-       others_doc_path = _image_others.path;
+      others_doc_path = _image_others.path;
 
-
-      if(others_doc_path!= null)
-      {
-        btn_othersText =   "Uploaded";
-        click6  = !click6;
-
+      if (others_doc_path != null) {
+        btn_othersText = "Uploaded";
+        click6 = !click6;
+      } else {
+        btn_othersText = "Upload";
+        click6 = click6;
       }
-      else
-      {
-        btn_othersText  = "Upload";
-        click6  = click6;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
-
 
   Future getOthersDocGalleryImage() async {
     // ignore: deprecated_member_use
     final image5 = await picker.getImage(source: ImageSource.gallery);
     String others_doc_path;
 
-    
-
     setState(() {
       _image_others = File(image5.path);
 
       print("image data " + _image_others.toString());
 
-       others_doc_path = _image_others.path;
+      others_doc_path = _image_others.path;
 
-      
-      if(others_doc_path!= null)
-      {
-        btn_othersText =   "Uploaded";
-        click6  = !click6;
-        
-
+      if (others_doc_path != null) {
+        btn_othersText = "Uploaded";
+        click6 = !click6;
+      } else {
+        btn_othersText = "Upload";
+        click6 = click6;
       }
-      else
-      {
-        btn_othersText  = "Upload";
-        click6  = click6;
-      }
-
     });
-     Navigator.pop(context);
+    Navigator.pop(context);
   }
-  
+
   Future getCheckPanNumber(str_pancardno) async {
-    var response = await http.get(Uri.parse(
-        "${baseUrl}userPanDetails?panNo=" +
-            str_pancardno));
+    var response = await http
+        .get(Uri.parse("${baseUrl}userPanDetails?panNo=" + str_pancardno));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
@@ -477,39 +417,38 @@ Future getChequeCameraImage() async {
 
       pancard_sts = ('${dataList[0]['status']}');
       // var one = int.parse('1');
-      if (pancard_sts == '1')
-      {
+      if (pancard_sts == '1') {
         Fluttertoast.showToast(
-        msg: "Pan Card Number is Verified....",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0
-      );
+            msg: "Pan Card Number is Verified....",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
 
-      } 
-      else if(pancard_sts == '0')
-       {
+        //  Navigator.pop(dialogContext);
+
+      }
+      if (pancard_sts == '0') {
         Fluttertoast.showToast(
-        msg: "Pan Card Number is  Not Verified.....",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+            msg: "Pan Card Number is  Not Verified.....",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        //  Navigator.pop(dialogContext);
 
       }
     }
   }
 
   Future getGstNumber(str_gstcardno) async {
-    var response = await http.get(Uri.parse(
-        "${baseUrl}userGstDetails?gstin_number=" +
-            str_gstcardno));
+    var response = await http.get(
+        Uri.parse("${baseUrl}userGstDetails?gstin_number=" + str_gstcardno));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
@@ -520,22 +459,26 @@ Future getChequeCameraImage() async {
       // var one = int.parse('1');
       if (gstcard_sts == '1') {
         Fluttertoast.showToast(
-        msg: "GST Number is Verified....",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0);
+            msg: "GST Number is Verified....",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        //  Navigator.pop(dialogContext);
       } else {
-      Fluttertoast.showToast(
-        msg: "GST Number is Not  Verified....",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0);
+        Fluttertoast.showToast(
+            msg: "GST Number is Not  Verified....",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        //  Navigator.pop(dialogContext);
       }
     }
   }
@@ -564,6 +507,7 @@ Future getChequeCameraImage() async {
           );
         });
   }
+
   Future<void> _showChoiceDialog2(BuildContext buildContext) {
     return showDialog(
         context: context,
@@ -588,6 +532,7 @@ Future getChequeCameraImage() async {
           );
         });
   }
+
   Future<void> _showChoiceDialog3(BuildContext buildContext) {
     return showDialog(
         context: context,
@@ -612,6 +557,7 @@ Future getChequeCameraImage() async {
           );
         });
   }
+
   Future<void> _showChoiceDialog4(BuildContext buildContext) {
     return showDialog(
         context: context,
@@ -636,6 +582,7 @@ Future getChequeCameraImage() async {
           );
         });
   }
+
   Future<void> _showChoiceDialog5(BuildContext buildContext) {
     return showDialog(
         context: context,
@@ -660,6 +607,7 @@ Future getChequeCameraImage() async {
           );
         });
   }
+
   Future<void> _showChoiceDialog6(BuildContext buildContext) {
     return showDialog(
         context: context,
@@ -735,57 +683,52 @@ Future getChequeCameraImage() async {
   // }
 
   void _sumbit() {
-  
 
-    final isValid = _formKey.currentState.validate();
 
-    LoginScreenModel logindata = widget.loginScreenModel;
-    print("kgahf: ${widget.loginScreenModel.address1}");
-    
-    logindata = LoginScreenModel(
-        
-        companyName: widget.loginScreenModel.companyName,
-        companyType: widget.loginScreenModel.companyType,
-        businessType: widget.loginScreenModel.businessType,
-        address1: widget.loginScreenModel.address1,
-        address2: widget.loginScreenModel.address2,
-        pincode: widget.loginScreenModel.pincode,
-        city: widget.loginScreenModel.city,
-        stateName: widget.loginScreenModel.stateName,
-        countryName: widget.loginScreenModel.countryName,
-        
-        firstName: _Edt_firstname.text,
-        lastName: _Edt_lastname.text,
-        contact: _Edt_contactnumber.text,
-        altcontact: _Edt_alternatenumber.text,
-        emailid: _Edt_emailid.text,
-        designation: _selectedval,
-        panNo: _Edt_pancardno.text,
-        
-        // String pancardimgpath,cancelchequeimgpath,gst_number_img_path,fssai_license_img_path,busiess_card_img_path,others_doc_path;
-        panImg: pancardimgpath.toString(),
-        cancelChequeNo: _Edt_cancelchequeno.text,
-        cancelChequeImg: cancelchequeimgpath.toString(),
-        gstNo: _Edt_gstno.text,
-        gstImg: gst_number_img_path.toString(),
-        fssaiLicNo: _Edt_fssailincenseno.text,
-        fssaiImg: fssai_license_img_path.toString(),
-        businessCard: _Edt_businesscardno.text,
-        businessImg: busiess_card_img_path.toString(),
-        otherDoc: _Edt_otherscard.text,
-        otherDocImg: others_doc_path.toString());
+    if (pancard_sts == '1' && gstcard_sts == '1') {
+      final isValid = _formKey.currentState.validate();
+      LoginScreenModel logindata = widget.loginScreenModel;
 
-    
-    
-    if (isValid) {
-      
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) =>
-                 MultiFleetScreen(loginScreenModel: logindata))));
+      logindata = LoginScreenModel(
+          companyName: widget.loginScreenModel.companyName,
+          companyType: widget.loginScreenModel.companyType,
+          businessType: widget.loginScreenModel.businessType,
+          address1: widget.loginScreenModel.address1,
+          address2: widget.loginScreenModel.address2,
+          pincode: widget.loginScreenModel.pincode,
+          city: widget.loginScreenModel.city,
+          stateName: widget.loginScreenModel.stateName,
+          countryName: widget.loginScreenModel.countryName,
+          firstName: _Edt_firstname.text,
+          lastName: _Edt_lastname.text,
+          contact: _Edt_contactnumber.text,
+          altcontact: _Edt_alternatenumber.text,
+          emailid: _Edt_emailid.text,
+          designation: _selectedval,
+          panNo: _Edt_pancardno.text,
+
+          // String pancardimgpath,cancelchequeimgpath,gst_number_img_path,fssai_license_img_path,busiess_card_img_path,others_doc_path;
+          panImg: pancardimgpath.toString(),
+          cancelChequeNo: _Edt_cancelchequeno.text,
+          cancelChequeImg: cancelchequeimgpath.toString(),
+          gstNo: _Edt_gstno.text,
+          gstImg: gst_number_img_path.toString(),
+          fssaiLicNo: _Edt_fssailincenseno.text,
+          fssaiImg: fssai_license_img_path.toString(),
+          businessCard: _Edt_businesscardno.text,
+          businessImg: busiess_card_img_path.toString(),
+          otherDoc: _Edt_otherscard.text,
+          otherDocImg: others_doc_path.toString());
+
+      if (isValid) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) =>
+                    MultiFleetScreen(loginScreenModel: logindata))));
+      }
+      _formKey.currentState.save();
     }
-    _formKey.currentState.save();
   }
 
   _ContactDetailsState() {
@@ -988,8 +931,7 @@ Future getChequeCameraImage() async {
                           readOnly: true,
                           textAlign: TextAlign.center,
                           controller: _Edt_contactnumber =
-                              TextEditingController(
-                                  text: regnum),
+                              TextEditingController(text: regnum),
                           maxLength: 10,
                           onFieldSubmitted: (value) {},
                           validator: (value) {
@@ -1258,20 +1200,18 @@ Future getChequeCameraImage() async {
                                         onFieldSubmitted: (value) {},
                                         onChanged: (data) async {
                                           str_pancardno = data;
-
-                                          getCheckPanNumber(str_pancardno);
-
-                                          setState(() {});
                                         },
                                         validator: (val) {
-                                          if (val == null || val.isEmpty) {
-                                            return "Cannot be Empty ";
-                                          }
                                           const pattern =
                                               r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$';
                                           final regExp = RegExp(pattern);
-                                          if (!regExp.hasMatch(val)) {
+                                          if (val == null || val.isEmpty) {
+                                            return "Cannot be Empty ";
+                                          } else if (!regExp.hasMatch(val)) {
                                             return "please Enter Valid Pancard No";
+                                          } else if (regExp.hasMatch(val)) {
+                                            print("data in Else if " +
+                                                str_pancardno);
                                           }
                                         },
                                         textAlign: TextAlign.center,
@@ -1279,6 +1219,38 @@ Future getChequeCameraImage() async {
                                             prefix: Icon(
                                               Icons.edit,
                                               size: 20,
+                                            ),
+                                            suffixIcon: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ButtonTheme(
+                                                  minWidth: 210.0,
+                                                  child: TextButton.icon(
+                                                    onPressed: () {
+                                                      getCheckPanNumber(
+                                                          str_pancardno);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.verified,
+                                                      color: Colors.white,
+                                                      size: 28,
+                                                    ),
+                                                    label: Text("verify",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.white),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
@@ -1498,13 +1470,12 @@ Future getChequeCameraImage() async {
                                   ),
                                 ),
                                 Expanded(
-                                      // optional flex property if flex is 1 because the default flex is 1
-                                      flex: 1,
-                                child:Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: SizedBox(
-                                    width: 120,
-                                    
+                                  // optional flex property if flex is 1 because the default flex is 1
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    child: SizedBox(
+                                      width: 120,
                                       child: ButtonTheme(
                                         minWidth: 210.0,
                                         height: 45,
@@ -1524,20 +1495,17 @@ Future getChequeCameraImage() async {
                                         //    },
                                         //  ),
                                         child: TextButton.icon(
-                                          
                                           onPressed: () {
                                             // pickImage();
                                             _showChoiceDialog2(context);
-                                            
-                                            setState((){
 
-                                            });
+                                            setState(() {});
                                           },
                                           icon: Icon(
                                             (click2 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click2 )
+                                            color: (click2)
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -1586,27 +1554,56 @@ Future getChequeCameraImage() async {
                                         onFieldSubmitted: (value) {},
                                         onChanged: (data) async {
                                           str_gstcardno = data;
-
-                                          getGstNumber(str_gstcardno);
-
-                                          setState(() {});
                                         },
                                         validator: (val) {
-                                          if (val == null || val.isEmpty) {
-                                            return "Cannot be Empty ";
-                                          }
                                           const pattern =
                                               r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$';
                                           final regExp = RegExp(pattern);
-                                          if (!regExp.hasMatch(val)) {
+
+                                          if (val == null || val.isEmpty) {
+                                            return "Cannot be Empty ";
+                                          } else if (!regExp.hasMatch(val)) {
                                             return "please Enter Valid GST No";
-                                          }
+                                          } else if (regExp.hasMatch(val)) {}
+                                          ;
                                         },
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
                                             prefix: Icon(
                                               Icons.edit,
                                               size: 20,
+                                            ),
+                                            suffixIcon: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ButtonTheme(
+                                                  minWidth: 21.0,
+                                                  child: TextButton.icon(
+                                                    onPressed: () {
+
+                                                      getGstNumber(str_gstcardno);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.verified,
+                                                      color: Colors.white,
+                                                      size: 28,
+                                                    ),
+                                                    label: Text(
+                                                      "verify",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    style: TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.white),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
@@ -1690,7 +1687,7 @@ Future getChequeCameraImage() async {
                                             (click3 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click3 )
+                                            color: (click3)
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -1719,7 +1716,7 @@ Future getChequeCameraImage() async {
                               height: 10.0,
                               child: Center(), //Center
                             ),
-                            Row( 
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Padding(
@@ -1829,7 +1826,7 @@ Future getChequeCameraImage() async {
                                             (click4 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click4 )
+                                            color: (click4)
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -1967,7 +1964,7 @@ Future getChequeCameraImage() async {
                                             (click5 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click5 )
+                                            color: (click5)
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -2072,7 +2069,7 @@ Future getChequeCameraImage() async {
                                             (click6 == false)
                                                 ? Icons.check
                                                 : Icons.camera_enhance,
-                                            color: (click6 )
+                                            color: (click6)
                                                 ? Colors.white
                                                 : Colors.green,
                                             size: 28,
@@ -2140,7 +2137,7 @@ Future getChequeCameraImage() async {
           ),
         ),
       ),
-      onWillPop: _onWillPop,
+      // onWillPop: _onWillPop,
     );
   }
 

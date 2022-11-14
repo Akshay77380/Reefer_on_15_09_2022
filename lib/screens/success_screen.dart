@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -30,10 +31,9 @@ class _SuccessPagesState extends State<SuccessPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        home: Scaffold(
+    return new WillPopScope(
+
+        child: Scaffold(
           appBar: AppBar(
             title:
                 Image.asset('assets/images/loginheader.png', fit: BoxFit.cover),
@@ -108,6 +108,37 @@ class _SuccessPagesState extends State<SuccessPage> {
               ),
             ),
           ),
-        ));
+        ),
+          onWillPop: _onWillPop,
+
+        );
+        
   }
+   Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Confirm Exit?',
+                style: new TextStyle(color: Colors.black, fontSize: 20.0)),
+            content: new Text(
+                'Are you sure you want to exit the app? Tap \'Yes\' to exit \'No\' to cancel.'),
+            actions: <Widget>[
+              new ElevatedButton(
+                onPressed: () {
+                  // this line exits the app.
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
+                child: new Text('Yes', style: new TextStyle(fontSize: 18.0)),
+              ),
+              new ElevatedButton(
+                onPressed: () =>
+                    Navigator.pop(context), // this line dismisses the dialog
+                child: new Text('No', style: new TextStyle(fontSize: 18.0)),
+              )
+            ],
+          ),
+        ) ??
+        false;
+  }
+
 }
